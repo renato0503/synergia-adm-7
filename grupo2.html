@@ -13,104 +13,234 @@
     <style>
         :root { --primary: #1e293b; --accent: #2563eb; --bg-light: #ffffff; --bg-soft: #f8fafc; --text-dark: #0f172a; --text-muted: #64748b; --border: #e2e8f0; --transition: all 0.4s ease; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
-        body { background-color: var(--bg-light); color: var(--text-dark); overflow-x: hidden; scroll-behavior: smooth; }
+        
+        html, body { height: 100%; overflow: hidden; }
+        body { background-color: var(--bg-light); color: var(--text-dark); scroll-snap-type: y mandatory; overflow-y: scroll; scroll-behavior: smooth; }
+        
         .bg-dots { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-image: radial-gradient(#cbd5e1 0.5px, transparent 0.5px); background-size: 30px 30px; opacity: 0.2; }
+        
         .nav-controls { position: fixed; top: 1.5rem; right: 1.5rem; display: flex; gap: 1rem; z-index: 1000; }
         .btn-nav { background: white; border: 1px solid var(--border); color: var(--primary); padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); transition: var(--transition); font-weight: 600; text-decoration: none; }
         .btn-nav:hover { background: var(--accent); color: white; border-color: var(--accent); }
         
-        .section-title { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--primary); margin-bottom: 2rem; text-align: center; width: 100%; }
-        .banner { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5rem 8%; border-bottom: 1px solid var(--border); }
-        .banner:nth-child(even) { background-color: var(--bg-soft); }
+        .slide { height: 100vh; width: 100vw; scroll-snap-align: start; display: flex; align-items: center; justify-content: center; padding: 4rem 8%; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+        .slide:nth-child(even) { background-color: var(--bg-soft); }
         
-        /* Dashboard Layout */
-        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; width: 100%; margin-top: 2rem; }
-        .chart-box { background: white; padding: 1rem; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); text-align: center; }
-        .chart-box img { width: 100%; height: auto; border-radius: 8px; }
+        .slide-content { max-width: 1100px; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .discipline-tag { background: var(--primary); color: white; padding: 0.5rem 1.5rem; border-radius: 50px; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; font-size: 0.75rem; margin-bottom: 1.5rem; }
         
-        .map-box { height: 500px; width: 100%; border-radius: 16px; border: 1px solid var(--border); margin-top: 2rem; }
+        h2 { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--primary); margin-bottom: 1.5rem; line-height: 1.1; }
+        h3 { color: var(--accent); font-size: 1.4rem; margin-bottom: 1rem; font-weight: 700; }
+        p { font-size: 1.2rem; line-height: 1.7; color: #334155; max-width: 800px; }
         
-        .discipline-header { background: var(--primary); color: white; padding: 1rem 2rem; border-radius: 50px; display: inline-block; margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; font-size: 0.8rem; }
+        .data-card { background: white; padding: 2rem; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); margin-top: 2rem; width: 100%; text-align: left; }
+        .data-card h4 { color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; }
         
-        .content-block { max-width: 900px; width: 100%; }
-        .content-block h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1.5rem; }
-        .content-block p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; width: 100%; margin-top: 1.5rem; }
+        .chart-item { background: white; padding: 0.5rem; border: 1px solid var(--border); border-radius: 12px; }
+        .chart-item img { width: 100%; height: auto; }
         
-        ul.specs { list-style: none; margin-top: 1rem; }
-        ul.specs li { padding: 1rem; border-left: 4px solid var(--accent); background: #eff6ff; margin-bottom: 1rem; border-radius: 0 8px 8px 0; font-weight: 600; }
+        .map-box { height: 60vh; width: 100%; border-radius: 20px; border: 1px solid var(--border); }
         
-        footer { padding: 5rem; text-align: center; background: #0f172a; color: white; }
+        .concept-box { background: #eff6ff; border-left: 5px solid var(--accent); padding: 2rem; border-radius: 0 15px 15px 0; text-align: left; width: 100%; }
+        .ref-cite { font-size: 0.9rem; color: var(--text-muted); font-style: italic; margin-top: 1rem; display: block; }
+        
+        .slide-number { position: absolute; bottom: 2rem; left: 2rem; font-weight: 800; color: var(--border); font-size: 4rem; z-index: -1; }
+        
+        @media (max-width: 1000px) { h2 { font-size: 2.2rem; } .dashboard-grid { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
 <body>
     <div class="bg-dots"></div>
-    <div class="nav-controls"><a href="index.html" class="btn-nav">Voltar</a></div>
+    <div class="nav-controls"><a href="index.html" class="btn-nav">Menu</a></div>
 
-    <!-- CAPA -->
-    <section class="banner">
-        <div class="content-block" style="text-align: center;">
-            <h1 style="font-family: 'Playfair Display', serif; font-size: 4.5rem; margin-bottom: 1rem;">Transporte Público</h1>
-            <p style="font-size: 1.4rem; color: var(--text-muted);">Grupo 2: Erilin Sabrina, Emilly Gabriely, Juarez, Flavia Arruda</p>
-            <img src="hero.png" style="width: 100%; max-width: 800px; border-radius: 20px; margin-top: 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+    <!-- SLIDE 1: CAPA -->
+    <section class="slide">
+        <div class="slide-content">
+            <h3 style="letter-spacing: 5px;">SYNERGIA | UNIFACC</h3>
+            <h2>Transporte Público e Mobilidade</h2>
+            <p><strong>Integrantes:</strong> Erilin Sabrina, Emilly Gabriely, Juarez, Flavia Arruda</p>
+            <p style="margin-top: 1.5rem; font-weight: 600;">"O Abismo entre o CEP e a Cidadania"</p>
         </div>
+        <span class="slide-number">01</span>
     </section>
 
-    <!-- DISCIPLINA 1: ADM FINANCEIRA E BI -->
-    <section class="banner">
-        <div class="discipline-header" style="background: #2563eb;">Adm Financeira e BI</div>
-        <h2 class="section-title">Dashboard de Mobilidade Urbana</h2>
-        <p style="text-align: center; max-width: 800px; margin-bottom: 3rem;">
-            Análise baseada em dados reais da SEMOB e ARSEC sobre o sistema de transporte coletivo de Cuiabá.
-        </p>
-        
-        <div class="dashboard-grid">
-            <div class="chart-box"><h3>Evolução da Frota</h3><img src="assets/g2_c1.png"></div>
-            <div class="chart-box"><h3>Índice de Reclamações</h3><img src="assets/g2_c2.png"></div>
-            <div class="chart-box"><h3>Vias Periféricas</h3><img src="assets/g2_c3.png"></div>
-            <div class="chart-box"><h3>Pontualidade das Linhas</h3><img src="assets/g2_c4.png"></div>
-            <div class="chart-box"><h3>Custos Operacionais</h3><img src="assets/g2_c5.png"></div>
+    <!-- SLIDE 2: BI INTRO -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag" style="background: #2563eb;">Adm Financeira e BI</div>
+            <h2>Dashboard de Gestão</h2>
+            <p>Análise de dados reais (Cuiabá 2024) cruzando a oferta de transporte com a exclusão territorial periférica.</p>
+            <div class="dashboard-grid">
+                <div class="chart-item"><img src="assets/g2_c1.png"></div>
+                <div class="chart-item"><img src="assets/g2_c2.png"></div>
+                <div class="chart-item"><img src="assets/g2_c3.png"></div>
+            </div>
         </div>
+        <span class="slide-number">02</span>
+    </section>
 
-        <div style="width: 100%; margin-top: 4rem;">
-            <h3 style="text-align: center; margin-bottom: 1rem;">Georeferenciamento: Pontos de Exclusão</h3>
+    <!-- SLIDE 3: BI CONT. -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag" style="background: #2563eb;">Adm Financeira e BI</div>
+            <h3>Indicadores de Performance</h3>
+            <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr; max-width: 800px;">
+                <div class="chart-item"><img src="assets/g2_c4.png"></div>
+                <div class="chart-item"><img src="assets/g2_c5.png"></div>
+            </div>
+            <div class="data-card">
+                <h4>Dados Reais de Cuiabá</h4>
+                <p>"Mobilidade urbana de Cuiabá ganhou 144 novos ônibus e 60% da frota tem ar-condicionado" [61]</p>
+            </div>
+        </div>
+        <span class="slide-number">03</span>
+    </section>
+
+    <!-- SLIDE 4: MAPA -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag" style="background: #2563eb;">Adm Financeira e BI</div>
+            <h2>Mapa de Geolocalização</h2>
             <div id="map2" class="map-box"></div>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1rem;">Fonte: Geoprocessamento Municipal / ARSEC 2024</p>
+            <p style="font-size: 0.9rem; margin-top: 1rem;">Áreas de exclusão mapeadas vs. Densidade populacional (Censo 2022)</p>
         </div>
+        <span class="slide-number">04</span>
     </section>
 
-    <!-- DISCIPLINA 2: ORÇAMENTO, GOVERNANÇA E COMPLIANCE -->
-    <section class="banner">
-        <div class="discipline-header" style="background: #f59e0b;">Orçamento, Governança e Compliance</div>
-        <div class="content-block">
-            <h2>Crise de Transparência e Controle</h2>
-            <p>A gestão do transporte em Cuiabá enfrenta gargalos críticos de governança que impedem a eficiência dos recursos federais.</p>
-            <ul class="specs">
-                <li><strong>Falta de Transparência Ativa:</strong> Inexistência de dados abertos sobre o custo por passageiro e subsídios em tempo real.</li>
-                <li><strong>Accountability Deficitária:</strong> Dificuldade da população em rastrear o uso da verba de modernização urbana.</li>
-                <li><strong>Ausência de Governança e Controle Interno:</strong> Falha na auditoria das planilhas de custos apresentadas pelas concessionárias.</li>
-            </ul>
+    <!-- SLIDE 5: OGC CONCEITO 1 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag" style="background: #f59e0b;">Orçamento, Governança e Compliance</div>
+            <h2>Transparência e Accountability</h2>
+            <div class="concept-box">
+                <p><strong>Conceito:</strong> A transparência ativa é a obrigação de divulgar informações espontaneamente. Accountability é o dever de prestar contas e a responsabilização.</p>
+                <span class="ref-cite">[1] Transparência e accountability na administração pública</span>
+            </div>
         </div>
+        <span class="slide-number">05</span>
     </section>
 
-    <!-- DISCIPLINA 3: POLÍTICAS PÚBLICAS -->
-    <section class="banner">
-        <div class="discipline-header" style="background: #10b981;">Políticas Públicas</div>
-        <div class="content-block">
-            <h2>Ciclo de Políticas e Participação</h2>
-            <p>O "Abismo do CEP" é resultado de um ciclo de políticas públicas interrompido e da falta de mecanismos democráticos.</p>
-            <ul class="specs">
-                <li><strong>Paralização do Ciclo de Políticas:</strong> As soluções morrem na fase de formulação, nunca atingindo a implementação plena nas periferias.</li>
-                <li><strong>Ausência de Participação Social:</strong> Os conselhos de transporte estão desativados ou sem representação real dos moradores do bairro.</li>
-                <li><strong>Controle Democrático:</strong> Falta de audiências públicas deliberativas para decidir as rotas e horários.</li>
+    <!-- SLIDE 6: OGC PROBLEMA 1 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag" style="background: #f59e0b;">Orçamento, Governança e Compliance</div>
+            <h3>Problema: Falta de Transparência</h3>
+            <p>O bairro periférico não tem acesso às informações sobre a verba federal de "Modernização Urbana".</p>
+            <div class="data-card" style="border-left: 5px solid #ef4444;">
+                <p><strong>Violação Legal:</strong> Descumprimento da LAI (Lei nº 12.527/2011) e princípios constitucionais da publicidade [6].</p>
+            </div>
+        </div>
+        <span class="slide-number">06</span>
+    </section>
+
+    <!-- SLIDE 7: OGC SOLUÇÃO 1 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag" style="background: #f59e0b;">Orçamento, Governança e Compliance</div>
+            <h2>Solução: Portal Setorial</h2>
+            <ul style="text-align: left; list-style: circle; font-size: 1.1rem; line-height: 2;">
+                <li>Criação de seção específica com valores da União</li>
+                <li>Cronograma físico-financeiro público</li>
+                <li>Audiências públicas trimestrais no bairro</li>
             </ul>
         </div>
+        <span class="slide-number">07</span>
+    </section>
+
+    <!-- SLIDE 8: OGC CONCEITO 2 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag" style="background: #f59e0b;">Orçamento, Governança e Compliance</div>
+            <h2>Governança e Controle Interno</h2>
+            <div class="concept-box">
+                <p>Governança é o conjunto de mecanismos de liderança e estratégia para avaliar e monitorar a gestão [39].</p>
+            </div>
+        </div>
+        <span class="slide-number">08</span>
+    </section>
+
+    <!-- SLIDE 9: OGC PROBLEMA 2 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag" style="background: #f59e0b;">Orçamento, Governança e Compliance</div>
+            <h3>Falha: Ausência de Controle</h3>
+            <p>Inexistência de unidade de controle interno acompanhando a verba federal, gerando risco de desvio para áreas nobres.</p>
+        </div>
+        <span class="slide-number">09</span>
+    </section>
+
+    <!-- SLIDE 10: OGC SOLUÇÃO 2 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag" style="background: #f59e0b;">Orçamento, Governança e Compliance</div>
+            <h2>Solução: Comitê Gestor</h2>
+            <p>Criar Comitê com prefeitura, Ministério Público e moradores. Auditorias mensais na aplicação dos recursos.</p>
+        </div>
+        <span class="slide-number">10</span>
+    </section>
+
+    <!-- SLIDE 11: PP CONCEITO 1 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag" style="background: #10b981;">Políticas Públicas</div>
+            <h2>O Ciclo de Políticas Públicas</h2>
+            <div class="concept-box">
+                <p>Compreende as etapas de: formulação, implementação, monitoramento e avaliação [11].</p>
+            </div>
+        </div>
+        <span class="slide-number">11</span>
+    </section>
+
+    <!-- SLIDE 12: PP PROBLEMA 1 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag" style="background: #10b981;">Políticas Públicas</div>
+            <h3>Problema: Paralização do Ciclo</h3>
+            <p>O recurso existe, mas a implementação trava devido a dados desatualizados. O bairro permanece "invisível".</p>
+        </div>
+        <span class="slide-number">12</span>
+    </section>
+
+    <!-- SLIDE 13: PP SOLUÇÃO 1 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag" style="background: #10b981;">Políticas Públicas</div>
+            <h2>Solução: Reativação do Ciclo</h2>
+            <p>Realizar censo socioeconômico com georreferenciamento e integração entre as secretarias (SIG).</p>
+        </div>
+        <span class="slide-number">13</span>
+    </section>
+
+    <!-- SLIDE 14: PP CONCEITO 2 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag" style="background: #10b981;">Políticas Públicas</div>
+            <h2>Participação Social</h2>
+            <div class="concept-box">
+                <p>Participação deriva de uma cidadania ativa, definindo quem é incluído na comunidade política [17].</p>
+            </div>
+        </div>
+        <span class="slide-number">14</span>
+    </section>
+
+    <!-- SLIDE 15: PP SOLUÇÃO 2 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag" style="background: #10b981;">Políticas Públicas</div>
+            <h2>Controle Democrático</h2>
+            <p>Implementar o Orçamento Participativo Digital e o Conselho Local de Transporte com moradores.</p>
+            <span class="ref-cite">"O orçamento participativo é um dos mecanismos de cocriação" [18]</span>
+        </div>
+        <span class="slide-number">15</span>
     </section>
 
     <footer><p>© 2026 UNIFACC Cuiabá | Prof. Renato Rosa</p></footer>
+
     <script>
         const map = L.map('map2').setView([-15.618, -56.046], 14);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-        L.marker([-15.618, -56.046]).addTo(map).bindPopup('Área de Exclusão: Pedregal').openPopup();
+        L.marker([-15.618, -56.046]).addTo(map).bindPopup('Ponto Crítico: Pedregal').openPopup();
     </script>
 </body>
 </html>

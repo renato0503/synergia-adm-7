@@ -35,12 +35,18 @@ Este documento resume as solicitações do Prof. Renato Rosa e as implementaçõ
     - **Grupo 4**: Verba de R$ 4,2M para dados, accountability e aplicação da LAI.
     - **Grupo 6**: Parceria Público-Privada (PPP), LAI e aprovação orçamentária anual.
 
-### 8. Dashboards e Consolidação BI (Último Pedido)
+### 8. Dashboards e Consolidação BI
 - **Pedido**: Implementar dashboards reais de Adm Financeira e BI para cada grupo, contendo pelo menos 5 gráficos e mapa de geolocalização.
 - **Ações**: 
     - Regeração de 15 gráficos via Python com foco em Dashboards operacionais.
-    - Reformulação das páginas dos grupos com seções de "Dashboard de Gestão Financeira e BI" em destaque (grid de 5 gráficos + mapas).
-    - Separação clara entre as disciplinas (BI, OGC, PP) com conteúdos acadêmicos específicos por tela.
+    - Reformulação das páginas dos grupos com seções de "Dashboard de Gestão Financeira e BI" em destaque.
+
+### 9. Formato de Slides e Conteúdo Ostensivo (Último Pedido)
+- **Pedido**: Transformar as páginas dos grupos em formato de slides (15 banners de mesmo tamanho por grupo), adicionando conteúdo educacional completo sobre OGC, PP e BI, e uma proposta integrada de solução.
+- **Ações**: 
+    - Implementação de `scroll-snap-type: y mandatory` para garantir o formato de slides verticais.
+    - Distribuição de conteúdo acadêmico denso (Conceitos, Problemas, Soluções e Referências) em 15 telas por grupo.
+    - Inclusão da **Proposta Integrada de Solução** no contexto do projeto.
 
 ---
 

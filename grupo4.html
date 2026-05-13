@@ -11,90 +11,201 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <style>
-        :root { --primary: #1e293b; --accent: #f59e0b; --bg-light: #ffffff; --bg-soft: #fcf8f1; --text-dark: #0f172a; --text-muted: #64748b; --border: #e2e8f0; --transition: all 0.4s ease; }
+        :root { --primary: #1e293b; --accent: #f59e0b; --bg-light: #ffffff; --bg-soft: #fffbeb; --text-dark: #0f172a; --text-muted: #64748b; --border: #fde68a; --transition: all 0.4s ease; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
-        body { background-color: var(--bg-light); color: var(--text-dark); overflow-x: hidden; scroll-behavior: smooth; }
-        .bg-dots { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-image: radial-gradient(#f59e0b 0.5px, transparent 0.5px); background-size: 30px 30px; opacity: 0.1; }
+        html, body { height: 100%; overflow: hidden; }
+        body { background-color: var(--bg-light); color: var(--text-dark); scroll-snap-type: y mandatory; overflow-y: scroll; scroll-behavior: smooth; }
+        .bg-dots { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-image: radial-gradient(#fbbf24 0.5px, transparent 0.5px); background-size: 30px 30px; opacity: 0.1; }
         .nav-controls { position: fixed; top: 1.5rem; right: 1.5rem; display: flex; gap: 1rem; z-index: 1000; }
-        .btn-nav { background: white; border: 1px solid var(--border); color: var(--primary); padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); transition: var(--transition); font-weight: 600; text-decoration: none; }
+        .btn-nav { background: white; border: 1px solid #e2e8f0; color: var(--primary); padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); transition: var(--transition); font-weight: 600; text-decoration: none; }
         .btn-nav:hover { background: var(--accent); color: white; border-color: var(--accent); }
-        
-        .section-title { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--primary); margin-bottom: 2rem; text-align: center; }
-        .banner { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5rem 8%; border-bottom: 1px solid var(--border); }
-        .banner:nth-child(even) { background-color: var(--bg-soft); }
-        
-        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; width: 100%; margin-top: 2rem; }
-        .chart-box { background: white; padding: 1rem; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); text-align: center; }
-        .chart-box img { width: 100%; height: auto; border-radius: 8px; }
-        
-        .map-box { height: 500px; width: 100%; border-radius: 16px; border: 1px solid var(--border); margin-top: 2rem; }
-        .discipline-header { background: var(--primary); color: white; padding: 1rem 2rem; border-radius: 50px; display: inline-block; margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; font-size: 0.8rem; }
-        .content-block { max-width: 900px; width: 100%; }
-        .content-block h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1.5rem; }
-        ul.specs { list-style: none; margin-top: 1rem; }
-        ul.specs li { padding: 1rem; border-left: 4px solid var(--accent); background: #fffbeb; margin-bottom: 1rem; border-radius: 0 8px 8px 0; font-weight: 600; }
-        footer { padding: 5rem; text-align: center; background: #0f172a; color: white; }
+        .slide { height: 100vh; width: 100vw; scroll-snap-align: start; display: flex; align-items: center; justify-content: center; padding: 4rem 8%; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+        .slide:nth-child(even) { background-color: var(--bg-soft); }
+        .slide-content { max-width: 1100px; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .discipline-tag { background: var(--primary); color: white; padding: 0.5rem 1.5rem; border-radius: 50px; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; font-size: 0.75rem; margin-bottom: 1.5rem; }
+        h2 { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--primary); margin-bottom: 1.5rem; line-height: 1.1; }
+        h3 { color: var(--accent); font-size: 1.4rem; margin-bottom: 1rem; font-weight: 700; }
+        p { font-size: 1.2rem; line-height: 1.7; color: #334155; max-width: 800px; }
+        .data-card { background: white; padding: 2rem; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); margin-top: 2rem; width: 100%; text-align: left; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; width: 100%; margin-top: 1.5rem; }
+        .chart-item { background: white; padding: 0.5rem; border: 1px solid var(--border); border-radius: 12px; }
+        .chart-item img { width: 100%; height: auto; }
+        .map-box { height: 60vh; width: 100%; border-radius: 20px; border: 1px solid var(--border); }
+        .concept-box { background: #fffbeb; border-left: 5px solid var(--accent); padding: 2rem; border-radius: 0 15px 15px 0; text-align: left; width: 100%; }
+        .slide-number { position: absolute; bottom: 2rem; left: 2rem; font-weight: 800; color: #fef3c7; font-size: 4rem; z-index: -1; }
     </style>
 </head>
 <body>
     <div class="bg-dots"></div>
-    <div class="nav-controls"><a href="index.html" class="btn-nav">Voltar</a></div>
+    <div class="nav-controls"><a href="index.html" class="btn-nav">Menu</a></div>
 
-    <section class="banner">
-        <div class="content-block" style="text-align: center;">
-            <h1 style="font-family: 'Playfair Display', serif; font-size: 4.5rem; margin-bottom: 1rem;">Invisibilidade de Dados</h1>
-            <p style="font-size: 1.4rem; color: var(--text-muted);">Grupo 4: Kemylly Monique, Steffany Natilin, Vitórya Ferreira</p>
+    <!-- SLIDE 1: CAPA -->
+    <section class="slide">
+        <div class="slide-content">
+            <h3 style="letter-spacing: 5px;">SYNERGIA | UNIFACC</h3>
+            <h2>Invisibilidade de Dados em Cuiabá</h2>
+            <p><strong>Integrantes:</strong> Kemylly Monique, Steffany Natilin, Vitórya Ferreira</p>
         </div>
+        <span class="slide-number">01</span>
     </section>
 
-    <!-- BI SECTION -->
-    <section class="banner">
-        <div class="discipline-header" style="background: #ea580c;">Adm Financeira e BI</div>
-        <h2 class="section-title">Dashboard de Inteligência Territorial</h2>
-        <div class="dashboard-grid">
-            <div class="chart-box"><h3>Gap de Registro</h3><img src="assets/g4_c1.png"></div>
-            <div class="chart-box"><h3>Regionalização Inadimplência</h3><img src="assets/g4_c2.png"></div>
-            <div class="chart-box"><h3>Demandas LAI</h3><img src="assets/g4_c3.png"></div>
-            <div class="chart-box"><h3>Digitalização de Acervo</h3><img src="assets/g4_c4.png"></div>
-            <div class="chart-box"><h3>Tempos de Processamento</h3><img src="assets/g4_c5.png"></div>
+    <!-- SLIDE 2: BI DASHBOARD -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag">Adm Financeira e BI</div>
+            <h2>Inteligência Territorial</h2>
+            <div class="dashboard-grid">
+                <div class="chart-item"><img src="assets/g4_c1.png"></div>
+                <div class="chart-item"><img src="assets/g4_c2.png"></div>
+                <div class="chart-item"><img src="assets/g4_c3.png"></div>
+            </div>
         </div>
-        <div style="width: 100%; margin-top: 4rem;">
-            <h3 style="text-align: center; margin-bottom: 1rem;">Geoprocessamento: Ribeirão do Lipa</h3>
+        <span class="slide-number">02</span>
+    </section>
+
+    <!-- SLIDE 3: BI CONT -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag">Adm Financeira e BI</div>
+            <h3>Indicadores de Qualidade</h3>
+            <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr; max-width: 800px;">
+                <div class="chart-item"><img src="assets/g4_c4.png"></div>
+                <div class="chart-item"><img src="assets/g4_c5.png"></div>
+            </div>
+        </div>
+        <span class="slide-number">03</span>
+    </section>
+
+    <!-- SLIDE 4: MAPA -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag">Adm Financeira e BI</div>
+            <h2>Mapa de "Bairros Invisíveis"</h2>
             <div id="map4" class="map-box"></div>
+            <p style="font-size: 0.9rem; margin-top: 1rem;">Ribeirão do Lipa: Base cartográfica oficial vs. Imagem de satélite</p>
         </div>
+        <span class="slide-number">04</span>
     </section>
 
-    <!-- OGC SECTION -->
-    <section class="banner">
-        <div class="discipline-header" style="background: #1e293b;">Orçamento, Governança e Compliance</div>
-        <div class="content-block">
-            <h2>Gestão de Verbas e Transparência</h2>
-            <ul class="specs">
-                <li><strong>Transparência Ativa:</strong> Publicação ostensiva dos dados de arrecadação potencial por bairro.</li>
-                <li><strong>Accountability:</strong> Prestação de contas sobre o uso dos R$ 4,2M destinados à modernização digital.</li>
-                <li><strong>Verba Carimbada:</strong> Garantia de que o recurso federal para "Dados" não seja remanejado para custeio de outras secretarias.</li>
-            </ul>
+    <!-- SLIDE 5: OGC CONCEITO 1 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag">Orçamento, Governança e Compliance</div>
+            <h2>Transparência Ativa (LAI)</h2>
+            <div class="concept-box">
+                <p>A Lei de Acesso à Informação representa importante marco na promoção da transparência e accountability [6].</p>
+            </div>
         </div>
+        <span class="slide-number">05</span>
     </section>
 
-    <!-- PP SECTION -->
-    <section class="banner">
-        <div class="discipline-header" style="background: #3b82f6;">Políticas Públicas</div>
-        <div class="content-block">
-            <h2>Controle e Informação</h2>
-            <ul class="specs">
-                <li><strong>Órgão de Controle:</strong> O papel do TCE-MT na auditoria das inconsistências entre o cadastro e a realidade local.</li>
-                <li><strong>Lei de Acesso à Informação (LAI):</strong> O direito do cidadão de solicitar e receber o mapeamento detalhado de sua região.</li>
-                <li><strong>Cidadania Digital:</strong> A inclusão do CEP como o primeiro passo para a dignidade habitacional.</li>
-            </ul>
+    <!-- SLIDE 6: OGC PROBLEMA 1 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag">Orçamento, Governança e Compliance</div>
+            <h3>Invisibilidade Digital</h3>
+            <p>Bairro não consta nos sistemas oficiais. Impossibilidade de planejamento urbano e alocação de recursos.</p>
         </div>
+        <span class="slide-number">06</span>
+    </section>
+
+    <!-- SLIDE 7: OGC SOLUÇÃO 1 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag">Orçamento, Governança e Compliance</div>
+            <h2>Solução: Mapeamento Digital</h2>
+            <p>Utilizar imagens de satélite e integrar com SIGCuiabá. Criar base de dados aberta (open data).</p>
+        </div>
+        <span class="slide-number">07</span>
+    </section>
+
+    <!-- SLIDE 8: OGC VERBA 1 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag">Orçamento, Governança e Compliance</div>
+            <h2>Análise de Verba: R$ 4,2 Milhões</h2>
+            <p>Recursos de modernização devem ser vinculados ao mapeamento das periferias, sem remanejamento.</p>
+        </div>
+        <span class="slide-number">08</span>
+    </section>
+
+    <!-- SLIDE 9: OGC VERBA 2 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag">Orçamento, Governança e Compliance</div>
+            <h3>Alocação Estratégica</h3>
+            <p>R$ 1,5M para Geoprocessamento | R$ 1,0M para Sistemas | R$ 500K para Participação Social.</p>
+        </div>
+        <span class="slide-number">09</span>
+    </section>
+
+    <!-- SLIDE 10: OGC VERBA 3 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag">Orçamento, Governança e Compliance</div>
+            <h2>Mecanismo de Controle</h2>
+            <p>Auditoria independente e impedimento de remanejamento sem justificativa técnica.</p>
+        </div>
+        <span class="slide-number">10</span>
+    </section>
+
+    <!-- SLIDE 11: PP CONCEITO 1 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag">Políticas Públicas</div>
+            <h2>Órgãos de Controle</h2>
+            <div class="concept-box">
+                <p>Fiscalização por CGU, TCU, TCE-MT e Ministério Público. Papel fundamental na qualidade da gestão [67].</p>
+            </div>
+        </div>
+        <span class="slide-number">11</span>
+    </section>
+
+    <!-- SLIDE 12: PP PROBLEMA 1 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag">Políticas Públicas</div>
+            <h3>Falha: Reatividade</h3>
+            <p>Atuação apenas após denúncias. Falta de integração entre órgãos sobre os dados do bairro.</p>
+        </div>
+        <span class="slide-number">12</span>
+    </section>
+
+    <!-- SLIDE 13: PP SOLUÇÃO 1 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag">Políticas Públicas</div>
+            <h2>Solução: Núcleo de Dados</h2>
+            <p>Criar Núcleo de Dados Abertos vinculado ao Planejamento. Interface direta com o TCE-MT.</p>
+        </div>
+        <span class="slide-number">13</span>
+    </section>
+
+    <!-- SLIDE 14: PP LAI 1 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag">Políticas Públicas</div>
+            <h2>LAI Aplicada</h2>
+            <p>Garantir transparência ativa (Art. 8º) com mapas interativos e datasets abertos (CSV, Shapefile).</p>
+        </div>
+        <span class="slide-number">14</span>
+    </section>
+
+    <!-- SLIDE 15: PP LAI 2 -->
+    <section class="slide">
+        <div class="slide-content">
+            <div class="discipline-tag">Políticas Públicas</div>
+            <h2>Cidadania Digital</h2>
+            <p>O CEP como primeiro passo para a dignidade. O direito de existir no sistema para receber saúde e educação.</p>
+        </div>
+        <span class="slide-number">15</span>
     </section>
 
     <footer><p>© 2026 UNIFACC Cuiabá | Prof. Renato Rosa</p></footer>
     <script>
         const map = L.map('map4').setView([-15.584, -56.075], 14);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-        L.marker([-15.584, -56.075]).addTo(map).bindPopup('Área de Expansão: Ribeirão do Lipa').openPopup();
+        L.marker([-15.584, -56.075]).addTo(map).bindPopup('Área de Gap: Ribeirão do Lipa').openPopup();
     </script>
 </body>
 </html>
