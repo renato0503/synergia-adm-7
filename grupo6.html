@@ -11,21 +11,27 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <style>
-        :root { --primary: #1e293b; --accent: #10b981; --bg-light: #ffffff; --bg-soft: #f0fdf4; --text-dark: #0f172a; --text-muted: #64748b; --border: #bbf7d0; --transition: all 0.4s ease; }
+        :root { --primary: #1e293b; --accent: #10b981; --bg-light: #ffffff; --bg-soft: #f0fdf4; --text-dark: #0f172a; --text-muted: #64748b; --border: #e2e8f0; --transition: all 0.4s ease; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-dark); overflow-x: hidden; scroll-behavior: smooth; }
         .bg-dots { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-image: radial-gradient(#10b981 0.5px, transparent 0.5px); background-size: 30px 30px; opacity: 0.1; }
         .nav-controls { position: fixed; top: 1.5rem; right: 1.5rem; display: flex; gap: 1rem; z-index: 1000; }
-        .btn-nav { background: white; border: 1px solid #e2e8f0; color: var(--primary); padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); transition: var(--transition); font-weight: 600; text-decoration: none; }
+        .btn-nav { background: white; border: 1px solid var(--border); color: var(--primary); padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); transition: var(--transition); font-weight: 600; text-decoration: none; }
         .btn-nav:hover { background: var(--accent); color: white; border-color: var(--accent); }
-        .banner { min-height: 100vh; display: flex; align-items: center; padding: 5rem 8%; border-bottom: 1px solid var(--border); }
+        
+        .section-title { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--primary); margin-bottom: 2rem; text-align: center; }
+        .banner { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5rem 8%; border-bottom: 1px solid var(--border); }
         .banner:nth-child(even) { background-color: var(--bg-soft); }
-        .banner-content { display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; width: 100%; align-items: center; }
-        .banner-text h2 { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--primary); margin-bottom: 1.5rem; line-height: 1.1; }
-        .banner-text h3 { color: var(--accent); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 3px; margin-bottom: 1.2rem; font-weight: 800; }
-        .banner-text p { font-size: 1.15rem; line-height: 1.8; color: #334155; margin-bottom: 2rem; }
-        .banner-visual { background: white; padding: 2rem; border-radius: 24px; border: 1px solid var(--border); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.05); }
-        .banner-visual img { width: 100%; height: auto; border-radius: 12px; }
+        
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; width: 100%; margin-top: 2rem; }
+        .chart-box { background: white; padding: 1rem; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); text-align: center; }
+        .chart-box img { width: 100%; height: auto; border-radius: 8px; }
+        
+        .map-box { height: 500px; width: 100%; border-radius: 16px; border: 1px solid var(--border); margin-top: 2rem; }
+        .discipline-header { background: var(--primary); color: white; padding: 1rem 2rem; border-radius: 50px; display: inline-block; margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; font-size: 0.8rem; }
+        .content-block { max-width: 900px; width: 100%; }
+        ul.specs { list-style: none; margin-top: 1rem; }
+        ul.specs li { padding: 1rem; border-left: 4px solid var(--accent); background: #f0fdf4; margin-bottom: 1rem; border-radius: 0 8px 8px 0; font-weight: 600; }
         footer { padding: 5rem; text-align: center; background: #0f172a; color: white; }
     </style>
 </head>
@@ -34,67 +40,60 @@
     <div class="nav-controls"><a href="index.html" class="btn-nav">Voltar</a></div>
 
     <section class="banner">
-        <div class="banner-content">
-            <div class="banner-text">
-                <h3>Grupo 6</h3>
-                <h2>Saneamento Básico</h2>
-                <p>Universalização, dignidade e justiça ambiental em Cuiabá.</p>
-                <p><strong>Membros:</strong> Celia, Izabela, Emanoeli, Robson</p>
-            </div>
-            <div class="banner-visual"><img src="assets/chart6_1.png"></div>
+        <div class="content-block" style="text-align: center;">
+            <h1 style="font-family: 'Playfair Display', serif; font-size: 4.5rem; margin-bottom: 1rem;">Justiça Sanitária</h1>
+            <p style="font-size: 1.4rem; color: var(--text-muted);">Grupo 6: Celia, Izabela, Emanoeli, Robson</p>
         </div>
     </section>
 
+    <!-- BI SECTION -->
     <section class="banner">
-        <div class="banner-content">
-            <div class="banner-text">
-                <h3>Adm Financeira e BI</h3>
-                <h2>Investimento Habitante</h2>
-                <p>Análise da eficiência do investimento privado via concessionária vs. retorno em saúde pública.</p>
-            </div>
-            <div class="banner-visual"><img src="assets/chart6_3.png"></div>
+        <div class="discipline-header" style="background: #059669;">Adm Financeira e BI</div>
+        <h2 class="section-title">Dashboard de Saneamento e Saúde</h2>
+        <div class="dashboard-grid">
+            <div class="chart-box"><h3>Evolução de Coleta</h3><img src="assets/g6_c1.png"></div>
+            <div class="chart-box"><h3>Potabilidade da Água</h3><img src="assets/g6_c2.png"></div>
+            <div class="chart-box"><h3>Investimento Real (PPP)</h3><img src="assets/g6_c3.png"></div>
+            <div class="chart-box"><h3>Perdas na Rede</h3><img src="assets/g6_c4.png"></div>
+            <div class="chart-box"><h3>Economia SUS</h3><img src="assets/g6_c5.png"></div>
+        </div>
+        <div style="width: 100%; margin-top: 4rem;">
+            <h3 style="text-align: center; margin-bottom: 1rem;">Geoprocessamento: Bacias de Contaminação</h3>
+            <div id="map6" class="map-box"></div>
         </div>
     </section>
 
+    <!-- OGC SECTION -->
     <section class="banner">
-        <div class="banner-content">
-            <div class="banner-text">
-                <h3>Orçamento e Governança</h3>
-                <h2>Orçamento e Prestação</h2>
-                <p>Aprovação do Orçamento Anual focado em metas de saneamento e a importância da transparência ativa nas obras.</p>
-                <ul style="margin-left: 2rem; line-height: 2;">
-                    <li>Metas de Universalização do Novo Marco Legal</li>
-                    <li>Prestação de contas mensal das concessionárias</li>
-                    <li>Aprovação da dotação orçamentária na LOA</li>
-                </ul>
-            </div>
-            <div class="banner-visual"><img src="assets/chart6_4.png"></div>
+        <div class="discipline-header" style="background: #1e293b;">Orçamento, Governança e Compliance</div>
+        <div class="content-block">
+            <h2>Fiscalização e Prestação de Contas</h2>
+            <ul class="specs">
+                <li><strong>Transparência Ativa:</strong> Publicação dos cronogramas de expansão de rede por rua.</li>
+                <li><strong>Prestação de Contas:</strong> Auditoria anual dos repasses federais e metas de universalização.</li>
+                <li><strong>Aprovação do Orçamento Anual:</strong> Garantia de dotação orçamentária para manutenção preventiva e obras de esgoto.</li>
+            </ul>
         </div>
     </section>
 
+    <!-- PP SECTION -->
     <section class="banner">
-        <div class="banner-content">
-            <div class="banner-text">
-                <h3>Políticas Públicas</h3>
-                <h2>PPP e LAI</h2>
-                <p>O modelo de Parceria Público-Privada (PPP) como motor da expansão, monitorado via Lei de Acesso à Informação.</p>
-                <ul style="margin-left: 2rem; line-height: 2;">
-                    <li>Contratos de Concessão Disponíveis via LAI</li>
-                    <li>Fiscalização Social da Qualidade da Água</li>
-                    <li>Eficiência da PPP em áreas periféricas</li>
-                </ul>
-            </div>
-            <div class="banner-visual">
-                <div id="map6" style="height: 400px; border-radius: 12px;"></div>
-            </div>
+        <div class="discipline-header" style="background: #3b82f6;">Políticas Públicas</div>
+        <div class="content-block">
+            <h2>Marco Legal e Transparência</h2>
+            <ul class="specs">
+                <li><strong>Lei de Acesso à Informação (LAI):</strong> Facilitação do acesso aos laudos de potabilidade do bairro.</li>
+                <li><strong>Parceria Público-Privada (PPP):</strong> O modelo de concessão como ferramenta para acelerar o saneamento nas periferias sob vigilância social.</li>
+                <li><strong>Controle Social:</strong> Fortalecimento dos comitês de bacia com participação popular.</li>
+            </ul>
         </div>
     </section>
 
-    <footer><p>© 2026 UNIFACC Cuiabá - Administração e Gestão Pública | Prof. Renato Rosa</p></footer>
+    <footer><p>© 2026 UNIFACC Cuiabá | Prof. Renato Rosa</p></footer>
     <script>
         const map = L.map('map6').setView([-15.655, -56.065], 14);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-        L.marker([-15.655, -56.065]).addTo(map).bindPopup('Ponto Crítico de Rede: Parque Cuiabá').openPopup();
+        L.marker([-15.655, -56.065]).addTo(map).bindPopup('Ponto Crítico: Parque Cuiabá').openPopup();
     </script>
 </body>
 </html>

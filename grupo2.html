@@ -18,137 +18,99 @@
         .nav-controls { position: fixed; top: 1.5rem; right: 1.5rem; display: flex; gap: 1rem; z-index: 1000; }
         .btn-nav { background: white; border: 1px solid var(--border); color: var(--primary); padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); transition: var(--transition); font-weight: 600; text-decoration: none; }
         .btn-nav:hover { background: var(--accent); color: white; border-color: var(--accent); }
-        .banner { min-height: 100vh; display: flex; align-items: center; padding: 5rem 8%; border-bottom: 1px solid var(--border); }
+        
+        .section-title { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--primary); margin-bottom: 2rem; text-align: center; width: 100%; }
+        .banner { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5rem 8%; border-bottom: 1px solid var(--border); }
         .banner:nth-child(even) { background-color: var(--bg-soft); }
-        .banner-content { display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; width: 100%; align-items: center; }
-        .banner-text h2 { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--primary); margin-bottom: 1.5rem; line-height: 1.1; }
-        .banner-text h3 { color: var(--accent); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 3px; margin-bottom: 1.2rem; font-weight: 800; }
-        .banner-text p { font-size: 1.15rem; line-height: 1.8; color: #334155; margin-bottom: 2rem; }
-        .banner-visual { background: white; padding: 2rem; border-radius: 24px; border: 1px solid var(--border); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.05); }
-        .banner-visual img { width: 100%; height: auto; border-radius: 12px; }
-        .map-box { height: 500px; width: 100%; border-radius: 16px; border: 1px solid var(--border); }
-        .academic-table { width: 100%; border-collapse: collapse; margin-top: 2rem; font-size: 0.95rem; }
-        .academic-table th { text-align: left; padding: 1rem; background: var(--bg-soft); border-bottom: 2px solid var(--border); color: var(--primary); }
-        .academic-table td { padding: 1rem; border-bottom: 1px solid var(--border); color: var(--text-dark); }
+        
+        /* Dashboard Layout */
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; width: 100%; margin-top: 2rem; }
+        .chart-box { background: white; padding: 1rem; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); text-align: center; }
+        .chart-box img { width: 100%; height: auto; border-radius: 8px; }
+        
+        .map-box { height: 500px; width: 100%; border-radius: 16px; border: 1px solid var(--border); margin-top: 2rem; }
+        
+        .discipline-header { background: var(--primary); color: white; padding: 1rem 2rem; border-radius: 50px; display: inline-block; margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; font-size: 0.8rem; }
+        
+        .content-block { max-width: 900px; width: 100%; }
+        .content-block h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1.5rem; }
+        .content-block p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem; }
+        
+        ul.specs { list-style: none; margin-top: 1rem; }
+        ul.specs li { padding: 1rem; border-left: 4px solid var(--accent); background: #eff6ff; margin-bottom: 1rem; border-radius: 0 8px 8px 0; font-weight: 600; }
+        
         footer { padding: 5rem; text-align: center; background: #0f172a; color: white; }
-        @media (max-width: 1100px) { .banner-content { grid-template-columns: 1fr; } .banner-text h2 { font-size: 2.5rem; } }
     </style>
 </head>
 <body>
     <div class="bg-dots"></div>
     <div class="nav-controls"><a href="index.html" class="btn-nav">Voltar</a></div>
 
+    <!-- CAPA -->
     <section class="banner">
-        <div class="banner-content">
-            <div class="banner-text">
-                <h3>Grupo 2</h3>
-                <h2>Transporte Público e Mobilidade</h2>
-                <p>Enfrentando o abismo da exclusão territorial através da gestão e transparência.</p>
-                <p><strong>Membros:</strong> Erilin Sabrina, Emilly Gabriely, Juarez, Flavia Arruda</p>
-            </div>
-            <div class="banner-visual"><img src="hero.png"></div>
+        <div class="content-block" style="text-align: center;">
+            <h1 style="font-family: 'Playfair Display', serif; font-size: 4.5rem; margin-bottom: 1rem;">Transporte Público</h1>
+            <p style="font-size: 1.4rem; color: var(--text-muted);">Grupo 2: Erilin Sabrina, Emilly Gabriely, Juarez, Flavia Arruda</p>
+            <img src="hero.png" style="width: 100%; max-width: 800px; border-radius: 20px; margin-top: 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
         </div>
     </section>
 
+    <!-- DISCIPLINA 1: ADM FINANCEIRA E BI -->
     <section class="banner">
-        <div class="banner-content">
-            <div class="banner-text">
-                <h3>Adm Financeira e BI</h3>
-                <h2>Indicadores de Frota</h2>
-                <p>Análise da renovação tecnológica e climatização como fatores de dignidade urbana.</p>
-            </div>
-            <div class="banner-visual"><img src="assets/chart2_1.png"></div>
+        <div class="discipline-header" style="background: #2563eb;">Adm Financeira e BI</div>
+        <h2 class="section-title">Dashboard de Mobilidade Urbana</h2>
+        <p style="text-align: center; max-width: 800px; margin-bottom: 3rem;">
+            Análise baseada em dados reais da SEMOB e ARSEC sobre o sistema de transporte coletivo de Cuiabá.
+        </p>
+        
+        <div class="dashboard-grid">
+            <div class="chart-box"><h3>Evolução da Frota</h3><img src="assets/g2_c1.png"></div>
+            <div class="chart-box"><h3>Índice de Reclamações</h3><img src="assets/g2_c2.png"></div>
+            <div class="chart-box"><h3>Vias Periféricas</h3><img src="assets/g2_c3.png"></div>
+            <div class="chart-box"><h3>Pontualidade das Linhas</h3><img src="assets/g2_c4.png"></div>
+            <div class="chart-box"><h3>Custos Operacionais</h3><img src="assets/g2_c5.png"></div>
+        </div>
+
+        <div style="width: 100%; margin-top: 4rem;">
+            <h3 style="text-align: center; margin-bottom: 1rem;">Georeferenciamento: Pontos de Exclusão</h3>
+            <div id="map2" class="map-box"></div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1rem;">Fonte: Geoprocessamento Municipal / ARSEC 2024</p>
         </div>
     </section>
 
+    <!-- DISCIPLINA 2: ORÇAMENTO, GOVERNANÇA E COMPLIANCE -->
     <section class="banner">
-        <div class="banner-content">
-            <div class="banner-text">
-                <h3>Adm Financeira e BI</h3>
-                <h2>Impacto do Isolamento</h2>
-                <p>Bairros periféricos com baixos índices de pavimentação inviabilizam o acesso ao transporte.</p>
-            </div>
-            <div class="banner-visual"><img src="assets/chart2_2.png"></div>
+        <div class="discipline-header" style="background: #f59e0b;">Orçamento, Governança e Compliance</div>
+        <div class="content-block">
+            <h2>Crise de Transparência e Controle</h2>
+            <p>A gestão do transporte em Cuiabá enfrenta gargalos críticos de governança que impedem a eficiência dos recursos federais.</p>
+            <ul class="specs">
+                <li><strong>Falta de Transparência Ativa:</strong> Inexistência de dados abertos sobre o custo por passageiro e subsídios em tempo real.</li>
+                <li><strong>Accountability Deficitária:</strong> Dificuldade da população em rastrear o uso da verba de modernização urbana.</li>
+                <li><strong>Ausência de Governança e Controle Interno:</strong> Falha na auditoria das planilhas de custos apresentadas pelas concessionárias.</li>
+            </ul>
         </div>
     </section>
 
+    <!-- DISCIPLINA 3: POLÍTICAS PÚBLICAS -->
     <section class="banner">
-        <div class="banner-content">
-            <div class="banner-text">
-                <h3>Orçamento e Governança</h3>
-                <h2>Falha na Transparência Ativa</h2>
-                <p>Identificamos a ausência de canais de prestação de contas em tempo real sobre a aplicação da verba federal.</p>
-                <ul style="margin-left: 2rem; line-height: 2;">
-                    <li>Falta de portal de transparência específico</li>
-                    <li>Dificuldade no acesso aos contratos de concessão</li>
-                    <li>Accountability prejudicada pela linguagem técnica</li>
-                </ul>
-            </div>
-            <div class="banner-visual"><img src="assets/chart2_5.png"></div>
+        <div class="discipline-header" style="background: #10b981;">Políticas Públicas</div>
+        <div class="content-block">
+            <h2>Ciclo de Políticas e Participação</h2>
+            <p>O "Abismo do CEP" é resultado de um ciclo de políticas públicas interrompido e da falta de mecanismos democráticos.</p>
+            <ul class="specs">
+                <li><strong>Paralização do Ciclo de Políticas:</strong> As soluções morrem na fase de formulação, nunca atingindo a implementação plena nas periferias.</li>
+                <li><strong>Ausência de Participação Social:</strong> Os conselhos de transporte estão desativados ou sem representação real dos moradores do bairro.</li>
+                <li><strong>Controle Democrático:</strong> Falta de audiências públicas deliberativas para decidir as rotas e horários.</li>
+            </ul>
         </div>
     </section>
 
-    <section class="banner">
-        <div class="banner-content">
-            <div class="banner-text">
-                <h3>Orçamento e Governança</h3>
-                <h2>Crise de Governança Interna</h2>
-                <p>A ausência de mecanismos de controle interno permite o risco de desvio de finalidade dos recursos destinados às periferias.</p>
-            </div>
-            <div class="banner-visual" style="padding: 3rem; background: #fee2e2; color: #991b1b; border-color: #fecaca;">
-                <h4>ALERTA DE COMPLIANCE</h4>
-                <p>Inexistência de auditoria independente sobre a pavimentação de rotas periféricas.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="banner">
-        <div class="banner-content">
-            <div class="banner-text">
-                <h3>Políticas Públicas</h3>
-                <h2>Paralisação do Ciclo</h2>
-                <p>O ciclo de políticas públicas encontra-se travado na fase de implementação por falta de integração multisetorial.</p>
-            </div>
-            <div class="banner-visual"><img src="assets/chart2_4.png"></div>
-        </div>
-    </section>
-
-    <section class="banner">
-        <div class="banner-content">
-            <div class="banner-text">
-                <h3>Políticas Públicas</h3>
-                <h2>Controle Democrático</h2>
-                <p>A ausência de participação social direta impede que as demandas reais do bairro entrem na agenda de prioridades da prefeitura.</p>
-                <p style="font-weight: 800; color: var(--accent);">Solução: Implementar o Orçamento Participativo Digital.</p>
-            </div>
-            <div class="banner-visual">
-                <div id="map2" class="map-box"></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="banner">
-        <div class="banner-content" style="grid-template-columns: 1fr;">
-            <div class="banner-text">
-                <h3>Tabelas Reais</h3>
-                <h2>KPIs de Mobilidade</h2>
-                <table class="academic-table">
-                    <thead><tr><th>Indicador</th><th>Realidade Local</th><th>Impacto</th></tr></thead>
-                    <tbody>
-                        <tr><td>Tarifa Social</td><td>Inexistente</td><td>Exclusão Econômica</td></tr>
-                        <tr><td>Vias sem Asfalto</td><td>~65% na periferia</td><td>Impossibilita linhas</td></tr>
-                        <tr><td>Conselhos Locais</td><td>Desativados</td><td>Zero Participação Social</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <footer><p>© 2026 UNIFACC Cuiabá - Administração e Gestão Pública | Prof. Renato Rosa</p></footer>
+    <footer><p>© 2026 UNIFACC Cuiabá | Prof. Renato Rosa</p></footer>
     <script>
         const map = L.map('map2').setView([-15.618, -56.046], 14);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-        L.marker([-15.618, -56.046]).addTo(map).bindPopup('Ponto Crítico: Ausência de Linhas').openPopup();
+        L.marker([-15.618, -56.046]).addTo(map).bindPopup('Área de Exclusão: Pedregal').openPopup();
     </script>
 </body>
 </html>
