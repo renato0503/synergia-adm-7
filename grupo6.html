@@ -6,96 +6,151 @@
     <title>Grupo 6 - Saneamento Básico | Synergia GP</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💧</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <style>
-        :root { --primary: #1e293b; --accent: #10b981; --bg-light: #ffffff; --bg-soft: #f0fdf4; --text-dark: #0f172a; --text-muted: #64748b; --border: #bbf7d0; --transition: all 0.4s ease; }
+        :root { --primary: #0f172a; --accent: #10b981; --accent-light: #d1fae5; --bg-light: #ffffff; --text-dark: #1e293b; --text-muted: #64748b; --border: #e2e8f0; --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
-        html, body { height: 100%; overflow: hidden; }
-        body { background-color: var(--bg-light); color: var(--text-dark); scroll-snap-type: y mandatory; overflow-y: scroll; scroll-behavior: smooth; }
-        .bg-dots { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-image: radial-gradient(#10b981 0.5px, transparent 0.5px); background-size: 30px 30px; opacity: 0.1; }
-        .nav-controls { position: fixed; top: 1.5rem; right: 1.5rem; display: flex; gap: 1rem; z-index: 1000; }
-        .btn-nav { background: white; border: 1px solid #e2e8f0; color: var(--primary); padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); transition: var(--transition); font-weight: 600; text-decoration: none; }
-        .btn-nav:hover { background: var(--accent); color: white; border-color: var(--accent); }
-        .slide { height: 100vh; width: 100vw; scroll-snap-align: start; display: flex; align-items: center; justify-content: center; padding: 4rem 8%; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
-        .slide:nth-child(even) { background-color: var(--bg-soft); }
-        .slide-content { max-width: 1100px; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; }
-        .discipline-tag { background: var(--primary); color: white; padding: 0.5rem 1.5rem; border-radius: 50px; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; font-size: 0.75rem; margin-bottom: 1.5rem; }
-        h2 { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--primary); margin-bottom: 1.5rem; line-height: 1.1; }
-        h3 { color: var(--accent); font-size: 1.4rem; margin-bottom: 1rem; font-weight: 700; }
-        p { font-size: 1.2rem; line-height: 1.7; color: #334155; max-width: 800px; }
-        .dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; width: 100%; margin-top: 1.5rem; }
-        .chart-item { background: white; padding: 0.5rem; border: 1px solid var(--border); border-radius: 12px; }
-        .chart-item img { width: 100%; height: auto; }
-        .map-box { height: 60vh; width: 100%; border-radius: 20px; border: 1px solid var(--border); }
-        .concept-box { background: #f0fdf4; border-left: 5px solid var(--accent); padding: 2rem; border-radius: 0 15px 15px 0; text-align: left; width: 100%; }
-        .slide-number { position: absolute; bottom: 2rem; left: 2rem; font-weight: 800; color: #dcfce7; font-size: 4rem; z-index: -1; }
+        html, body { height: 100%; overflow: hidden; background-color: var(--primary); }
+        body { scroll-snap-type: y mandatory; overflow-y: scroll; scroll-behavior: smooth; }
+        
+        /* Navigation */
+        .nav-controls { position: fixed; top: 2rem; right: 2rem; display: flex; gap: 1rem; z-index: 1000; }
+        .btn-nav { background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); color: var(--primary); padding: 0.75rem 1.5rem; border-radius: 50px; cursor: pointer; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); transition: var(--transition); font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; }
+        .btn-nav:hover { background: var(--accent); color: white; transform: translateY(-2px); box-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.2); border-color: var(--accent); }
+
+        /* Slide Basics */
+        .slide { height: 100vh; width: 100vw; scroll-snap-align: start; position: relative; overflow: hidden; background: var(--bg-light); display: flex; }
+        .slide-content { padding: 5rem 8%; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 10; }
+        
+        /* Layouts */
+        .split-layout { display: flex; width: 100%; height: 100%; }
+        .split-text { flex: 1; padding: 5rem 6%; display: flex; flex-direction: column; justify-content: center; background: white; }
+        .split-image { flex: 1; background-size: cover; background-position: center; position: relative; }
+        .split-image::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 20%); }
+
+        /* Typography */
+        .discipline-tag { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent-light); color: #047857; padding: 0.6rem 1.5rem; border-radius: 50px; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; font-size: 0.75rem; margin-bottom: 2rem; align-self: flex-start; border: 1px solid rgba(16, 185, 129, 0.2); }
+        h2 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 4vw, 4.5rem); color: var(--primary); margin-bottom: 1.5rem; line-height: 1.1; font-weight: 900; }
+        h3 { color: #059669; font-size: clamp(1.2rem, 2vw, 1.8rem); margin-bottom: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 0.75rem; }
+        p { font-size: 1.15rem; line-height: 1.8; color: var(--text-muted); max-width: 800px; margin-bottom: 1.5rem; }
+        
+        /* Components */
+        .concept-box { background: var(--accent-light); border-left: 4px solid var(--accent); padding: 2.5rem; border-radius: 0 20px 20px 0; margin: 2rem 0; position: relative; }
+        .concept-box p { color: var(--primary); font-size: 1.25rem; font-weight: 500; margin: 0; }
+        .concept-box i { position: absolute; top: 1rem; right: 1.5rem; font-size: 3rem; color: rgba(16, 185, 129, 0.2); }
+
+        .dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; width: 100%; margin-top: 2rem; }
+        .chart-item { background: white; padding: 1rem; border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: var(--transition); }
+        .chart-item:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border-color: var(--accent); }
+        .chart-item img { width: 100%; height: auto; border-radius: 8px; }
+
+        .map-box { height: 50vh; width: 100%; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); overflow: hidden; margin-bottom: 1.5rem; }
+        
+        /* Decorators */
+        .slide-number { position: absolute; bottom: 3rem; right: 4rem; font-family: 'Playfair Display', serif; font-weight: 900; color: rgba(15, 23, 42, 0.05); font-size: 8rem; z-index: 1; line-height: 1; pointer-events: none; }
+        .source-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); background: #f8fafc; padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--border); margin-top: auto; }
+        .source-tag i { color: var(--accent); }
+
+        /* Specific Covers */
+        .cover-slide { background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), url('https://images.unsplash.com/photo-1542361345-89e58247f2d5?q=80&w=2070&auto=format&fit=crop') center/cover; }
+        .cover-slide h2 { color: white; font-size: 5rem; }
+        .cover-slide p { color: #cbd5e1; font-size: 1.5rem; }
+        .cover-slide h3 { color: var(--accent); letter-spacing: 5px; text-transform: uppercase; font-size: 1rem; }
+        .team-box { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); margin-top: 3rem; display: inline-block; }
+        .team-box p { font-size: 1.1rem; margin: 0; color: white; display: flex; align-items: center; gap: 1rem; }
+
+        /* Animations */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-content > * { animation: fadeUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; opacity: 0; }
+        .animate-content > *:nth-child(1) { animation-delay: 0.1s; }
+        .animate-content > *:nth-child(2) { animation-delay: 0.2s; }
+        .animate-content > *:nth-child(3) { animation-delay: 0.3s; }
+        .animate-content > *:nth-child(4) { animation-delay: 0.4s; }
+        .animate-content > *:nth-child(5) { animation-delay: 0.5s; }
     </style>
 </head>
 <body>
-    <div class="bg-dots"></div>
-    <div class="nav-controls"><a href="index.html" class="btn-nav">Menu</a></div>
+    <div class="nav-controls"><a href="index.html" class="btn-nav"><i class="ph ph-house"></i> Menu Principal</a></div>
 
     <!-- SLIDE 1: CAPA -->
-    <section class="slide">
-        <div class="slide-content">
-            <h3 style="letter-spacing: 5px;">SYNERGIA | UNIFACC</h3>
-            <h2>Justiça Sanitária e Ambiental</h2>
-            <p><strong>Integrantes:</strong> Celia, Izabela, Emanoeli, Robson</p>
+    <section class="slide cover-slide">
+        <div class="slide-content animate-content" style="align-items: center; text-align: center;">
+            <h3><i class="ph ph-drop"></i> Synergia | UNIFACC</h3>
+            <h2>Justiça Sanitária<br>e Ambiental</h2>
+            <p>Os desafios estruturais e sociais do Saneamento Básico em Cuiabá.</p>
+            <div class="team-box">
+                <p><i class="ph ph-users"></i> <strong>Integrantes:</strong> Celia, Izabela, Emanoeli, Robson</p>
+            </div>
         </div>
-        <span class="slide-number">01</span>
     </section>
 
     <!-- SLIDE 2: BI DASHBOARD -->
     <section class="slide">
-        <div class="slide-content">
-            <div class="discipline-tag">Adm Financeira e BI</div>
-            <h2>Dashboard de Saneamento</h2>
+        <div class="slide-content animate-content">
+            <div class="discipline-tag"><i class="ph ph-chart-polar"></i> Adm Financeira e BI</div>
+            <h2>Dashboard Operacional</h2>
+            <p>Análise dos indicadores de cobertura e perda de rede. O diagnóstico por dados é essencial para direcionar os investimentos das Parcerias Público-Privadas (PPPs).</p>
             <div class="dashboard-grid">
-                <div class="chart-item"><img src="assets/g6_c1.png"></div>
-                <div class="chart-item"><img src="assets/g6_c2.png"></div>
-                <div class="chart-item"><img src="assets/g6_c3.png"></div>
+                <div class="chart-item"><img src="assets/g6_c1.png" alt="Gráfico 1"></div>
+                <div class="chart-item"><img src="assets/g6_c2.png" alt="Gráfico 2"></div>
+                <div class="chart-item"><img src="assets/g6_c3.png" alt="Gráfico 3"></div>
             </div>
+            <div class="source-tag" style="margin-top: 2rem;"><i class="ph ph-database"></i> Fontes: SNIS (Sistema Nacional de Informações sobre Saneamento) e Instituto Trata Brasil</div>
         </div>
         <span class="slide-number">02</span>
     </section>
 
     <!-- SLIDE 3: BI CONT -->
     <section class="slide">
-        <div class="slide-content">
-            <div class="discipline-tag">Adm Financeira e BI</div>
-            <h3>Indicadores de Saúde e Rede</h3>
-            <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr; max-width: 800px;">
-                <div class="chart-item"><img src="assets/g6_c4.png"></div>
-                <div class="chart-item"><img src="assets/g6_c5.png"></div>
+        <div class="split-layout">
+            <div class="split-text animate-content">
+                <div class="discipline-tag"><i class="ph ph-heartbeat"></i> Adm Financeira e BI</div>
+                <h2>Indicadores de Saúde</h2>
+                <p>O custo da omissão: O impacto direto da falta de rede de esgoto nas internações por doenças de veiculação hídrica na rede pública municipal (SUS).</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem;">
+                    <div class="chart-item"><img src="assets/g6_c4.png" alt="Gráfico 4"></div>
+                    <div class="chart-item"><img src="assets/g6_c5.png" alt="Gráfico 5"></div>
+                </div>
+                <div class="source-tag" style="margin-top: 2rem;"><i class="ph ph-info"></i> Fonte: DATASUS - Ministério da Saúde (2024)</div>
             </div>
+            <div class="split-image" style="background-image: url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=2080&auto=format&fit=crop');"></div>
         </div>
         <span class="slide-number">03</span>
     </section>
 
     <!-- SLIDE 4: MAPA -->
     <section class="slide">
-        <div class="slide-content">
-            <div class="discipline-tag">Adm Financeira e BI</div>
-            <h2>Mapa de Cobertura</h2>
-            <div id="map6" class="map-box"></div>
-            <div style="margin-top: 1rem;">
-                <a href="mapa_grupo6.html" target="_blank" class="btn-nav" style="background: var(--primary); color: white;">Abrir Mapa Interativo QGIS-Web</a>
+        <div class="slide-content animate-content">
+            <div class="discipline-tag"><i class="ph ph-map-pin"></i> Adm Financeira e BI</div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem;">
+                <h2>Geolocalização da Rede</h2>
+                <a href="mapa_grupo6.html" target="_blank" class="btn-nav" style="background: var(--accent); color: white; margin-bottom: 1rem;"><i class="ph ph-map-trifold"></i> Abrir Mapa Interativo QGIS-Web</a>
             </div>
-            <p style="font-size: 0.9rem; margin-top: 1rem;">Áreas sem cobertura (vermelho) vs. Bacias de tratamento</p>
+            <div id="map6" class="map-box"></div>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <div class="source-tag"><i class="ph ph-crosshair"></i> Visualização: Áreas sem cobertura (vermelho) vs. Bacias de tratamento</div>
+                <p style="margin:0; font-size: 0.95rem;">Análise espacial revela "ilhas" de desabastecimento nas franjas do município.</p>
+            </div>
         </div>
         <span class="slide-number">04</span>
     </section>
 
     <!-- SLIDE 5: PP CONCEITO 1 -->
     <section class="slide">
-        <div class="slide-content">
-            <div class="discipline-tag">Políticas Públicas</div>
-            <h2>LAI e Saneamento</h2>
-            <div class="concept-box">
-                <p>A LAI garante acesso a informações sobre serviços essenciais, incluindo laudos de potabilidade e mapas de rede [22].</p>
+        <div class="split-layout">
+            <div class="split-image" style="background-image: url('https://images.unsplash.com/photo-1541888086425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop'); transform: scaleX(-1);"></div>
+            <div class="split-text animate-content" style="z-index: 1;">
+                <div class="discipline-tag"><i class="ph ph-buildings"></i> Políticas Públicas</div>
+                <h2>A LAI e o Direito de Saber</h2>
+                <div class="concept-box">
+                    <i class="ph ph-quotes"></i>
+                    <p>A Lei de Acesso à Informação garante ao cidadão não apenas dados financeiros, mas informações técnicas e laudos de potabilidade sobre os serviços essenciais que afetam sua saúde [22].</p>
+                </div>
+                <h3><i class="ph ph-warning"></i> O Abismo da Informação</h3>
+                <p>Existe uma profunda desigualdade no acesso aos dados. Moradores de áreas nobres recebem relatórios detalhados na fatura, enquanto a periferia sofre com o que chamamos de "Opacidade Sanitária".</p>
             </div>
         </div>
         <span class="slide-number">05</span>
@@ -103,115 +158,204 @@
 
     <!-- SLIDE 6: PP PROBLEMA 1 -->
     <section class="slide">
-        <div class="slide-content">
-            <div class="discipline-tag">Políticas Públicas</div>
-            <h3>Problema: Opacidade</h3>
-            <p>Bairro periférico não tem acesso a dados. Desigualdade na disponibilidade de informações técnicas entre áreas nobres e periferia.</p>
+        <div class="slide-content animate-content" style="max-width: 1000px; margin: 0 auto;">
+            <div class="discipline-tag"><i class="ph ph-warning"></i> Diagnóstico do Problema</div>
+            <h2>A Opacidade do Sistema</h2>
+            <div style="display: flex; gap: 3rem; margin-top: 2rem;">
+                <div style="flex: 1;">
+                    <h3><i class="ph ph-x-circle" style="color: #ef4444;"></i> Ocorrência</h3>
+                    <p>O bairro periférico estudado não tem acesso transparente ao cronograma de expansão da rede. As interrupções de serviço não são comunicadas previamente, ferindo a Lei Federal de Saneamento Básico.</p>
+                </div>
+                <div style="flex: 1;">
+                    <h3><i class="ph ph-trend-down" style="color: #ef4444;"></i> Impacto</h3>
+                    <p>Impossibilidade das lideranças comunitárias fiscalizarem e cobrarem as concessionárias. A falta de informação perpetua o ciclo de negligência.</p>
+                </div>
+            </div>
         </div>
         <span class="slide-number">06</span>
     </section>
 
     <!-- SLIDE 7: PP SOLUÇÃO 1 -->
     <section class="slide">
-        <div class="slide-content">
-            <div class="discipline-tag">Políticas Públicas</div>
-            <h2>Portal da Transparência do Saneamento</h2>
-            <p>Mapa interativo, dados por CEP, boletins mensais simplificados e audiências públicas semestrais.</p>
+        <div class="split-layout">
+            <div class="split-text animate-content">
+                <div class="discipline-tag"><i class="ph ph-lightbulb"></i> Proposta de Intervenção</div>
+                <h2>Portal da Transparência do Saneamento</h2>
+                <p>Criação de uma plataforma de transparência ativa que vá além dos relatórios contábeis anuais.</p>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+                    <li style="display: flex; gap: 1rem; align-items: flex-start;"><i class="ph ph-check-circle" style="color: var(--accent); font-size: 1.5rem;"></i> <span style="font-size: 1.1rem; color: var(--text-dark);"><strong>Microdados por Bairro:</strong> Relatórios mensais simplificados da qualidade da água e índice de perdas, localizados por CEP.</span></li>
+                    <li style="display: flex; gap: 1rem; align-items: flex-start;"><i class="ph ph-check-circle" style="color: var(--accent); font-size: 1.5rem;"></i> <span style="font-size: 1.1rem; color: var(--text-dark);"><strong>Cronograma Interativo:</strong> Mapa online atualizado semanalmente com o avanço real das obras de esgotamento.</span></li>
+                    <li style="display: flex; gap: 1rem; align-items: flex-start;"><i class="ph ph-check-circle" style="color: var(--accent); font-size: 1.5rem;"></i> <span style="font-size: 1.1rem; color: var(--text-dark);"><strong>Audiências Públicas Semestrais:</strong> Obrigação contratual de prestação de contas *in loco* nos Centros Comunitários.</span></li>
+                </ul>
+            </div>
+            <div class="split-image" style="background-image: url('https://images.unsplash.com/photo-1532053255140-5e36502da1eb?q=80&w=2070&auto=format&fit=crop');"></div>
         </div>
         <span class="slide-number">07</span>
     </section>
 
     <!-- SLIDE 8: PP CONCEITO 2 -->
     <section class="slide">
-        <div class="slide-content">
-            <div class="discipline-tag">Políticas Públicas</div>
-            <h2>PPP para Saneamento</h2>
-            <div class="concept-box">
-                <p>Estruturação de serviços via contratos de longo prazo entre poder público e iniciativa privada [41].</p>
+         <div class="slide-content animate-content">
+            <div class="discipline-tag"><i class="ph ph-handshake"></i> Políticas Públicas</div>
+            <h2>Parcerias Público-Privadas (PPP)</h2>
+            <div class="concept-box" style="max-width: 800px; border-color: #10b981;">
+                <i class="ph ph-briefcase" style="color: rgba(16, 185, 129, 0.2);"></i>
+                <p style="color: #065f46;">A estruturação de serviços via contratos de longo prazo (PPPs) busca captar eficiência gerencial e capacidade de investimento da iniciativa privada para resolver gargalos estatais [41].</p>
             </div>
+            <p style="max-width: 800px;">Contudo, a universalização não ocorrerá apenas pela lógica de mercado; o poder público deve atuar como regulador forte para impedir a "seleção de filés".</p>
         </div>
         <span class="slide-number">08</span>
     </section>
 
     <!-- SLIDE 9: PP PROBLEMA 2 -->
     <section class="slide">
-        <div class="slide-content">
-            <div class="discipline-tag">Políticas Públicas</div>
-            <h3>Desafio: Risco de Exclusão</h3>
-            <p>Parcerias podem priorizar áreas rentáveis. Necessidade de incluir metas sociais obrigatórias.</p>
+        <div class="split-layout">
+            <div class="split-image" style="background-image: url('https://images.unsplash.com/photo-1545622783-b3e021430fee?q=80&w=2071&auto=format&fit=crop'); transform: scaleX(-1);"></div>
+            <div class="split-text animate-content" style="z-index: 1;">
+                <div class="discipline-tag"><i class="ph ph-warning"></i> Diagnóstico do Problema</div>
+                <h2>O Risco da Exclusão nas PPPs</h2>
+                <h3><i class="ph ph-chart-line-down" style="color: #ef4444;"></i> A Lógica do Retorno</h3>
+                <p>Na ausência de marcos regulatórios sociais rigorosos, as concessionárias priorizam a expansão da rede em bairros centrais e loteamentos de alto padrão, onde o retorno sobre investimento (ROI) é mais rápido e garantido.</p>
+                <h3><i class="ph ph-house-line" style="color: #ef4444;"></i> A Periferia Fica para o Fim</h3>
+                <p>Zonas de subnormalidade, com topografia complexa ou baixa capacidade de pagamento, são sistematicamente alocadas para o fim do cronograma de concessão (Ano 20 ou 30 do contrato).</p>
+            </div>
         </div>
         <span class="slide-number">09</span>
     </section>
 
     <!-- SLIDE 10: PP SOLUÇÃO 2 -->
     <section class="slide">
-        <div class="slide-content">
-            <div class="discipline-tag">Políticas Públicas</div>
-            <h2>PPP com Inclusão Social</h2>
-            <p>Subsídios cruzados: Áreas nobres subsidiam a periferia. Fiscalização participativa com moradores.</p>
+        <div class="slide-content animate-content" style="max-width: 1000px; margin: 0 auto; text-align: center;">
+            <div class="discipline-tag" style="margin: 0 auto 2rem auto;"><i class="ph ph-shield-check"></i> Proposta de Intervenção</div>
+            <h2>PPP com Inclusão Social Obrigatória</h2>
+            <p style="margin: 0 auto 3rem auto;">Mecanismos regulatórios para forçar o equilíbrio dos investimentos.</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; text-align: left;">
+                <div style="background: #f0fdf4; padding: 2rem; border-radius: 16px; border-top: 4px solid var(--accent);">
+                    <i class="ph ph-scales" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem;"></i>
+                    <h3 style="font-size: 1.2rem; color: var(--primary);">Subsídio Cruzado Expresso</h3>
+                    <p style="font-size: 1rem;">Obrigatoriedade contratual de que o superávit das regiões rentáveis subsidie a construção de infraestrutura nas regiões deficitárias, garantindo tarifa social.</p>
+                </div>
+                <div style="background: #f0fdf4; padding: 2rem; border-radius: 16px; border-top: 4px solid var(--accent);">
+                    <i class="ph ph-magnifying-glass-plus" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem;"></i>
+                    <h3 style="font-size: 1.2rem; color: var(--primary);">Metas Casadas</h3>
+                    <p style="font-size: 1rem;">A concessionária só recebe o "Ok" da agência reguladora para realizar uma obra lucrativa se simultaneamente atingir uma meta de ligação de esgoto na periferia.</p>
+                </div>
+            </div>
         </div>
         <span class="slide-number">10</span>
     </section>
 
     <!-- SLIDE 11: OGC CONCEITO 1 -->
     <section class="slide">
-        <div class="slide-content">
-            <div class="discipline-tag">Orçamento, Governança e Compliance</div>
-            <h2>Transparência e Prestação de Contas</h2>
-            <div class="concept-box">
-                <p>Obrigações de relatórios financeiros trimestrais e metas físicas x realizadas no setor [3].</p>
+        <div class="split-layout">
+            <div class="split-text animate-content">
+                <div class="discipline-tag"><i class="ph ph-currency-circle-dollar"></i> Orçamento, Governança e Compliance</div>
+                <h2>Transparência e Prestação de Contas</h2>
+                <div class="concept-box">
+                    <i class="ph ph-file-search"></i>
+                    <p>A Lei das PPPs e a regulação setorial impõem obrigações estritas de envio de relatórios financeiros trimestrais, confrontando as metas físicas (obras) com o montante arrecadado nas tarifas [3].</p>
+                </div>
+                <p>Se o cidadão paga pelo tratamento de esgoto na conta, o Estado deve provar que esse recurso está sendo provisionado e revertido na rede de sua bacia hidrográfica.</p>
             </div>
+            <div class="split-image" style="background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop');"></div>
         </div>
         <span class="slide-number">11</span>
     </section>
 
     <!-- SLIDE 12: OGC PROBLEMA 1 -->
     <section class="slide">
-        <div class="slide-content">
-            <div class="discipline-tag">Orçamento, Governança e Compliance</div>
-            <h3>Falta de Detalhamento</h3>
-            <p>Prestação de contas genérica que não discrimina por bairro. Linguagem excessivamente técnica.</p>
+        <div class="slide-content animate-content" style="max-width: 900px; margin: 0 auto; text-align: center;">
+            <div class="discipline-tag" style="margin: 0 auto 2rem auto;"><i class="ph ph-warning"></i> Diagnóstico do Problema</div>
+            <h2>A Prestação de Contas Inacessível</h2>
+            <i class="ph ph-file-x" style="font-size: 5rem; color: #ef4444; margin-bottom: 1.5rem;"></i>
+            <p style="font-size: 1.25rem;">As prestações de contas publicadas pelas agências reguladoras (ARSEC) e concessionárias utilizam uma <strong>linguagem excessivamente técnica, contábil e agregada</strong> (nível cidade). O cidadão comum e as lideranças de bairro são incapazes de decifrar se a verba da tarifa está ou não sendo reinvestida no seu bairro.</p>
         </div>
         <span class="slide-number">12</span>
     </section>
 
     <!-- SLIDE 13: OGC CONCEITO 2 -->
     <section class="slide">
-        <div class="slide-content">
-            <div class="discipline-tag">Orçamento, Governança e Compliance</div>
-            <h2>Orçamento Anual (LOA)</h2>
-            <div class="concept-box">
-                <p>Instrumento para planejar a utilização do dinheiro arrecadado: PPA, LDO e LOA [59].</p>
+        <div class="split-layout">
+            <div class="split-image" style="background-image: url('https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=2070&auto=format&fit=crop'); transform: scaleX(-1);"></div>
+            <div class="split-text animate-content" style="z-index: 1;">
+                <div class="discipline-tag"><i class="ph ph-scales"></i> Orçamento, Governança e Compliance</div>
+                <h2>Aprovação do Orçamento (LOA)</h2>
+                <p>O ciclo orçamentário brasileiro (Plano Plurianual - PPA, Lei de Diretrizes Orçamentárias - LDO e a Lei Orçamentária Anual - LOA) é o momento em que a sociedade decide onde alocar seus impostos [59].</p>
+                <h3><i class="ph ph-trend-down" style="color: #ef4444; margin-top: 1.5rem;"></i> A Exclusão Orçamentária</h3>
+                <p>O problema central é que o orçamento do município (LOA) é aprovado pelas Câmaras Municipais sem consulta ampla, resultando em anos seguidos onde o saneamento da periferia recebe "zero" reais de dotação.</p>
             </div>
         </div>
         <span class="slide-number">13</span>
     </section>
 
-    <!-- SLIDE 14: OGC PROBLEMA 2 -->
+    <!-- SLIDE 14: OGC SOLUÇÃO 2 -->
     <section class="slide">
-        <div class="slide-content">
-            <div class="discipline-tag">Orçamento, Governança e Compliance</div>
-            <h3>Exclusão Orçamentária</h3>
-            <p>Orçamento aprovado sem consulta. Saneamento da periferia não é prioridade na Lei Orçamentária Anual.</p>
+        <div class="slide-content animate-content" style="max-width: 1000px; margin: 0 auto;">
+            <div class="discipline-tag"><i class="ph ph-users-three"></i> Orçamento, Governança e Compliance</div>
+            <h2>Orçamento Participativo Real</h2>
+            <div class="concept-box" style="border-color: #10b981;">
+                <i class="ph ph-megaphone" style="color: rgba(16, 185, 129, 0.2);"></i>
+                <p style="color: #065f46;">Descentralizar o processo orçamentário.</p>
+            </div>
+            <div style="background: #f0fdf4; border-left: 4px solid #10b981; padding: 1.5rem; border-radius: 0 8px 8px 0; margin-top: 2rem;">
+                <h3 style="color: #047857; font-size: 1.2rem; margin-bottom: 0.5rem;"><i class="ph ph-gavel"></i> Comitê de Acompanhamento Orçamentário (CAO)</h3>
+                <p style="color: #064e3b; margin: 0; font-size: 1.05rem;">Criar por lei municipal a obrigatoriedade de que a LDO reserve uma <strong>cota mínima</strong> do orçamento de infraestrutura exclusivamente para áreas com índice de saneamento inferior a 50%, gerida pelo CAO (sociedade civil e técnicos).</p>
+            </div>
         </div>
         <span class="slide-number">14</span>
     </section>
 
-    <!-- SLIDE 15: OGC SOLUÇÃO 2 -->
+    <!-- SLIDE 15: CONCLUSÃO INTEGRADA -->
     <section class="slide">
-        <div class="slide-content">
-            <div class="discipline-tag">Orçamento, Governança e Compliance</div>
-            <h2>Orçamento Participativo</h2>
-            <p>Cotas mínimas para áreas deficitárias e criação do Comitê de Acompanhamento Orçamentário (CAO).</p>
+        <div class="slide-content animate-content" style="align-items: center; text-align: center;">
+            <div class="discipline-tag"><i class="ph ph-check-circle"></i> Síntese e Solução Integrada</div>
+            <h2>A Água como Bem Universal</h2>
+            <p style="max-width: 800px; margin-bottom: 3rem;">A justiça ambiental e sanitária requer a combinação da agilidade privada com o rigor regulatório estatal e a vigilância social.</p>
+            
+            <div style="display: flex; gap: 2rem; justify-content: center;">
+                <div style="background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border); width: 280px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);">
+                    <i class="ph ph-handshake" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
+                    <h4 style="font-size: 1.1rem; color: var(--primary); margin-bottom: 0.5rem;">PPP Sustentável</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">Subsídios cruzados garantindo expansão perimetral.</p>
+                </div>
+                <div style="background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border); width: 280px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);">
+                    <i class="ph ph-file-search" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
+                    <h4 style="font-size: 1.1rem; color: var(--primary); margin-bottom: 0.5rem;">Transparência Ativa</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">Dados abertos e linguagem cidadã nos relatórios da ARSEC.</p>
+                </div>
+                <div style="background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border); width: 280px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);">
+                    <i class="ph ph-users-three" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
+                    <h4 style="font-size: 1.1rem; color: var(--primary); margin-bottom: 0.5rem;">Orçamento Participativo</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">Participação do CAO na definição das prioridades da LOA.</p>
+                </div>
+            </div>
+            
+            <div class="source-tag" style="margin-top: 4rem;"><i class="ph ph-graduation-cap"></i> Synergia GP 2026 - Prof. Renato Rosa</div>
         </div>
         <span class="slide-number">15</span>
     </section>
 
-    <footer><p>© 2026 UNIFACC Cuiabá | Prof. Renato Rosa</p></footer>
     <script>
-        const map = L.map('map6').setView([-15.655, -56.065], 14);
+        const map = L.map('map6', { scrollWheelZoom: false }).setView([-15.655, -56.065], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-        L.marker([-15.655, -56.065]).addTo(map).bindPopup('Ponto Crítico: Parque Cuiabá').openPopup();
+        const waterCoords = [[-15.65, -56.08], [-15.655, -56.065], [-15.66, -56.05]];
+        L.polyline(waterCoords, { color: '#3b82f6', weight: 4 }).addTo(map);
+        L.polygon([[-15.64, -56.05], [-15.65, -56.04], [-15.66, -56.04], [-15.65, -56.05]], { color: '#ef4444', fillOpacity: 0.4 }).addTo(map).bindPopup("Área de Déficit Sanitário").openPopup();
+
+        // Intersection Observer for Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.animate-content > *').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
     </script>
 </body>
 </html>

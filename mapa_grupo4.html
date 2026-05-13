@@ -3,112 +3,475 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QGIS Web - Grupo 4 | Falta de Dados</title>
-  
+  <title>Mapa G4 - Dados e GIS - Synergia UNIFACC</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
-  
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { --primary: #f59e0b; --sidebar-bg: #ffffff; --text: #1e293b; --border: #e2e8f0; }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body, html { height: 100%; overflow: hidden; }
-    #app { display: flex; height: 100vh; width: 100vw; }
-    #map-container { flex: 1; position: relative; }
-    #map { height: 100%; width: 100%; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Outfit', sans-serif; overflow: hidden; }
     
-    .return-btn { position: absolute; top: 1rem; left: 3.5rem; z-index: 1000; background: white; border: 2px solid var(--primary); color: var(--primary); padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 800; text-decoration: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    #map {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 360px;
+      z-index: 1;
+    }
     
-    #sidebar { width: 350px; background: var(--sidebar-bg); border-left: 1px solid var(--border); display: flex; flex-direction: column; z-index: 1000; }
-    .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); }
-    .sidebar-header h1 { font-size: 1.25rem; font-weight: 800; color: var(--primary); }
+    #sidebar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 360px;
+      height: 100vh;
+      background: #ffffff;
+      box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+      z-index: 1000;
+      overflow-y: auto;
+    }
     
-    .kpi-card { background: #fffbeb; padding: 1rem; border-radius: 12px; border: 1px solid #fde68a; margin: 1.5rem; }
-    .gauge-container { height: 10px; background: #e2e8f0; border-radius: 5px; margin-top: 10px; overflow: hidden; }
-    .gauge-fill { height: 100%; background: var(--primary); width: 68%; transition: 0.5s; }
+    .sidebar-header {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: white;
+      padding: 25px;
+    }
     
-    .tool-section { padding: 1.5rem; border-top: 1px solid var(--border); }
-    .btn-tool { background: #fffbeb; border: 1px solid #fde68a; padding: 0.6rem; border-radius: 6px; cursor: pointer; width: 100%; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 600; text-align: left; }
-    .btn-tool:hover { background: #fef3c7; }
+    .sidebar-header h1 { font-size: 22px; margin-bottom: 5px; font-weight: 700; }
+    .sidebar-header p { font-size: 13px; opacity: 0.9; }
+    
+    .sidebar-content { padding: 20px; }
+    
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+    
+    .kpi-card {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    
+    .kpi-value { font-size: 26px; font-weight: 700; color: #f59e0b; display: block; }
+    .kpi-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    
+    .legend-box {
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+    
+    .legend-color {
+      width: 20px;
+      height: 14px;
+      border-radius: 3px;
+      margin-right: 10px;
+      border: 1px solid #cbd5e1;
+    }
+    
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .data-table th {
+      background: #f1f5f9;
+      padding: 10px 8px;
+      text-align: left;
+      font-weight: 600;
+      color: #475569;
+      text-transform: uppercase;
+      font-size: 10px;
+    }
+    
+    .data-table td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .status-badge {
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    
+    .status-sem-dados { background: #fef2f2; color: #dc2626; }
+    .status-parcial { background: #fff7ed; color: #ea580c; }
+    .status-completo { background: #f0fdf4; color: #16a34a; }
+    
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background: #f59e0b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      transition: all 0.3s;
+    }
+    
+    .btn:hover { background: #d97706; }
+    .btn-outline { background: transparent; border: 2px solid #f59e0b; color: #f59e0b; }
+    .btn-outline:hover { background: #f59e0b; color: white; }
+    
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #f59e0b;
+      text-decoration: none;
+      font-size: 13px;
+      margin-bottom: 15px;
+    }
+    
+    .back-link:hover { text-decoration: underline; }
+    
+    .info.legend {
+      background: white;
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      line-height: 20px;
+      color: #333;
+      font-size: 12px;
+    }
+    
+    .info.legend i {
+      width: 18px;
+      height: 12px;
+      float: left;
+      margin-right: 6px;
+      opacity: 0.8;
+      border: 1px solid #fff;
+    }
+    
+    @media (max-width: 900px) {
+      #map { left: 0; bottom: 45%; }
+      #sidebar { width: 100%; height: 55%; top: 45%; }
+    }
   </style>
 </head>
 <body>
-  <div id="app">
-    <div id="map-container">
-      <a href="grupo4.html" class="return-btn">← Voltar para Apresentação</a>
-      <div id="map"></div>
+  <div id="sidebar">
+    <div class="sidebar-header">
+      <h1>Grupo 4 - Invisibilidade de Dados</h1>
+      <p>Mapeamento Territorial - Região Metropolitana de Cuiabá</p>
     </div>
-    
-    <aside id="sidebar">
-      <div class="sidebar-header">
-        <h1>QGIS Web | Dados</h1>
-        <p>Invisibilidade Territorial</p>
+    <div class="sidebar-content">
+      <a href="grupo4.html" class="back-link">← Voltar aos Slides</a>
+      
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-value">45%</span>
+          <span class="kpi-label">Território Mapeado</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-value">R$4.2M</span>
+          <span class="kpi-label">Investimento</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-value">23</span>
+          <span class="kpi-label">Bairros Invisíveis</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-value">156</span>
+          <span class="kpi-label">Pedidos LAI Pendentes</span>
+        </div>
       </div>
       
-      <div class="kpi-card">
-        <div style="display: flex; justify-content: space-between;">
-          <span style="font-weight: 800; color: var(--primary);">Transparência</span>
-          <span id="perc-label">68%</span>
-        </div>
-        <div class="gauge-container"><div class="gauge-fill" id="gauge"></div></div>
-        <p style="font-size: 0.7rem; margin-top: 5px; color: #92400e;">Território Mapeado oficialmente</p>
+      <div class="legend-box">
+        <div class="section-title">Legenda - % Mapeamento Cadastral</div>
+        <div class="legend-item"><div class="legend-color" style="background:#006837"></div>80-100% Completo</div>
+        <div class="legend-item"><div class="legend-color" style="background:#31a354"></div>60-79% Avançado</div>
+        <div class="legend-item"><div class="legend-color" style="background:#fee08b"></div>40-59% Parcial</div>
+        <div class="legend-item"><div class="legend-color" style="background:#fc9272"></div>20-39% Inicial</div>
+        <div class="legend-item"><div class="legend-color" style="background:#de2d26"></div>0-19% Sem Dados</div>
       </div>
-
-      <div class="tool-section">
-        <h3>Modos de Visualização</h3>
-        <button class="btn-tool" onclick="setBase('osm')">🗺️ Mapa de Ruas (OSM)</button>
-        <button class="btn-tool" onclick="setBase('sat')">🛰️ Visão de Satélite (Esri)</button>
-        <button class="btn-tool" onclick="toggleLayer('missing')">🛑 Destacar Gaps (Vermelho)</button>
-      </div>
-
-      <div class="tool-section">
-        <h3>Histórico Cadastral</h3>
-        <input type="range" min="2020" max="2026" value="2026" style="width: 100%;" oninput="updateTime(this.value)">
-        <p style="text-align: center; font-weight: 800; margin-top: 10px;">Ano: <span id="year-label">2026</span></p>
-      </div>
-
-      <div class="tool-section">
-        <button class="btn-tool" onclick="resetMap()">🎯 Centralizar no Ribeirão</button>
-      </div>
-    </aside>
+      
+      <div class="section-title">Bairros sem Dados Georreferenciados</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>Bairro</th><th>Mapeado</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Pedregal</td><td>8%</td><td><span class="status-badge status-sem-dados">Sem Dados</span></td></tr>
+          <tr><td>Ribeirão do Lipa</td><td>12%</td><td><span class="status-badge status-sem-dados">Sem Dados</span></td></tr>
+          <tr><td>Parque Cuiabá</td><td>18%</td><td><span class="status-badge status-parcial">Inicial</span></td></tr>
+          <tr><td>Coophema</td><td>25%</td><td><span class="status-badge status-parcial">Inicial</span></td></tr>
+          <tr><td>Consil</td><td>15%</td><td><span class="status-badge status-sem-dados">Sem Dados</span></td></tr>
+        </tbody>
+      </table>
+      
+      <button class="btn" onclick="exportarDados()">📥 Exportar Dados (CSV)</button>
+      <button class="btn btn-outline" onclick="window.print()">🖨️ Imprimir Mapa</button>
+    </div>
   </div>
-
+  
+  <div id="map"></div>
+  
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
-
   <script>
-    const map = L.map('map').setView([-15.584, -56.075], 13);
-    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-    const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
-
-    const layers = {};
-    layers.missing = L.polygon([
-      [-15.58, -56.08], [-15.59, -56.08], [-15.59, -56.07], [-15.58, -56.07]
-    ], { color: '#ef4444', fillOpacity: 0.5 }).addTo(map).bindPopup("<b>Ribeirão do Lipa</b><br>Zona de Expansão sem Cadastro.");
-
-    function setBase(type) {
-      if(type === 'osm') { map.addLayer(osm); map.removeLayer(satellite); }
-      else { map.addLayer(satellite); map.removeLayer(osm); }
+    const map = L.map('map', {
+      center: [-15.6014, -56.0979],
+      zoom: 12,
+      minZoom: 10,
+      maxZoom: 16
+    });
+    
+    const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap',
+      maxZoom: 19
+    }).addTo(map);
+    
+    const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '© Esri',
+      maxZoom: 19
+    });
+    
+    L.control.layers({
+      "Mapa Ruas": osmLayer,
+      "Satélite": satelliteLayer
+    }, null, { position: 'topright', collapsed: false }).addTo(map);
+    
+    L.control.scale({ imperial: false }).addTo(map);
+    
+    const BairrosCuiaba = {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": { "nome": "Centro", "mapeado": 95, "pop": 18500, "pedidos_lai": 45 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.0979,-15.6014],[-56.0900,-15.6014],[-56.0900,-15.6080],[-56.0979,-15.6080],[-56.0979,-15.6014]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Pedregal", "mapeado": 8, "pop": 25000, "pedidos_lai": 12 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.1400,-15.5700],[-56.1250,-15.5700],[-56.1250,-15.5850],[-56.1400,-15.5850],[-56.1400,-15.5700]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Ribeirão do Lipa", "mapeado": 12, "pop": 22000, "pedidos_lai": 8 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.1300,-15.5850],[-56.1100,-15.5850],[-56.1100,-15.6000],[-56.1300,-15.6000],[-56.1300,-15.5850]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Parque Cuiabá", "mapeado": 18, "pop": 18500, "pedidos_lai": 15 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.1100,-15.5700],[-56.0950,-15.5700],[-56.0950,-15.5850],[-56.1100,-15.5850],[-56.1100,-15.5700]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Jardim das Américas", "mapeado": 35, "pop": 15000, "pedidos_lai": 22 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.0950,-15.5850],[-56.0800,-15.5850],[-56.0800,-15.6000],[-56.0950,-15.6000],[-56.0950,-15.5850]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Coophema", "mapeado": 25, "pop": 20000, "pedidos_lai": 18 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.0850,-15.5550],[-56.0700,-15.5550],[-56.0700,-15.5700],[-56.0850,-15.5700],[-56.0850,-15.5550]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Jardim Europa", "mapeado": 88, "pop": 12000, "pedidos_lai": 5 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.0800,-15.5850],[-56.0650,-15.5850],[-56.0650,-15.6000],[-56.0800,-15.6000],[-56.0800,-15.5850]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Santa Rosa", "mapeado": 55, "pop": 14000, "pedidos_lai": 14 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.1100,-15.6000],[-56.0950,-15.6000],[-56.0950,-15.6150],[-56.1100,-15.6150],[-56.1100,-15.6000]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Morada do Ouro", "mapeado": 42, "pop": 11000, "pedidos_lai": 9 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.1450,-15.5950],[-56.1300,-15.5950],[-56.1300,-15.6100],[-56.1450,-15.6100],[-56.1450,-15.5950]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Dom Aquino", "mapeado": 92, "pop": 9500, "pedidos_lai": 3 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.0700,-15.5850],[-56.0550,-15.5850],[-56.0550,-15.6000],[-56.0700,-15.6000],[-56.0700,-15.5850]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Duque de Caxias", "mapeado": 78, "pop": 13000, "pedidos_lai": 8 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.0550,-15.6000],[-56.0400,-15.6000],[-56.0400,-15.6150],[-56.0550,-15.6150],[-56.0550,-15.6000]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Jardim Imperial", "mapeado": 48, "pop": 10500, "pedidos_lai": 11 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.1000,-15.6150],[-56.0850,-15.6150],[-56.0850,-15.6300],[-56.1000,-15.6300],[-56.1000,-15.6150]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Consil", "mapeado": 15, "pop": 16000, "pedidos_lai": 6 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.1500,-15.5700],[-56.1400,-15.5700],[-56.1400,-15.5850],[-56.1500,-15.5850],[-56.1500,-15.5700]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Jardim Horizonte", "mapeado": 32, "pop": 12500, "pedidos_lai": 7 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.1300,-15.5550],[-56.1150,-15.5550],[-56.1150,-15.5700],[-56.1300,-15.5700],[-56.1300,-15.5550]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Campo Verde", "mapeado": 10, "pop": 18000, "pedidos_lai": 5 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.1550,-15.5850],[-56.1400,-15.5850],[-56.1400,-15.6000],[-56.1550,-15.6000],[-56.1550,-15.5850]]] }
+        }
+      ]
+    };
+    
+    const BairrosVarzeaGrande = {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": { "nome": "Centro VG", "mapeado": 85, "pop": 22000, "pedidos_lai": 18 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.0700,-15.6400],[-56.0550,-15.6400],[-56.0550,-15.6550],[-56.0700,-15.6550],[-56.0700,-15.6400]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Jardim Eldorado", "mapeado": 38, "pop": 16500, "pedidos_lai": 14 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.0900,-15.6500],[-56.0750,-15.6500],[-56.0750,-15.6650],[-56.0900,-15.6650],[-56.0900,-15.6500]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Vila Aurora", "mapeado": 62, "pop": 19000, "pedidos_lai": 12 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.0550,-15.6550],[-56.0400,-15.6550],[-56.0400,-15.6700],[-56.0550,-15.6700],[-56.0550,-15.6550]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Onevil", "mapeado": 22, "pop": 14000, "pedidos_lai": 9 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.1000,-15.6650],[-56.0850,-15.6650],[-56.0850,-15.6800],[-56.1000,-15.6800],[-56.1000,-15.6650]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Jardim das Palmeiras", "mapeado": 28, "pop": 12000, "pedidos_lai": 8 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.0750,-15.6750],[-56.0600,-15.6750],[-56.0600,-15.6900],[-56.0750,-15.6900],[-56.0750,-15.6750]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "São João", "mapeado": 45, "pop": 15500, "pedidos_lai": 11 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.0400,-15.6700],[-56.0250,-15.6700],[-56.0250,-15.6850],[-56.0400,-15.6850],[-56.0400,-15.6700]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Ponte Nova", "mapeado": 35, "pop": 11000, "pedidos_lai": 7 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.0600,-15.6900],[-56.0450,-15.6900],[-56.0450,-15.7050],[-56.0600,-15.7050],[-56.0600,-15.6900]]] }
+        },
+        {
+          "type": "Feature",
+          "properties": { "nome": "Limpo Grande", "mapeado": 5, "pop": 13500, "pedidos_lai": 4 },
+          "geometry": { "type": "Polygon", "coordinates": [[[-56.0850,-15.6800],[-56.0700,-15.6800],[-56.0700,-15.6950],[-56.0850,-15.6950],[-56.0850,-15.6800]]] }
+        }
+      ]
+    };
+    
+    function getColor(d) {
+      return d >= 80 ? '#006837' :
+             d >= 60 ? '#31a354' :
+             d >= 40 ? '#fee08b' :
+             d >= 20 ? '#fc9272' :
+                       '#de2d26';
     }
-
-    function toggleLayer(key) {
-      if (map.hasLayer(layers[key])) map.removeLayer(layers[key]);
-      else map.addLayer(layers[key]);
+    
+    function style(feature) {
+      return {
+        fillColor: getColor(feature.properties.mapeado),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '',
+        fillOpacity: 0.7
+      };
     }
-
-    function updateTime(val) {
-      document.getElementById('year-label').innerText = val;
-      const perc = 40 + ((val - 2020) * 5);
-      document.getElementById('perc-label').innerText = perc + "%";
-      document.getElementById('gauge').style.width = perc + "%";
+    
+    function highlightFeature(e) {
+      const layer = e.target;
+      layer.setStyle({
+        weight: 4,
+        color: '#d97706',
+        dashArray: '',
+        fillOpacity: 0.9
+      });
+      layer.bindPopup(`
+        <div style="min-width:180px">
+          <h3 style="color:#f59e0b;margin:0 0 8px;font-size:14px">${layer.feature.properties.nome}</h3>
+          <p style="margin:4px 0"><strong>Mapeado:</strong> ${layer.feature.properties.mapeado}%</p>
+          <p style="margin:4px 0"><strong>População:</strong> ${layer.feature.properties.pop.toLocaleString()}</p>
+          <p style="margin:4px 0"><strong>Pedidos LAI:</strong> ${layer.feature.properties.pedidos_lai}</p>
+        </div>
+      `).openPopup();
     }
-
-    function resetMap() { map.setView([-15.584, -56.075], 15); }
-
-    new L.Control.Draw({ position: 'topleft' }).addTo(map);
+    
+    function resetHighlight(e) {
+      geojsonLayer.resetStyle(e.target);
+      map.closePopup();
+    }
+    
+    function onEachFeature(feature, layer) {
+      layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight
+      });
+    }
+    
+    const geojsonLayer = L.geoJSON(BairrosCuiaba, { style: style, onEachFeature: onEachFeature }).addTo(map);
+    L.geoJSON(BairrosVarzeaGrande, { style: style, onEachFeature: onEachFeature }).addTo(map);
+    
+    map.fitBounds(geojsonLayer.getBounds(), { padding: [50, 50], maxZoom: 14 });
+    
+    const legend = L.control({ position: 'bottomright' });
+    legend.onAdd = function(map) {
+      const div = L.DomUtil.create('div', 'info legend');
+      div.innerHTML = '<strong>Legenda</strong><br>';
+      const grades = [0, 20, 40, 60, 80];
+      const labels = ['Sem Dados', 'Inicial', 'Parcial', 'Avançado', 'Completo'];
+      for (let i = 0; i < grades.length; i++) {
+        div.innerHTML += `<i style="background:${getColor(grades[i] + 10)}"></i> ${grades[i]}${grades[i + 1] ? '&ndash;' + grades[i + 1] : '+'} ${labels[i]}<br>`;
+      }
+      return div;
+    };
+    legend.addTo(map);
+    
+    function exportarDados() {
+      const dados = [];
+      BairrosCuiaba.features.concat(BairrosVarzeaGrande.features).forEach(f => {
+        dados.push(`${f.properties.nome},${f.properties.mapeado},${f.properties.pop},${f.properties.pedidos_lai}`);
+      });
+      const csv = 'Bairro,Mapeado%,População,Pedidos LAI\n' + dados.join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'dados_mapeamento_cuiaba.csv';
+      a.click();
+    }
   </script>
 </body>
 </html>
