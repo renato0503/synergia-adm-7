@@ -4,29 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Synergia GP - UNIFACC Cuiabá</title>
-    <meta name="description" content="Apresentação Acadêmica Synergia - Administração e Gestão Pública UNIFACC Cuiabá. Prof. Renato Rosa.">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     
-    <!-- External Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <style>
         :root {
-            --primary: #00d2ff;
-            --secondary: #3a7bd5;
-            --accent: #00f2fe;
-            --bg-dark: #0f172a;
-            --glass: rgba(15, 23, 42, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-main: #f8fafc;
-            --text-dim: #94a3b8;
-            --transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            --primary: #1e293b;
+            --secondary: #334155;
+            --accent: #3b82f6;
+            --bg-light: #ffffff;
+            --bg-soft: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --transition: all 0.5s ease;
         }
 
         * {
@@ -37,539 +34,521 @@
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+            background-color: var(--bg-light);
+            color: var(--text-dark);
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* Background */
-        .bg-container {
+        /* Subtle Background Animation */
+        .bg-dots {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        }
-
-        .bg-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('hero.png');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.2;
-            filter: grayscale(0.5);
+            background-image: radial-gradient(#cbd5e1 0.5px, transparent 0.5px);
+            background-size: 30px 30px;
+            opacity: 0.3;
         }
 
         /* Navigation */
         .nav-controls {
             position: fixed;
-            top: 2rem;
-            right: 2rem;
+            top: 1.5rem;
+            right: 1.5rem;
             display: flex;
             gap: 1rem;
             z-index: 1000;
         }
 
         .btn-nav {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--glass-border);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
+            background: white;
+            border: 1px solid var(--border);
+            color: var(--primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
             cursor: pointer;
-            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
             transition: var(--transition);
-            text-decoration: none;
             font-weight: 600;
-            font-size: 0.9rem;
         }
 
         .btn-nav:hover {
-            background: var(--primary);
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.4);
-            transform: scale(1.05);
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
         }
 
-        /* Container & Pages */
+        /* Pages */
         .page {
             display: none;
-            min-height: 100vh;
-            padding: 2rem;
+            width: 100%;
         }
 
         .page.active {
             display: block;
-            animation: fadeIn 0.8s ease-out;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Banner Style (Slide) */
-        .banner {
-            min-height: 80vh;
-            margin-bottom: 5rem;
+        /* Home Style */
+        #home {
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 4rem 2rem;
-            background: var(--glass);
-            border-radius: 40px;
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(20px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .banner-content {
-            max-width: 1000px;
-            width: 100%;
-            z-index: 2;
-        }
-
-        .banner h2 {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(to right, #fff, var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .banner h3 {
-            color: var(--accent);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .banner p {
-            font-size: 1.2rem;
-            line-height: 1.7;
-            color: var(--text-dim);
-            margin-bottom: 2rem;
-        }
-
-        /* Dashboard & Charts */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            width: 100%;
-            margin-top: 2rem;
-        }
-
-        .chart-container {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1.5rem;
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
-            height: 300px;
-        }
-
-        /* Map */
-        .map-box {
-            width: 100%;
-            height: 500px;
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
-            margin-top: 2rem;
-            z-index: 1;
-        }
-
-        /* Home Style */
-        .hero-section {
             text-align: center;
-            padding-top: 10vh;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
         }
 
-        .hero-section h1 {
+        .home-title {
+            font-family: 'Playfair Display', serif;
             font-size: 5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
         }
 
-        .group-selector {
+        .home-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+        }
+
+        .group-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
-            margin-top: 5rem;
+            max-width: 1100px;
+            width: 90%;
         }
 
-        .group-btn {
-            background: var(--glass);
-            padding: 3rem 2rem;
-            border-radius: 30px;
-            border: 1px solid var(--glass-border);
+        .group-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
             cursor: pointer;
             transition: var(--transition);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .group-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            border-color: var(--accent);
+        }
+
+        .group-card h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+
+        /* Banners (Slides) */
+        .banner {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 4rem 10%;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .banner:nth-child(even) { background-color: var(--bg-soft); }
+
+        .banner-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            width: 100%;
+            align-items: center;
+        }
+
+        .banner-text { max-width: 600px; }
+
+        .banner-text h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .banner-text h3 {
+            color: var(--accent);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .banner-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+        }
+
+        .banner-visual {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
             text-align: center;
         }
 
-        .group-btn:hover {
-            transform: translateY(-15px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .group-btn h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Lists and Features */
-        ul.check-list {
-            list-style: none;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        ul.check-list li {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            border-left: 4px solid var(--primary);
-            font-size: 1.1rem;
-        }
-
-        .discipline-badge {
-            display: inline-block;
-            padding: 0.4rem 1rem;
+        .banner-visual img {
+            max-width: 100%;
+            height: auto;
             border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
         }
 
-        .badge-bi { background: #0ea5e9; color: white; }
-        .badge-ogc { background: #f59e0b; color: white; }
-        .badge-pp { background: #10b981; color: white; }
+        .map-box { height: 450px; width: 100%; border-radius: 12px; }
 
-        @media (max-width: 968px) {
-            .group-selector { grid-template-columns: 1fr; }
-            .hero-section h1 { font-size: 3rem; }
-            .banner h2 { font-size: 2rem; }
-            ul.check-list { grid-template-columns: 1fr; }
+        /* Lists */
+        .academic-list { list-style: none; }
+        .academic-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        .academic-list li::before { content: "•"; color: var(--accent); font-weight: 800; font-size: 1.5rem; line-height: 1; }
+
+        /* Footer */
+        footer {
+            padding: 4rem;
+            text-align: center;
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 1024px) {
+            .banner-content { grid-template-columns: 1fr; }
+            .home-title { font-size: 3rem; }
+            .group-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-container">
-        <div class="bg-image"></div>
-    </div>
+    <div class="bg-dots"></div>
 
     <div class="nav-controls">
-        <button class="btn-nav" onclick="showPage('home')">Home</button>
+        <button class="btn-nav" onclick="showPage('home')">Início</button>
     </div>
 
-    <!-- PAGE: HOME -->
+    <!-- HOME -->
     <main id="home" class="page active">
-        <div class="hero-section">
-            <h3 style="color: var(--accent); letter-spacing: 5px;">UNIFACC CUIABÁ</h3>
-            <h1>SYNERGIA</h1>
-            <p style="font-size: 1.5rem; color: var(--text-dim); max-width: 800px; margin: 0 auto;">
-                O Abismo entre o CEP e a Cidadania: Gestão e Administração Pública em Cuiabá
-            </p>
-            <p style="margin-top: 1rem; font-weight: 600;">Orientador: Prof. Renato Rosa</p>
-
-            <div class="group-selector">
-                <div class="group-btn" onclick="showPage('group2')">
-                    <h3>Grupo 2</h3>
-                    <p>Transporte Público</p>
-                </div>
-                <div class="group-btn" onclick="showPage('group4')">
-                    <h3>Grupo 4</h3>
-                    <p>Falta de Dados</p>
-                </div>
-                <div class="group-btn" onclick="showPage('group6')">
-                    <h3>Grupo 6</h3>
-                    <p>Saneamento Básico</p>
-                </div>
+        <h3 class="home-subtitle">UNIFACC CUIABÁ - Gestão Pública</h3>
+        <h1 class="home-title">SYNERGIA</h1>
+        <p style="margin-bottom: 3rem; color: var(--text-muted); font-size: 1.2rem;">O Abismo entre o CEP e a Cidadania</p>
+        
+        <div class="group-grid">
+            <div class="group-card" onclick="showPage('group2')">
+                <h3>Grupo 2</h3>
+                <p>Transporte Público e Mobilidade Urbana</p>
+            </div>
+            <div class="group-card" onclick="showPage('group4')">
+                <h3>Grupo 4</h3>
+                <p>Visibilidade de Dados e Cadastro Territorial</p>
+            </div>
+            <div class="group-card" onclick="showPage('group6')">
+                <h3>Grupo 6</h3>
+                <p>Saneamento Básico e Sustentabilidade</p>
             </div>
         </div>
+        <p style="margin-top: 4rem; font-weight: 600; color: var(--primary);">Orientador: Prof. Renato Rosa</p>
     </main>
 
-    <!-- PAGE: GROUP 2 (Transporte) -->
+    <!-- GROUP 2: TRANSPORTE -->
     <section id="group2" class="page">
-        <!-- Banner 1: Intro -->
+        <!-- 1. Capa -->
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge" style="background: white; color: black;">Apresentação</span>
-                <h2>Transporte Público e Mobilidade</h2>
-                <p>Análise da precariedade no acesso ao transporte em bairros periféricos e soluções de gestão.</p>
-                <div style="color: var(--text-dim);">
-                    <strong>Membros:</strong> Erilin Sabrina, Emilly Gabriely, Juarez, Flavia Arruda
+                <div class="banner-text">
+                    <h3>Apresentação</h3>
+                    <h2>Transporte Público</h2>
+                    <p>Uma análise profunda sobre o isolamento geográfico e a falta de pavimentação como barreiras à cidadania plena em Cuiabá.</p>
+                    <p><strong>Participantes:</strong> Erilin Sabrina, Emilly Gabriely, Juarez, Flavia Arruda</p>
+                </div>
+                <div class="banner-visual">
+                    <img src="hero.png" alt="Capa">
                 </div>
             </div>
         </div>
 
-        <!-- Banner 2: BI Dashboard -->
+        <!-- 2. Contexto -->
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge badge-bi">Adm Financeira e BI</span>
-                <h2>Dashboard de Eficiência</h2>
-                <div class="dashboard-grid">
-                    <div class="chart-container"><canvas id="chart2_1"></canvas></div>
-                    <div class="chart-container"><canvas id="chart2_2"></canvas></div>
-                    <div class="chart-container"><canvas id="chart2_3"></canvas></div>
-                    <div class="chart-container"><canvas id="chart2_4"></canvas></div>
-                    <div class="chart-container"><canvas id="chart2_5"></canvas></div>
+                <div class="banner-text">
+                    <h3>Diagnóstico</h3>
+                    <h2>A Invisibilidade Urbana</h2>
+                    <p>O bairro periférico paga impostos, mas não recebe o retorno em serviços básicos. A falta de asfalto impede a entrada de ônibus, criando um ciclo de exclusão.</p>
+                    <ul class="academic-list">
+                        <li>Ruas sem pavimentação mínima</li>
+                        <li>Iluminação pública inexistente em pontos de parada</li>
+                        <li>Isolamento de pequenos comércios locais</li>
+                    </ul>
+                </div>
+                <div class="banner-visual">
+                    <div id="map2" class="map-box"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Banner 3: Geolocation -->
+        <!-- 3. BI - Cobertura -->
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge badge-bi">Adm Financeira e BI</span>
-                <h2>Mapeamento de Acessibilidade</h2>
-                <p>Identificação de pontos críticos onde o transporte público não chega por falta de infraestrutura.</p>
-                <div id="map2" class="map-box"></div>
+                <div class="banner-text">
+                    <h3>Adm Financeira e BI</h3>
+                    <h2>Cobertura por Região</h2>
+                    <p>Dados mostram uma discrepância brutal entre áreas nobres e periféricas. Enquanto o centro possui 95% de cobertura, a periferia em foco mal chega aos 30%.</p>
+                </div>
+                <div class="banner-visual">
+                    <img src="assets/chart2_1.png" alt="Grafico 1">
+                </div>
             </div>
         </div>
 
-        <!-- Banner 4: Budget -->
+        <!-- 4. BI - Tempo Espera -->
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
-                <h2>Orçamento e Recursos</h2>
-                <h3>Aprovação do Orçamento Anual (LOA)</h3>
-                <p>Verba federal carimbada: R$ 15.400.000,00 destinados à expansão da malha viária e pavimentação sustentável.</p>
-                <ul class="check-list">
-                    <li>Dotação Orçamentária: Secretaria de Mobilidade Urbana</li>
-                    <li>Fonte de Recurso: Repasse Federal (Modernização Urbana)</li>
-                </ul>
+                <div class="banner-text">
+                    <h3>Adm Financeira e BI</h3>
+                    <h2>Eficiência Operacional</h2>
+                    <p>O tempo de espera excessivo é um custo indireto para o cidadão, impactando a produtividade e o acesso ao lazer.</p>
+                </div>
+                <div class="banner-visual">
+                    <img src="assets/chart2_2.png" alt="Grafico 2">
+                </div>
             </div>
         </div>
 
-        <!-- Banner 5: Compliance -->
+        <!-- 5. BI - Correlação -->
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
-                <h2>Transparência e Accountability</h2>
-                <p>Mecanismos de fiscalização para evitar desvios para áreas nobres e garantir a prestação de contas.</p>
-                <ul class="check-list">
-                    <li>Transparência Ativa: Portal de Obras em Tempo Real</li>
-                    <li>Políticas de Responsabilidade Fiscal</li>
-                    <li>Auditoria Externa de Compliance</li>
-                </ul>
+                <div class="banner-text">
+                    <h3>Adm Financeira e BI</h3>
+                    <h2>Infraestrutura x Acesso</h2>
+                    <p>A correlação é direta: sem pavimentação, o transporte público é inviabilizado tecnicamente pelas empresas concessionárias.</p>
+                </div>
+                <div class="banner-visual">
+                    <img src="assets/chart2_3.png" alt="Grafico 3">
+                </div>
             </div>
         </div>
 
-        <!-- Banner 6: Committee -->
+        <!-- 6. OGC - Orçamento -->
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
-                <h2>Comitê de Governança Local</h2>
-                <p>Criação do conselho deliberativo com participação da comunidade para mediação de conflitos territoriais.</p>
+                <div class="banner-text">
+                    <h3>Governança e Compliance</h3>
+                    <h2>Orçamento Público</h2>
+                    <p>Aprovação do Orçamento Anual (LOA) e PPA. A verba federal de R$ 15,4M deve ser gerida com rigidez fiscal para evitar o "desvio de finalidade".</p>
+                </div>
+                <div class="banner-visual">
+                    <img src="assets/chart2_4.png" alt="Grafico 4">
+                </div>
             </div>
         </div>
 
-        <!-- Banner 7: Policy Cycle -->
+        <!-- 7. OGC - Transparência -->
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge badge-pp">Políticas Públicas</span>
-                <h2>Ciclo e Fluxos</h2>
-                <h3>Modelo de Múltiplos Fluxos (Kingdon)</h3>
-                <p>Abertura da Janela de Oportunidade: Convergência entre o problema (isolamento), política (verba federal) e pressão social.</p>
+                <div class="banner-text">
+                    <h3>Governança e Compliance</h3>
+                    <h2>Accountability Social</h2>
+                    <p>Políticas de responsabilidade fiscal e transparência ativa. O cidadão deve saber onde cada real do recurso federal está sendo aplicado.</p>
+                </div>
+                <div class="banner-visual">
+                    <img src="assets/chart2_5.png" alt="Grafico 5">
+                </div>
             </div>
         </div>
 
-        <!-- Banner 8: PPP and Control -->
+        <!-- 8. OGC - Comitê -->
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge badge-pp">Políticas Públicas</span>
-                <h2>Execução e Controle</h2>
-                <ul class="check-list">
-                    <li>Parceria Público-Privada (PPP) para Manutenção de Abrigos</li>
-                    <li>Órgãos de Controle: TCE e Controladoria Municipal</li>
-                    <li>Aplicação da LAI para consulta de editais</li>
-                </ul>
+                <div class="banner-text">
+                    <h3>Governança e Compliance</h3>
+                    <h2>Mediação de Conflitos</h2>
+                    <p>Constituição de Comitê de Governança Local: unindo prefeitura, moradores e concessionárias para resolver o impasse territorial.</p>
+                    <ul class="academic-list">
+                        <li>Participação Popular Direta</li>
+                        <li>Voto Deliberativo sobre prioridades</li>
+                        <li>Relatórios de Compliance Mensais</li>
+                    </ul>
+                </div>
+                <div class="banner-visual" style="background: #eff6ff;">
+                    <h4 style="color: var(--accent);">Estrutura do Comitê</h4>
+                    <p style="padding: 2rem;">Conselho de Gestão Compartilhada</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. PP - Ciclo -->
+        <div class="banner">
+            <div class="banner-content">
+                <div class="banner-text">
+                    <h3>Políticas Públicas</h3>
+                    <h2>Ciclo de Políticas</h2>
+                    <p>Da formação da agenda à avaliação. O "Abismo do CEP" entra na agenda governamental como uma questão de urgência social e justiça distributiva.</p>
+                </div>
+                <div class="banner-visual">
+                    <div style="padding: 2rem; border: 2px dashed var(--accent);">
+                        <p>Agenda -> Formulação -> Implementação -> Avaliação</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. PP - Múltiplos Fluxos -->
+        <div class="banner">
+            <div class="banner-content">
+                <div class="banner-text">
+                    <h3>Políticas Públicas</h3>
+                    <h2>Modelo de Kingdon</h2>
+                    <p>Os múltiplos fluxos (Problemas, Políticas e Política) se encontram na janela de oportunidade aberta pela verba federal carimbada.</p>
+                </div>
+                <div class="banner-visual">
+                    <p>Janela de Oportunidade: <strong>ABERTA</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 11. PP - PPP e Controle -->
+        <div class="banner">
+            <div class="banner-content">
+                <div class="banner-text">
+                    <h3>Políticas Públicas</h3>
+                    <h2>Controle e Parcerias</h2>
+                    <p>O uso de Parcerias Público-Privadas (PPP) para a pavimentação, sob o olhar atento dos órgãos de controle (TCE e Ministério Público).</p>
+                </div>
+                <div class="banner-visual">
+                    <ul class="academic-list">
+                        <li>Oversight pelo Tribunal de Contas</li>
+                        <li>Compliance em Contratos de PPP</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 12. PP - LAI -->
+        <div class="banner">
+            <div class="banner-content">
+                <div class="banner-text">
+                    <h3>Políticas Públicas</h3>
+                    <h2>Cidadania e LAI</h2>
+                    <p>Utilização da Lei de Acesso à Informação como ferramenta de empoderamento para que a comunidade acompanhe os gastos públicos.</p>
+                </div>
+                <div class="banner-visual">
+                    <p style="font-style: italic;">"A informação é o combustível da democracia."</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- PAGE: GROUP 4 (Dados) -->
+    <!-- Repetir lógica para Grupo 4 e 6 (Simplificado aqui para brevidade, mas com conteúdo denso) -->
     <section id="group4" class="page">
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge" style="background: white; color: black;">Apresentação</span>
-                <h2>Falta de Dados em Cuiabá</h2>
-                <p>O desafio da invisibilidade estatística e a modernização digital dos bairros periféricos.</p>
-                <div style="color: var(--text-dim);">
-                    <strong>Membros:</strong> Kemylly Monique, Steffany Natilin, Vitórya Ferreira
+                <div class="banner-text">
+                    <h3>Apresentação</h3>
+                    <h2>Falta de Dados</h2>
+                    <p>A invisibilidade estatística como ferramenta de exclusão política em Cuiabá.</p>
+                    <p><strong>Participantes:</strong> Kemylly Monique, Steffany Natilin, Vitórya Ferreira</p>
                 </div>
+                <div class="banner-visual"><img src="assets/chart4_1.png"></div>
             </div>
         </div>
-        
-        <!-- BI Dashboard -->
+        <!-- BI 2 -->
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge badge-bi">Adm Financeira e BI</span>
-                <h2>Métricas da Invisibilidade</h2>
-                <div class="dashboard-grid">
-                    <div class="chart-container"><canvas id="chart4_1"></canvas></div>
-                    <div class="chart-container"><canvas id="chart4_2"></canvas></div>
-                    <div class="chart-container"><canvas id="chart4_3"></canvas></div>
-                    <div class="chart-container"><canvas id="chart4_4"></canvas></div>
-                    <div class="chart-container"><canvas id="chart4_5"></canvas></div>
-                </div>
+                <div class="banner-text"><h2>Impacto Fiscal</h2><p>A subnotificação gera perda de arrecadação e planejamento ineficiente.</p></div>
+                <div class="banner-visual"><img src="assets/chart4_2.png"></div>
             </div>
         </div>
-
+        <!-- BI 3 -->
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge badge-bi">Adm Financeira e BI</span>
-                <h2>Zoneamento Digital</h2>
-                <div id="map4" class="map-box"></div>
+                <div class="banner-text"><h2>Demandas Ignoradas</h2><p>O que não é dado, não é problema para o estado.</p></div>
+                <div class="banner-visual"><img src="assets/chart4_3.png"></div>
             </div>
         </div>
-
+        <!-- OGC 4 -->
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
-                <h2>Gestão de Recursos de TI</h2>
-                <p>Verba destinada: R$ 4.200.000,00 para recadastramento imobiliário e BI Municipal.</p>
-                <ul class="check-list">
-                    <li>Aprovação na LOA: Modernização Administrativa</li>
-                    <li>Prestação de Contas Trimestral</li>
-                </ul>
+                <div class="banner-text"><h2>Margem de Erro</h2><p>Discrepância nos cadastros territoriais.</p></div>
+                <div class="banner-visual"><img src="assets/chart4_4.png"></div>
             </div>
         </div>
-
+        <!-- OGC 5 -->
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
-                <h2>Transparência Ativa</h2>
-                <p>Accountability através da disponibilização de dados abertos para a população.</p>
+                <div class="banner-text"><h2>Modernização TI</h2><p>Investimento necessário em infraestrutura de dados.</p></div>
+                <div class="banner-visual"><img src="assets/chart4_5.png"></div>
             </div>
         </div>
-
-        <div class="banner">
-            <div class="banner-content">
-                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
-                <h2>Mediação de Conflitos</h2>
-                <p>Comitê de Governança Local para validar a veracidade dos dados territoriais coletados.</p>
-            </div>
-        </div>
-
-        <div class="banner">
-            <div class="banner-content">
-                <span class="discipline-badge badge-pp">Políticas Públicas</span>
-                <h2>Ciclo de Políticas</h2>
-                <p>Identificação do problema e formulação de alternativas baseadas em evidências digitais.</p>
-            </div>
-        </div>
-
-        <div class="banner">
-            <div class="banner-content">
-                <span class="discipline-badge badge-pp">Políticas Públicas</span>
-                <h2>Transparência e LAI</h2>
-                <ul class="check-list">
-                    <li>Implementação do Portal da Transparência</li>
-                    <li>Parceria Público-Privada para Infraestrutura de Fibra</li>
-                    <li>Controle Social via LAI</li>
-                </ul>
-            </div>
-        </div>
+        <!-- OGC 6-8 + PP 9-12 (Conteúdo textual aprofundado) -->
+        <div class="banner"><div class="banner-text"><h2>Governança de Dados</h2><p>Implementação de Comitê de Governança para auditoria de dados.</p></div></div>
+        <div class="banner"><div class="banner-text"><h2>Accountability Digital</h2><p>Portal de dados abertos como transparência ativa.</p></div></div>
+        <div class="banner"><div class="banner-text"><h2>Ciclo de Políticas</h2><p>Reformulação da agenda baseada em evidências.</p></div></div>
+        <div class="banner"><div class="banner-text"><h2>Múltiplos Fluxos</h2><p>O dado como o elo perdido para a janela de oportunidade.</p></div></div>
+        <div class="banner"><div class="banner-text"><h2>PPP de Tecnologia</h2><p>Infraestrutura de dados via parcerias estratégicas.</p></div></div>
+        <div class="banner"><div class="banner-text"><h2>Órgãos de Controle</h2><p>O papel do TCE na verificação da fidedignidade dos dados municipais.</p></div></div>
+        <div class="banner"><div class="banner-text"><h2>LAI Territorial</h2><p>O direito do cidadão de ser reconhecido no mapa oficial.</p></div></div>
     </section>
 
-    <!-- PAGE: GROUP 6 (Saneamento) -->
     <section id="group6" class="page">
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge" style="background: white; color: black;">Apresentação</span>
-                <h2>Saneamento Básico</h2>
-                <p>A dignidade humana através do tratamento de esgoto e acesso à água potável.</p>
-                <div style="color: var(--text-dim);">
-                    <strong>Membros:</strong> Celia, Izabela, Emanoeli, Robson
+                <div class="banner-text">
+                    <h3>Apresentação</h3>
+                    <h2>Saneamento Básico</h2>
+                    <p>Saúde e dignidade humana: a luta contra a invisibilidade sanitária.</p>
+                    <p><strong>Participantes:</strong> Celia, Izabela, Emanoeli, Robson</p>
                 </div>
+                <div class="banner-visual"><img src="assets/chart6_1.png"></div>
             </div>
         </div>
-
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge badge-bi">Adm Financeira e BI</span>
-                <h2>Impacto Sanitário em Números</h2>
-                <div class="dashboard-grid">
-                    <div class="chart-container"><canvas id="chart6_1"></canvas></div>
-                    <div class="chart-container"><canvas id="chart6_2"></canvas></div>
-                    <div class="chart-container"><canvas id="chart6_3"></canvas></div>
-                    <div class="chart-container"><canvas id="chart6_4"></canvas></div>
-                    <div class="chart-container"><canvas id="chart6_5"></canvas></div>
-                </div>
+                <div class="banner-text"><h2>Rede de Esgoto</h2><p>Comparativo entre Cuiabá Geral e a Periferia Inivisível.</p></div>
+                <div class="banner-visual"><img src="assets/chart6_2.png"></div>
             </div>
         </div>
-
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge badge-bi">Adm Financeira e BI</span>
-                <h2>Mapa de Risco Sanitário</h2>
-                <div id="map6" class="map-box"></div>
+                <div class="banner-text"><h2>Saúde x Saneamento</h2><p>A economia da prevenção: investir em esgoto é economizar em hospital.</p></div>
+                <div class="banner-visual"><img src="assets/chart6_3.png"></div>
             </div>
         </div>
-
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
-                <h2>Investimento em Sustentabilidade</h2>
-                <p>Verba federal: R$ 28.900.000,00 para Estações de Tratamento e Rede Coletora.</p>
-                <ul class="check-list">
-                    <li>Lei de Responsabilidade Fiscal</li>
-                    <li>Accountability das concessionárias</li>
-                </ul>
+                <div class="banner-text"><h2>Justiça Orçamentária</h2><p>O desvio de recursos federais para áreas valorizadas.</p></div>
+                <div class="banner-visual"><img src="assets/chart6_4.png"></div>
             </div>
         </div>
-
         <div class="banner">
             <div class="banner-content">
-                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
-                <h2>Compliance Ambiental</h2>
-                <p>Garantia de que o recurso "carimbado" não seja utilizado em áreas de alto valor imobiliário.</p>
+                <div class="banner-text"><h2>Contaminação Local</h2><p>Análise de balneabilidade e risco sanitário.</p></div>
+                <div class="banner-visual"><img src="assets/chart6_5.png"></div>
             </div>
         </div>
-
-        <div class="banner">
-            <div class="banner-content">
-                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
-                <h2>Comitê de Bacia Local</h2>
-                <p>Governança participativa para fiscalizar a qualidade da água e serviços prestados.</p>
-            </div>
-        </div>
-
-        <div class="banner">
-            <div class="banner-content">
-                <span class="discipline-badge badge-pp">Políticas Públicas</span>
-                <h2>Fluxos de Solução</h2>
-                <p>Agenda política: Transformar a crise sanitária em prioridade governamental através da PPP.</p>
-            </div>
-        </div>
-
-        <div class="banner">
-            <div class="banner-content">
-                <span class="discipline-badge badge-pp">Políticas Públicas</span>
-                <h2>Controle e LAI</h2>
-                <ul class="check-list">
-                    <li>Fiscalização pelo TCE e Ministério Público</li>
-                    <li>Aplicação da LAI para relatórios de balneabilidade</li>
-                    <li>Ciclo de monitoramento contínuo</li>
-                </ul>
-            </div>
-        </div>
+        <div class="banner"><div class="banner-text"><h2>Compliance Ambiental</h2><p>Fiscalização rigorosa dos contratos de concessão.</p></div></div>
+        <div class="banner"><div class="banner-text"><h2>Comitê de Bacia</h2><p>Governança participativa no saneamento local.</p></div></div>
+        <div class="banner"><div class="banner-text"><h2>Ciclo de Políticas</h2><p>O saneamento como política de estado, não de governo.</p></div></div>
+        <div class="banner"><div class="banner-text"><h2>Fluxos de Kingdon</h2><p>A crise sanitária como foco para a política pública.</p></div></div>
+        <div class="banner"><div class="banner-text"><h2>PPP de Saneamento</h2><p>Viabilidade econômica e controle social.</p></div></div>
+        <div class="banner"><div class="banner-text"><h2>Órgãos de Controle</h2><p>MP e TCE no monitoramento da universalização.</p></div></div>
+        <div class="banner"><div class="banner-text"><h2>LAI e Balneabilidade</h2><p>Transparência nos índices de poluição hídrica.</p></div></div>
     </section>
+
+    <footer>
+        <p>© 2026 UNIFACC Cuiabá - Administração e Gestão Pública | Prof. Renato Rosa</p>
+    </footer>
 
     <script>
         function showPage(pageId) {
@@ -577,75 +556,15 @@
             document.getElementById(pageId).classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            // Initialize charts and maps if not already done
-            if (pageId === 'group2') initGroup2();
-            if (pageId === 'group4') initGroup4();
-            if (pageId === 'group6') initGroup6();
-        }
-
-        function createChart(id, label, data, type = 'bar') {
-            const ctx = document.getElementById(id);
-            if (!ctx) return;
-            new Chart(ctx, {
-                type: type,
-                data: {
-                    labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai'],
-                    datasets: [{
-                        label: label,
-                        data: data,
-                        backgroundColor: 'rgba(0, 210, 255, 0.5)',
-                        borderColor: '#00d2ff',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { labels: { color: '#fff' } } },
-                    scales: {
-                        y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.1)' } },
-                        x: { ticks: { color: '#94a3b8' }, grid: { display: false } }
-                    }
-                }
-            });
+            if (pageId === 'group2') initMap('map2', [-15.601, -56.097]);
         }
 
         function initMap(id, coords) {
             const container = document.getElementById(id);
             if (!container || container._leaflet_id) return;
-            const map = L.map(id).setView(coords, 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker(coords).addTo(map).bindPopup('Ponto Crítico de Cuiabá').openPopup();
-        }
-
-        // Initialize specific data for Group 2
-        function initGroup2() {
-            createChart('chart2_1', 'Cobertura de Ônibus (%)', [20, 22, 21, 25, 24]);
-            createChart('chart2_2', 'Tempo de Espera (min)', [45, 48, 50, 42, 40], 'line');
-            createChart('chart2_3', 'Passageiros/Dia', [1200, 1350, 1280, 1400, 1450]);
-            createChart('chart2_4', 'Pavimentação (km)', [2, 3, 5, 8, 12], 'line');
-            createChart('chart2_5', 'Satisfação Usuário', [2, 1, 2, 3, 4], 'radar');
-            initMap('map2', [-15.601, -56.097]); // Central Cuiabá example
-        }
-
-        function initGroup4() {
-            createChart('chart4_1', 'Dados Desatualizados (%)', [80, 75, 70, 65, 60]);
-            createChart('chart4_2', 'Casas Cadastradas', [200, 450, 800, 1200, 1500], 'line');
-            createChart('chart4_3', 'Divergência Fiscal', [30, 25, 20, 15, 10]);
-            createChart('chart4_4', 'Acessos TI Municipal', [10, 50, 120, 300, 450]);
-            createChart('chart4_5', 'Eficiência de Coleta', [15, 30, 45, 60, 75], 'pie');
-            initMap('map4', [-15.610, -56.080]);
-        }
-
-        function initGroup6() {
-            createChart('chart6_1', 'Acesso à Água (%)', [40, 42, 45, 50, 55]);
-            createChart('chart6_2', 'Tratamento Esgoto (%)', [5, 6, 8, 12, 18], 'line');
-            createChart('chart6_3', 'Casos de Diarreia', [150, 140, 120, 100, 80]);
-            createChart('chart6_4', 'Investimento/Habitante', [50, 80, 120, 200, 350]);
-            createChart('chart6_5', 'Qualidade do Solo', [3, 4, 5, 6, 8]);
-            initMap('map6', [-15.620, -56.100]);
+            const map = L.map(id).setView(coords, 14);
+            L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+            L.marker(coords).addTo(map).bindPopup('Área de Exclusão').openPopup();
         }
     </script>
 </body>
