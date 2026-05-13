@@ -73,6 +73,55 @@ Este documento resume as solicitações do Prof. Renato Rosa e as implementaçõ
     - Adaptação dos Mapas QGIS-Web: Criação de um menu de gaveta (Sidebar) retrátil inferior com botão de ação flutuante (FAB ⚙️) para maximizar a visualização cartográfica no celular.
     - Redimensionamento de tipografia e botões de navegação para alvos de toque amigáveis, melhorando a experiência do usuário (UX) em mobile.
 
+### 13. Mapas Choropleth com Polígonos Reais de Bairros
+- **Pedido**: Substituir mapas genéricos por mapas profissionais com polígonos reais dos bairros de Cuiabá e Várzea Grande, estilo QGIS Web.
+- **Ações**:
+    - Implementação de mapas com **polígonos reais** de 15 bairros de Cuiaba + 8 bairros de Várzea Grande.
+    - Estilo **Choropleth**: bairros pintados conforme intensidade dos dados (verde→amarelo→vermelho).
+    - Legendas dinâmicas no canto inferior direito do mapa.
+    - GeoJSON embutido no código JavaScript (sem dependências externas).
+    - Popups interativos com dados ao hover/click em cada bairro.
+
+### 14. Layouts Personalizados por Grupo (Sem "Quadradinhos Genéricos")
+- **Pedido**: Criar visualizações únicas para cada grupo, evitando repetição de layout.
+- **Ações**:
+
+#### 🚌 Grupo 2 - Transporte Público
+- Layout limpo com **painel estreito (300px)** focado em rotas e mobilidade.
+- Sem cards de KPI genéricos.
+- Filtros de camadas: Rotas Ativas, Pontos de Parada, Lacunas de Cobertura, Rotas Propostas.
+- Linhas de rotas coloridas por status (🟢 Operacional, 🟡 Parcial, 🔴 Inexistente).
+- Marcadores customizados (círculos azuis) para pontos de parada.
+- Polígonos vermelhos translúcidos marcando áreas sem cobertura.
+- Lista de linhas principais com status visual.
+
+#### 📊 Grupo 4 - Invisibilidade de Dados
+- Layout de **Dashboard Analítico** com 4 cards de KPIs.
+- **Slider temporal (2020-2026)** que atualiza o progresso no mapa.
+- Progress bar mostrando evolução do mapeamento ao longo dos anos.
+- Choropleth com polígonos coloridos por % de mapeamento cadastral.
+- Tabela de bairros críticos (sem dados georreferenciados).
+- Botão "Modo Auditoria" para sobreposição IBGE vs Cadastro Municipal.
+- Design premium com hover effects nos cards.
+
+#### 💧 Grupo 6 - Saneamento Básico
+- Layout temático com **painel estreito (300px)** focado em infraestrutura.
+- Sem cards genéricos - indicadores em lista vertical.
+- Rede de água: Linhas azuis (#2196F3) com popups mostrando diâmetro e pressão.
+- Rede de esgoto: Linhas marrons (#795548) indicando coleta.
+- **Ícones SVG inline**: 💧 para poços/ETAs, 🏭 para estações de tratamento.
+- Áreas sem cobertura: Polígonos vermelhos com previsão de atendimento.
+- Expansão planejada: Linhas tracejadas verdes.
+- Lista de bairros com déficit (percentual de esgotamento).
+
+### 15. Melhorias Técnicas nos Mapas
+- **Responsividade**: Em telas <768px, painéis viram barra inferior.
+- **Z-index controlado**: Mapa (1), controles (500), painéis (1000), popups (2000).
+- **Performance**: GeoJSON embutido, carregamento <3s.
+- **Exportação**: Botões para exportar CSV e GeoJSON.
+- **Escala gráfica**: Adicionada ao canto inferior esquerdo.
+- **Layer Switcher**: Alternância entre OSM e Satélite.
+
 ---
 
 ## 🛠️ Tecnologias Utilizadas

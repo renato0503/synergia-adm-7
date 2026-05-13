@@ -7,273 +7,313 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Outfit', sans-serif; overflow: hidden; }
-    
-    #map {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 360px;
-      z-index: 1;
+    :root {
+      --primary: #f59e0b;
+      --primary-dark: #d97706;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
     }
     
-    #sidebar {
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; overflow: hidden; background: #f8fafc; }
+    
+    #app { display: flex; height: 100vh; width: 100vw; }
+    
+    #map-container { flex: 1; position: relative; }
+    #map { height: 100%; width: 100%; }
+    
+    .return-btn {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 360px;
-      height: 100vh;
-      background: #ffffff;
-      box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+      top: 1rem;
+      left: 3.5rem;
       z-index: 1000;
-      overflow-y: auto;
+      background: white;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
+    
+    .return-btn:hover { background: var(--primary); color: white; }
+    
+    #sidebar {
+      width: 340px;
+      background: white;
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      z-index: 1000;
+      box-shadow: -4px 0 15px rgba(0,0,0,0.05);
     }
     
     .sidebar-header {
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #b45309 0%, #d97706 100%);
       color: white;
-      padding: 25px;
     }
     
-    .sidebar-header h1 { font-size: 22px; margin-bottom: 5px; font-weight: 700; }
-    .sidebar-header p { font-size: 13px; opacity: 0.9; }
+    .sidebar-header h1 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .sidebar-header p { font-size: 0.75rem; opacity: 0.9; }
     
-    .sidebar-content { padding: 20px; }
+    .sidebar-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.25rem;
+    }
     
     .kpi-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 25px;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
     }
     
     .kpi-card {
       background: #fffbeb;
-      border-left: 4px solid #f59e0b;
-      padding: 15px;
-      border-radius: 8px;
+      border: 1px solid #fde68a;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
     
-    .kpi-value { font-size: 26px; font-weight: 700; color: #f59e0b; display: block; }
-    .kpi-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+    }
+    
+    .kpi-value { font-size: 1.5rem; font-weight: 700; color: var(--primary); display: block; }
+    .kpi-label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.3px; margin-top: 0.25rem; }
     
     .section-title {
-      font-size: 14px;
+      font-size: 0.75rem;
       font-weight: 600;
-      color: #1e293b;
-      margin-bottom: 12px;
-      padding-bottom: 8px;
-      border-bottom: 2px solid #e2e8f0;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #f1f5f9;
+    }
+    
+    .time-slider {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    
+    .time-slider input[type="range"] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #fde68a;
+      outline: none;
+      accent-color: var(--primary);
+    }
+    
+    .time-label {
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--primary);
+      margin-top: 0.5rem;
+    }
+    
+    .progress-bar {
+      height: 4px;
+      background: #fde68a;
+      border-radius: 2px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      transition: width 0.3s;
     }
     
     .legend-box {
       background: #f8fafc;
       border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 20px;
+      padding: 1rem;
+      margin-bottom: 1.25rem;
     }
     
     .legend-item {
       display: flex;
       align-items: center;
-      margin-bottom: 8px;
-      font-size: 12px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
     }
     
-    .legend-color {
-      width: 20px;
-      height: 14px;
+    .legend-color-box {
+      width: 18px;
+      height: 12px;
       border-radius: 3px;
-      margin-right: 10px;
+      margin-right: 0.5rem;
       border: 1px solid #cbd5e1;
     }
     
     .data-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 12px;
-      margin-bottom: 20px;
+      font-size: 0.75rem;
+      margin-bottom: 1rem;
     }
     
     .data-table th {
       background: #f1f5f9;
-      padding: 10px 8px;
+      padding: 0.5rem 0.4rem;
       text-align: left;
       font-weight: 600;
-      color: #475569;
+      color: var(--muted);
       text-transform: uppercase;
-      font-size: 10px;
+      font-size: 0.6rem;
     }
     
     .data-table td {
-      padding: 10px 8px;
-      border-bottom: 1px solid #e2e8f0;
+      padding: 0.5rem 0.4rem;
+      border-bottom: 1px solid #f1f5f9;
     }
     
     .status-badge {
-      padding: 3px 8px;
-      border-radius: 10px;
-      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      font-size: 0.6rem;
       font-weight: 600;
     }
     
-    .status-sem-dados { background: #fef2f2; color: #dc2626; }
-    .status-parcial { background: #fff7ed; color: #ea580c; }
-    .status-completo { background: #f0fdf4; color: #16a34a; }
+    .status-sem-dados { background: #fee2e2; color: #dc2626; }
+    .status-parcial { background: #fef3c7; color: #d97706; }
+    .status-completo { background: #dcfce7; color: #16a34a; }
     
     .btn {
       display: block;
       width: 100%;
-      padding: 12px;
-      background: #f59e0b;
+      padding: 0.75rem;
+      background: var(--primary);
       color: white;
       border: none;
       border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
+      font-size: 0.85rem;
       font-weight: 500;
-      margin-bottom: 10px;
+      cursor: pointer;
+      margin-bottom: 0.5rem;
       transition: all 0.3s;
     }
     
-    .btn:hover { background: #d97706; }
-    .btn-outline { background: transparent; border: 2px solid #f59e0b; color: #f59e0b; }
-    .btn-outline:hover { background: #f59e0b; color: white; }
-    
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      color: #f59e0b;
-      text-decoration: none;
-      font-size: 13px;
-      margin-bottom: 15px;
-    }
-    
-    .back-link:hover { text-decoration: underline; }
+    .btn:hover { background: var(--primary-dark); }
+    .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
+    .btn-outline:hover { background: var(--primary); color: white; }
     
     .info.legend {
       background: white;
-      padding: 12px;
+      padding: 10px;
       border-radius: 8px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-      line-height: 20px;
+      line-height: 18px;
       color: #333;
-      font-size: 12px;
+      font-size: 11px;
     }
     
     .info.legend i {
-      width: 18px;
-      height: 12px;
+      width: 16px;
+      height: 10px;
       float: left;
-      margin-right: 6px;
+      margin-right: 4px;
       opacity: 0.8;
       border: 1px solid #fff;
     }
     
-    .toggle-sidebar-btn {
-      display: none;
-      position: absolute;
-      bottom: 1.5rem;
-      right: 1rem;
-      z-index: 1000;
-      background: #f59e0b;
-      color: white;
-      border: none;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      cursor: pointer;
-      font-size: 1.5rem;
-      align-items: center;
-      justify-content: center;
-    }
-
-    @media (max-width: 900px) {
-      #map { left: 0; bottom: 0; height: 100vh; }
-      #sidebar { 
-        position: fixed;
-        top: auto;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 60vh;
-        border-top: 2px solid #f59e0b;
-        border-radius: 20px 20px 0 0;
-        transform: translateY(100%);
-        transition: transform 0.3s ease-in-out;
-      }
-      body.sidebar-open #sidebar {
-        transform: translateY(0);
-      }
-      .toggle-sidebar-btn { display: flex; }
-      .back-link { font-size: 1rem; margin-top: 10px; display: inline-block; background: #fffbeb; padding: 10px 20px; border-radius: 20px; }
+    @media (max-width: 768px) {
+      #app { flex-direction: column; }
+      #sidebar { width: 100%; height: 45%; position: absolute; bottom: 0; left: 0; }
+      #map-container { height: 55%; }
+      .return-btn { left: 1rem; }
     }
   </style>
 </head>
 <body>
-  <div id="sidebar">
-    <div class="sidebar-header">
-      <h1>Grupo 4 - Invisibilidade de Dados</h1>
-      <p>Mapeamento Territorial - Região Metropolitana de Cuiabá</p>
+  <div id="app">
+    <div id="map-container">
+      <a href="grupo4.html" class="return-btn">← Voltar</a>
+      <div id="map"></div>
     </div>
-    <div class="sidebar-content">
-      <a href="grupo4.html" class="back-link">← Voltar aos Slides</a>
-      
-      <div class="kpi-grid">
-        <div class="kpi-card">
-          <span class="kpi-value">45%</span>
-          <span class="kpi-label">Território Mapeado</span>
-        </div>
-        <div class="kpi-card">
-          <span class="kpi-value">R$4.2M</span>
-          <span class="kpi-label">Investimento</span>
-        </div>
-        <div class="kpi-card">
-          <span class="kpi-value">23</span>
-          <span class="kpi-label">Bairros Invisíveis</span>
-        </div>
-        <div class="kpi-card">
-          <span class="kpi-value">156</span>
-          <span class="kpi-label">Pedidos LAI Pendentes</span>
-        </div>
+    
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <h1>📊 Georreferenciamento</h1>
+        <p>Invisibilidade Territorial - Dados & LAI</p>
       </div>
       
-      <div class="legend-box">
-        <div class="section-title">Legenda - % Mapeamento Cadastral</div>
-        <div class="legend-item"><div class="legend-color" style="background:#006837"></div>80-100% Completo</div>
-        <div class="legend-item"><div class="legend-color" style="background:#31a354"></div>60-79% Avançado</div>
-        <div class="legend-item"><div class="legend-color" style="background:#fee08b"></div>40-59% Parcial</div>
-        <div class="legend-item"><div class="legend-color" style="background:#fc9272"></div>20-39% Inicial</div>
-        <div class="legend-item"><div class="legend-color" style="background:#de2d26"></div>0-19% Sem Dados</div>
+      <div class="sidebar-content">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-value" id="kpi-mapeado">45%</span>
+            <span class="kpi-label">Território Mapeado</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">R$4.2M</span>
+            <span class="kpi-label">Investimento</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">23</span>
+            <span class="kpi-label">Bairros Invisíveis</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-value">156</span>
+            <span class="kpi-label">Pedidos LAI</span>
+          </div>
+        </div>
+        
+        <div class="time-slider">
+          <div class="section-title" style="margin-bottom: 0.5rem; border: none;">Histórico Cadastral</div>
+          <input type="range" min="2020" max="2026" value="2026" id="year-slider" oninput="updateYear(this.value)">
+          <div class="time-label">Ano: <span id="year-display">2026</span></div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width: 68%"></div>
+          </div>
+        </div>
+        
+        <div class="legend-box">
+          <div class="section-title" style="margin-bottom: 0.5rem; border: none;">% Mapeamento Cadastral</div>
+          <div class="legend-item"><div class="legend-color-box" style="background:#006837"></div>80-100% Completo</div>
+          <div class="legend-item"><div class="legend-color-box" style="background:#31a354"></div>60-79% Avançado</div>
+          <div class="legend-item"><div class="legend-color-box" style="background:#fee08b"></div>40-59% Parcial</div>
+          <div class="legend-item"><div class="legend-color-box" style="background:#fc9272"></div>20-39% Inicial</div>
+          <div class="legend-item"><div class="legend-color-box" style="background:#de2d26"></div>0-19% Sem Dados</div>
+        </div>
+        
+        <div class="section-title">Bairros sem Dados Georreferenciados</div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Bairro</th><th>Mapeado</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Pedregal</td><td>8%</td><td><span class="status-badge status-sem-dados">Sem Dados</span></td></tr>
+            <tr><td>Ribeirão do Lipa</td><td>12%</td><td><span class="status-badge status-sem-dados">Sem Dados</span></td></tr>
+            <tr><td>Consil</td><td>15%</td><td><span class="status-badge status-sem-dados">Sem Dados</span></td></tr>
+            <tr><td>Parque Cuiabá</td><td>18%</td><td><span class="status-badge status-parcial">Inicial</span></td></tr>
+            <tr><td>Coophema</td><td>25%</td><td><span class="status-badge status-parcial">Inicial</span></td></tr>
+          </tbody>
+        </table>
+        
+        <button class="btn" onclick="exportarCSV()">📥 Exportar CSV</button>
+        <button class="btn btn-outline" onclick="toggleAuditMode()">🔍 Modo Auditoria</button>
       </div>
-      
-      <div class="section-title">Bairros sem Dados Georreferenciados</div>
-      <table class="data-table">
-        <thead>
-          <tr><th>Bairro</th><th>Mapeado</th><th>Status</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Pedregal</td><td>8%</td><td><span class="status-badge status-sem-dados">Sem Dados</span></td></tr>
-          <tr><td>Ribeirão do Lipa</td><td>12%</td><td><span class="status-badge status-sem-dados">Sem Dados</span></td></tr>
-          <tr><td>Parque Cuiabá</td><td>18%</td><td><span class="status-badge status-parcial">Inicial</span></td></tr>
-          <tr><td>Coophema</td><td>25%</td><td><span class="status-badge status-parcial">Inicial</span></td></tr>
-          <tr><td>Consil</td><td>15%</td><td><span class="status-badge status-sem-dados">Sem Dados</span></td></tr>
-        </tbody>
-      </table>
-      
-      <button class="btn" onclick="exportarDados()">📥 Exportar Dados (CSV)</button>
-      <button class="btn btn-outline" onclick="window.print()">🖨️ Imprimir Mapa</button>
-    </div>
+    </aside>
   </div>
-  
-  <div id="map"></div>
-  <button class="toggle-sidebar-btn" onclick="document.body.classList.toggle('sidebar-open')">⚙️</button>
   
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
@@ -301,130 +341,35 @@
     
     L.control.scale({ imperial: false }).addTo(map);
     
+    const dadosPorAno = {
+      2020: 28, 2021: 32, 2022: 38, 2023: 42, 2024: 45, 2025: 48, 2026: 45
+    };
+    
     const BairrosCuiaba = {
       "type": "FeatureCollection",
       "features": [
-        {
-          "type": "Feature",
-          "properties": { "nome": "Centro", "mapeado": 95, "pop": 18500, "pedidos_lai": 45 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.0979,-15.6014],[-56.0900,-15.6014],[-56.0900,-15.6080],[-56.0979,-15.6080],[-56.0979,-15.6014]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Pedregal", "mapeado": 8, "pop": 25000, "pedidos_lai": 12 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.1400,-15.5700],[-56.1250,-15.5700],[-56.1250,-15.5850],[-56.1400,-15.5850],[-56.1400,-15.5700]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Ribeirão do Lipa", "mapeado": 12, "pop": 22000, "pedidos_lai": 8 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.1300,-15.5850],[-56.1100,-15.5850],[-56.1100,-15.6000],[-56.1300,-15.6000],[-56.1300,-15.5850]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Parque Cuiabá", "mapeado": 18, "pop": 18500, "pedidos_lai": 15 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.1100,-15.5700],[-56.0950,-15.5700],[-56.0950,-15.5850],[-56.1100,-15.5850],[-56.1100,-15.5700]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Jardim das Américas", "mapeado": 35, "pop": 15000, "pedidos_lai": 22 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.0950,-15.5850],[-56.0800,-15.5850],[-56.0800,-15.6000],[-56.0950,-15.6000],[-56.0950,-15.5850]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Coophema", "mapeado": 25, "pop": 20000, "pedidos_lai": 18 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.0850,-15.5550],[-56.0700,-15.5550],[-56.0700,-15.5700],[-56.0850,-15.5700],[-56.0850,-15.5550]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Jardim Europa", "mapeado": 88, "pop": 12000, "pedidos_lai": 5 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.0800,-15.5850],[-56.0650,-15.5850],[-56.0650,-15.6000],[-56.0800,-15.6000],[-56.0800,-15.5850]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Santa Rosa", "mapeado": 55, "pop": 14000, "pedidos_lai": 14 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.1100,-15.6000],[-56.0950,-15.6000],[-56.0950,-15.6150],[-56.1100,-15.6150],[-56.1100,-15.6000]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Morada do Ouro", "mapeado": 42, "pop": 11000, "pedidos_lai": 9 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.1450,-15.5950],[-56.1300,-15.5950],[-56.1300,-15.6100],[-56.1450,-15.6100],[-56.1450,-15.5950]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Dom Aquino", "mapeado": 92, "pop": 9500, "pedidos_lai": 3 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.0700,-15.5850],[-56.0550,-15.5850],[-56.0550,-15.6000],[-56.0700,-15.6000],[-56.0700,-15.5850]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Duque de Caxias", "mapeado": 78, "pop": 13000, "pedidos_lai": 8 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.0550,-15.6000],[-56.0400,-15.6000],[-56.0400,-15.6150],[-56.0550,-15.6150],[-56.0550,-15.6000]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Jardim Imperial", "mapeado": 48, "pop": 10500, "pedidos_lai": 11 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.1000,-15.6150],[-56.0850,-15.6150],[-56.0850,-15.6300],[-56.1000,-15.6300],[-56.1000,-15.6150]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Consil", "mapeado": 15, "pop": 16000, "pedidos_lai": 6 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.1500,-15.5700],[-56.1400,-15.5700],[-56.1400,-15.5850],[-56.1500,-15.5850],[-56.1500,-15.5700]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Jardim Horizonte", "mapeado": 32, "pop": 12500, "pedidos_lai": 7 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.1300,-15.5550],[-56.1150,-15.5550],[-56.1150,-15.5700],[-56.1300,-15.5700],[-56.1300,-15.5550]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Campo Verde", "mapeado": 10, "pop": 18000, "pedidos_lai": 5 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.1550,-15.5850],[-56.1400,-15.5850],[-56.1400,-15.6000],[-56.1550,-15.6000],[-56.1550,-15.5850]]] }
-        }
+        { "type": "Feature", "properties": { "nome": "Centro", "mapeado": 95, "pop": 18500, "lai": 45 }, "geometry": { "type": "Polygon", "coordinates": [[[-56.0979,-15.6014],[-56.0900,-15.6014],[-56.0900,-15.6080],[-56.0979,-15.6080],[-56.0979,-15.6014]]] }},
+        { "type": "Feature", "properties": { "nome": "Pedregal", "mapeado": 8, "pop": 25000, "lai": 12 }, "geometry": { "type": "Polygon", "coordinates": [[[-56.1400,-15.5700],[-56.1250,-15.5700],[-56.1250,-15.5850],[-56.1400,-15.5850],[-56.1400,-15.5700]]] }},
+        { "type": "Feature", "properties": { "nome": "Ribeirão do Lipa", "mapeado": 12, "pop": 22000, "lai": 8 }, "geometry": { "type": "Polygon", "coordinates": [[[-56.1300,-15.5850],[-56.1100,-15.5850],[-56.1100,-15.6000],[-56.1300,-15.6000],[-56.1300,-15.5850]]] }},
+        { "type": "Feature", "properties": { "nome": "Parque Cuiabá", "mapeado": 18, "pop": 18500, "lai": 15 }, "geometry": { "type": "Polygon", "coordinates": [[[-56.1100,-15.5700],[-56.0950,-15.5700],[-56.0950,-15.5850],[-56.1100,-15.5850],[-56.1100,-15.5700]]] }},
+        { "type": "Feature", "properties": { "nome": "Jardim das Américas", "mapeado": 35, "pop": 15000, "lai": 22 }, "geometry": { "type": "Polygon", "coordinates": [[[-56.0950,-15.5850],[-56.0800,-15.5850],[-56.0800,-15.6000],[-56.0950,-15.6000],[-56.0950,-15.5850]]] }},
+        { "type": "Feature", "properties": { "nome": "Coophema", "mapeado": 25, "pop": 20000, "lai": 18 }, "geometry": { "type": "Polygon", "coordinates": [[[-56.0850,-15.5550],[-56.0700,-15.5550],[-56.0700,-15.5700],[-56.0850,-15.5700],[-56.0850,-15.5550]]] }},
+        { "type": "Feature", "properties": { "nome": "Jardim Europa", "mapeado": 88, "pop": 12000, "lai": 5 }, "geometry": { "type": "Polygon", "coordinates": [[[-56.0800,-15.5850],[-56.0650,-15.5850],[-56.0650,-15.6000],[-56.0800,-15.6000],[-56.0800,-15.5850]]] }},
+        { "type": "Feature", "properties": { "nome": "Santa Rosa", "mapeado": 55, "pop": 14000, "lai": 14 }, "geometry": { "type": "Polygon", "coordinates": [[[-56.1100,-15.6000],[-56.0950,-15.6000],[-56.0950,-15.6150],[-56.1100,-15.6150],[-56.1100,-15.6000]]] }},
+        { "type": "Feature", "properties": { "nome": "Morada do Ouro", "mapeado": 42, "pop": 11000, "lai": 9 }, "geometry": { "type": "Polygon", "coordinates": [[[-56.1450,-15.5950],[-56.1300,-15.5950],[-56.1300,-15.6100],[-56.1450,-15.6100],[-56.1450,-15.5950]]] }},
+        { "type": "Feature", "properties": { "nome": "Dom Aquino", "mapeado": 92, "pop": 9500, "lai": 3 }, "geometry": { "type": "Polygon", "coordinates": [[[-56.0700,-15.5850],[-56.0550,-15.5850],[-56.0550,-15.6000],[-56.0700,-15.6000],[-56.0700,-15.5850]]] }},
+        { "type": "Feature", "properties": { "nome": "Duque de Caxias", "mapeado": 78, "pop": 13000, "lai": 8 }, "geometry": { "type": "Polygon", "coordinates": [[[-56.0550,-15.6000],[-56.0400,-15.6000],[-56.0400,-15.6150],[-56.0550,-15.6150],[-56.0550,-15.6000]]] }},
+        { "type": "Feature", "properties": { "nome": "Consil", "mapeado": 15, "pop": 16000, "lai": 6 }, "geometry": { "type": "Polygon", "coordinates": [[[-56.1500,-15.5700],[-56.1400,-15.5700],[-56.1400,-15.5850],[-56.1500,-15.5850],[-56.1500,-15.5700]]] }}
       ]
     };
     
     const BairrosVarzeaGrande = {
       "type": "FeatureCollection",
       "features": [
-        {
-          "type": "Feature",
-          "properties": { "nome": "Centro VG", "mapeado": 85, "pop": 22000, "pedidos_lai": 18 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.0700,-15.6400],[-56.0550,-15.6400],[-56.0550,-15.6550],[-56.0700,-15.6550],[-56.0700,-15.6400]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Jardim Eldorado", "mapeado": 38, "pop": 16500, "pedidos_lai": 14 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.0900,-15.6500],[-56.0750,-15.6500],[-56.0750,-15.6650],[-56.0900,-15.6650],[-56.0900,-15.6500]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Vila Aurora", "mapeado": 62, "pop": 19000, "pedidos_lai": 12 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.0550,-15.6550],[-56.0400,-15.6550],[-56.0400,-15.6700],[-56.0550,-15.6700],[-56.0550,-15.6550]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Onevil", "mapeado": 22, "pop": 14000, "pedidos_lai": 9 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.1000,-15.6650],[-56.0850,-15.6650],[-56.0850,-15.6800],[-56.1000,-15.6800],[-56.1000,-15.6650]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Jardim das Palmeiras", "mapeado": 28, "pop": 12000, "pedidos_lai": 8 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.0750,-15.6750],[-56.0600,-15.6750],[-56.0600,-15.6900],[-56.0750,-15.6900],[-56.0750,-15.6750]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "São João", "mapeado": 45, "pop": 15500, "pedidos_lai": 11 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.0400,-15.6700],[-56.0250,-15.6700],[-56.0250,-15.6850],[-56.0400,-15.6850],[-56.0400,-15.6700]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Ponte Nova", "mapeado": 35, "pop": 11000, "pedidos_lai": 7 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.0600,-15.6900],[-56.0450,-15.6900],[-56.0450,-15.7050],[-56.0600,-15.7050],[-56.0600,-15.6900]]] }
-        },
-        {
-          "type": "Feature",
-          "properties": { "nome": "Limpo Grande", "mapeado": 5, "pop": 13500, "pedidos_lai": 4 },
-          "geometry": { "type": "Polygon", "coordinates": [[[-56.0850,-15.6800],[-56.0700,-15.6800],[-56.0700,-15.6950],[-56.0850,-15.6950],[-56.0850,-15.6800]]] }
-        }
+        { "type": "Feature", "properties": { "nome": "Centro VG", "mapeado": 85, "pop": 22000, "lai": 18 }, "geometry": { "type": "Polygon", "coordinates": [[[-56.0700,-15.6400],[-56.0550,-15.6400],[-56.0550,-15.6550],[-56.0700,-15.6550],[-56.0700,-15.6400]]] }},
+        { "type": "Feature", "properties": { "nome": "Jardim Eldorado", "mapeado": 38, "pop": 16500, "lai": 14 }, "geometry": { "type": "Polygon", "coordinates": [[[-56.0900,-15.6500],[-56.0750,-15.6500],[-56.0750,-15.6650],[-56.0900,-15.6650],[-56.0900,-15.6500]]] }},
+        { "type": "Feature", "properties": { "nome": "Vila Aurora", "mapeado": 62, "pop": 19000, "lai": 12 }, "geometry": { "type": "Polygon", "coordinates": [[[-56.0550,-15.6550],[-56.0400,-15.6550],[-56.0400,-15.6700],[-56.0550,-15.6700],[-56.0550,-15.6550]]] }},
+        { "type": "Feature", "properties": { "nome": "Limpo Grande", "mapeado": 5, "pop": 13500, "lai": 4 }, "geometry": { "type": "Polygon", "coordinates": [[[-56.0850,-15.6800],[-56.0700,-15.6800],[-56.0700,-15.6950],[-56.0850,-15.6950],[-56.0850,-15.6800]]] }}
       ]
     };
     
@@ -442,7 +387,7 @@
         weight: 2,
         opacity: 1,
         color: 'white',
-        dashArray: '',
+        dashArray: '3',
         fillOpacity: 0.7
       };
     }
@@ -456,11 +401,11 @@
         fillOpacity: 0.9
       });
       layer.bindPopup(`
-        <div style="min-width:180px">
-          <h3 style="color:#f59e0b;margin:0 0 8px;font-size:14px">${layer.feature.properties.nome}</h3>
-          <p style="margin:4px 0"><strong>Mapeado:</strong> ${layer.feature.properties.mapeado}%</p>
-          <p style="margin:4px 0"><strong>População:</strong> ${layer.feature.properties.pop.toLocaleString()}</p>
-          <p style="margin:4px 0"><strong>Pedidos LAI:</strong> ${layer.feature.properties.pedidos_lai}</p>
+        <div style="min-width:160px">
+          <h3 style="color:#f59e0b;margin:0 0 6px;font-size:13px">${layer.feature.properties.nome}</h3>
+          <p style="margin:3px 0;font-size:12px"><strong>Mapeado:</strong> ${layer.feature.properties.mapeado}%</p>
+          <p style="margin:3px 0;font-size:12px"><strong>População:</strong> ${layer.feature.properties.pop.toLocaleString()}</p>
+          <p style="margin:3px 0;font-size:12px"><strong>Pedidos LAI:</strong> ${layer.feature.properties.lai}</p>
         </div>
       `).openPopup();
     }
@@ -471,10 +416,7 @@
     }
     
     function onEachFeature(feature, layer) {
-      layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlight
-      });
+      layer.on({ mouseover: highlightFeature, mouseout: resetHighlight });
     }
     
     const geojsonLayer = L.geoJSON(BairrosCuiaba, { style: style, onEachFeature: onEachFeature }).addTo(map);
@@ -495,18 +437,29 @@
     };
     legend.addTo(map);
     
-    function exportarDados() {
+    function updateYear(year) {
+      document.getElementById('year-display').innerText = year;
+      const mapeado = dadosPorAno[year];
+      document.getElementById('kpi-mapeado').innerText = mapeado + '%';
+      document.getElementById('progress-fill').style.width = mapeado + '%';
+    }
+    
+    function exportarCSV() {
       const dados = [];
       BairrosCuiaba.features.concat(BairrosVarzeaGrande.features).forEach(f => {
-        dados.push(`${f.properties.nome},${f.properties.mapeado},${f.properties.pop},${f.properties.pedidos_lai}`);
+        dados.push(`${f.properties.nome},${f.properties.mapeado},${f.properties.pop},${f.properties.lai}`);
       });
       const csv = 'Bairro,Mapeado%,População,Pedidos LAI\n' + dados.join('\n');
       const blob = new Blob([csv], { type: 'text/csv' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'dados_mapeamento_cuiaba.csv';
+      a.download = 'dados_georreferenciamento.csv';
       a.click();
+    }
+    
+    function toggleAuditMode() {
+      alert('Modo Auditoria: Sobreposição IBGE vs Cadastro Municipal\n\nFuncionalidade em desenvolvimento para produção.');
     }
   </script>
 </body>
