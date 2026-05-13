@@ -4,31 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Synergia GP - UNIFACC Cuiabá</title>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
     
-    <!-- External Libraries with Security Attributes -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
     <style>
         :root {
             --primary: #1e293b;
-            --secondary: #334155;
             --accent: #2563eb;
             --bg-light: #ffffff;
-            --bg-soft: #f8fafc;
-            --text-dark: #0f172a;
             --text-muted: #64748b;
             --border: #e2e8f0;
             --transition: all 0.4s ease;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
-        body { background-color: var(--bg-light); color: var(--text-dark); overflow-x: hidden; scroll-behavior: smooth; }
+        body { background-color: var(--bg-light); color: var(--primary); overflow-x: hidden; }
 
         .bg-dots {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
@@ -36,21 +28,9 @@
             background-size: 30px 30px; opacity: 0.2;
         }
 
-        .nav-controls { position: fixed; top: 1.5rem; right: 1.5rem; display: flex; gap: 1rem; z-index: 1000; }
-        .btn-nav {
-            background: white; border: 1px solid var(--border); color: var(--primary);
-            padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); transition: var(--transition); font-weight: 600;
-        }
-        .btn-nav:hover { background: var(--accent); color: white; border-color: var(--accent); }
-
-        .page { display: none; width: 100%; }
-        .page.active { display: block; animation: fadeIn 0.5s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
         #home {
             height: 100vh; display: flex; flex-direction: column; justify-content: center;
-            align-items: center; text-align: center; background: #fff;
+            align-items: center; text-align: center;
         }
         .home-title { font-family: 'Playfair Display', serif; font-size: 5.5rem; font-weight: 900; color: var(--primary); line-height: 1; }
         .home-subtitle { font-size: 1.1rem; color: var(--text-muted); letter-spacing: 5px; text-transform: uppercase; margin-bottom: 2rem; }
@@ -59,42 +39,19 @@
         .group-card {
             background: white; padding: 3rem 2rem; border-radius: 20px; border: 1px solid var(--border);
             cursor: pointer; transition: var(--transition); box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+            text-decoration: none; color: inherit;
         }
         .group-card:hover { transform: translateY(-12px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); border-color: var(--accent); }
         .group-card h3 { font-size: 1.6rem; margin-bottom: 1rem; color: var(--primary); }
 
-        .banner { min-height: 100vh; display: flex; align-items: center; padding: 5rem 8%; border-bottom: 1px solid var(--border); }
-        .banner:nth-child(even) { background-color: var(--bg-soft); }
-        .banner-content { display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; width: 100%; align-items: center; }
-        .banner-text h2 { font-family: 'Playfair Display', serif; font-size: 3.8rem; color: var(--primary); margin-bottom: 1.5rem; line-height: 1.1; }
-        .banner-text h3 { color: var(--accent); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 3px; margin-bottom: 1.2rem; font-weight: 800; }
-        .banner-text p { font-size: 1.15rem; line-height: 1.8; color: #334155; margin-bottom: 2rem; }
+        footer { padding: 5rem; text-align: center; background: #0f172a; color: white; margin-top: 2rem; }
 
-        .banner-visual { background: white; padding: 2rem; border-radius: 24px; border: 1px solid var(--border); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.05); }
-        .banner-visual img { width: 100%; height: auto; border-radius: 12px; }
-        .map-box { height: 500px; width: 100%; border-radius: 16px; border: 1px solid var(--border); }
-
-        .data-source { margin-top: 3rem; padding: 1.5rem; background: #f1f5f9; border-radius: 12px; border-left: 4px solid var(--accent); font-size: 0.9rem; }
-        .data-source strong { color: var(--primary); }
-
-        .academic-table { width: 100%; border-collapse: collapse; margin-top: 2rem; font-size: 0.95rem; }
-        .academic-table th { text-align: left; padding: 1rem; background: var(--bg-soft); border-bottom: 2px solid var(--border); color: var(--primary); }
-        .academic-table td { padding: 1rem; border-bottom: 1px solid var(--border); color: var(--text-dark); }
-
-        footer { padding: 5rem; text-align: center; background: #0f172a; color: white; }
-
-        @media (max-width: 1100px) { .banner-content { grid-template-columns: 1fr; } .home-title { font-size: 3.5rem; } .group-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 1100px) { .home-title { font-size: 3.5rem; } .group-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-
     <div class="bg-dots"></div>
-    <div class="nav-controls">
-        <button class="btn-nav" onclick="showPage('home')">Página Inicial</button>
-    </div>
-
-    <!-- HOME -->
-    <main id="home" class="page active">
+    <main id="home">
         <h3 class="home-subtitle">UNIFACC CUIABÁ - ADMINISTRAÇÃO E GESTÃO PÚBLICA</h3>
         <h1 class="home-title">SYNERGIA</h1>
         <p style="margin-top: 1rem; color: var(--text-muted); font-size: 1.3rem; max-width: 700px;">
@@ -102,228 +59,25 @@
         </p>
         
         <div class="group-grid">
-            <div class="group-card" onclick="showPage('group2')">
+            <a href="grupo2.html" class="group-card">
                 <h3>Grupo 2</h3>
                 <p>Transporte Público e Mobilidade</p>
-            </div>
-            <div class="group-card" onclick="showPage('group4')">
+            </a>
+            <a href="grupo4.html" class="group-card">
                 <h3>Grupo 4</h3>
                 <p>Invisibilidade de Dados Territoriais</p>
-            </div>
-            <div class="group-card" onclick="showPage('group6')">
+            </a>
+            <a href="grupo6.html" class="group-card">
                 <h3>Grupo 6</h3>
                 <p>Saneamento e Justiça Ambiental</p>
-            </div>
+            </a>
         </div>
         <p style="margin-top: 5rem; font-weight: 700; color: var(--primary); border-top: 1px solid var(--border); padding-top: 2rem;">
             Orientação: Prof. Renato Rosa
         </p>
     </main>
-
-    <!-- GROUP 2: TRANSPORTE -->
-    <section id="group2" class="page">
-        <!-- Banner 1: Capa -->
-        <div class="banner">
-            <div class="banner-content">
-                <div class="banner-text">
-                    <h3>Grupo 2</h3>
-                    <h2>O Gargalo da Mobilidade</h2>
-                    <p>Análise técnica da frota, pavimentação e tempos de espera nas regiões periféricas de Cuiabá.</p>
-                    <p><strong>Membros:</strong> Erilin Sabrina, Emilly Gabriely, Juarez, Flavia Arruda</p>
-                </div>
-                <div class="banner-visual">
-                    <img src="hero.png" alt="Mobilidade">
-                </div>
-            </div>
-        </div>
-
-        <!-- Banner 2: Georeferenciamento -->
-        <div class="banner">
-            <div class="banner-content">
-                <div class="banner-text">
-                    <h3>Geoprocessamento</h3>
-                    <h2>Pontos Críticos de Acesso</h2>
-                    <p>Mapeamento das áreas onde o transporte coletivo sofre interrupções devido à precariedade das vias (Ex: Região do Pedregal/Leblon).</p>
-                    <div class="data-source">
-                        <strong>Fonte:</strong> SEMOB Cuiabá / ARSEC - Relatório de Mobilidade 2023.
-                    </div>
-                </div>
-                <div class="banner-visual">
-                    <div id="map2" class="map-box"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Banner 3: BI - Frota -->
-        <div class="banner">
-            <div class="banner-content">
-                <div class="banner-text">
-                    <h3>BI e Finanças</h3>
-                    <h2>Renovação e Conforto</h2>
-                    <p>A evolução da frota com ar-condicionado é uma exigência contratual da ARSEC para Cuiabá, mas o custo operacional impacta a tarifa real.</p>
-                </div>
-                <div class="banner-visual">
-                    <img src="assets/chart2_1.png" alt="Frota">
-                </div>
-            </div>
-        </div>
-
-        <!-- Banner 4: BI - Pavimentação -->
-        <div class="banner">
-            <div class="banner-content">
-                <div class="banner-text">
-                    <h3>BI e Finanças</h3>
-                    <h2>O Déficit de Asfalto</h2>
-                    <p>Gráfico comparativo de vias pavimentadas por regional. Os distritos e periferias extremas apresentam os menores índices de infraestrutura rodoviária.</p>
-                </div>
-                <div class="banner-visual">
-                    <img src="assets/chart2_2.png" alt="Asfalto">
-                </div>
-            </div>
-        </div>
-
-        <!-- Banner 5: Tabelas Reais -->
-        <div class="banner">
-            <div class="banner-content" style="grid-template-columns: 1fr;">
-                <div class="banner-text" style="max-width: 100%;">
-                    <h3>Base de Dados</h3>
-                    <h2>Indicadores de Desempenho (KPIs)</h2>
-                    <table class="academic-table">
-                        <thead>
-                            <tr><th>Indicador</th><th>Valor Cuiabá (Real)</th><th>Meta/Referência</th><th>Fonte</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>Tarifa de Ônibus</td><td>R$ 4,95</td><td>R$ 4,10 (Média Cap.)</td><td>SEMOB 2024</td></tr>
-                            <tr><td>Idade Média da Frota</td><td>5,2 anos</td><td>< 5,0 anos</td><td>ARSEC 2023</td></tr>
-                            <tr><td>Passageiros/Dia</td><td>~210.000</td><td>Tendência de Queda</td><td>MTU/Cuiabá</td></tr>
-                            <tr><td>Linhas Ativas</td><td>104 linhas</td><td>110 (Pré-Pandemia)</td><td>SEMOB</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Banners 6-12 seguiriam com a mesma densidade... (Truncado para brevidade mas completo no código final) -->
-        <div class="banner"><div class="banner-text"><h2>Governança e Verba Federal</h2><p>Análise da verba federal carimbada para pavimentação (PPA 2022-2025).</p><img src="assets/chart2_4.png" style="width: 100%; margin-top: 2rem;"></div></div>
-    </section>
-
-    <!-- GROUP 4: DADOS -->
-    <section id="group4" class="page">
-        <div class="banner">
-            <div class="banner-content">
-                <div class="banner-text">
-                    <h3>Grupo 4</h3>
-                    <h2>Invisibilidade de Dados</h2>
-                    <p>O gap entre o Censo IBGE e o Cadastro Imobiliário Municipal: Onde estão as casas invisíveis?</p>
-                    <p><strong>Membros:</strong> Kemylly Monique, Steffany Natilin, Vitórya Ferreira</p>
-                </div>
-                <div class="banner-visual"><img src="assets/chart4_1.png"></div>
-            </div>
-        </div>
-        <div class="banner">
-            <div class="banner-content">
-                <div class="banner-text">
-                    <h3>Geoprocessamento</h3>
-                    <h2>Expansão Territorial</h2>
-                    <p>Mapeamento de novos loteamentos informais na região do Ribeirão do Lipa e distritos periféricos.</p>
-                    <div class="data-source"><strong>Fonte:</strong> Censo IBGE 2022 / MapBiomas Brasil.</div>
-                </div>
-                <div class="banner-visual"><div id="map4" class="map-box"></div></div>
-            </div>
-        </div>
-        <div class="banner">
-            <div class="banner-content" style="grid-template-columns: 1fr;">
-                <div class="banner-text" style="max-width: 100%;">
-                    <h3>Base de Dados</h3>
-                    <h2>Divergência de Cadastro em Cuiabá</h2>
-                    <table class="academic-table">
-                        <thead>
-                            <tr><th>Categoria</th><th>Dados Prefeitura</th><th>Dados IBGE 2022</th><th>Diferença (%)</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>Domicílios Totais</td><td>185.400</td><td>231.160</td><td>+ 24.6%</td></tr>
-                            <tr><td>População Total</td><td>618.124</td><td>650.912</td><td>+ 5.3%</td></tr>
-                            <tr><td>Lotes Informais</td><td>Est. 42.000</td><td>N/D</td><td>Gap Crítico</td></tr>
-                            <tr><td>Arrecadação IPTU</td><td>R$ 145M (2023)</td><td>Potencial R$ 210M</td><td>- 31%</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="banner"><div class="banner-text"><h2>Ciclo de Políticas e LAI</h2><p>A importância da Lei de Acesso à Informação para validar o mapa da cidadania.</p><img src="assets/chart4_3.png" style="width: 100%; margin-top: 2rem;"></div></div>
-    </section>
-
-    <!-- GROUP 6: SANEAMENTO -->
-    <section id="group6" class="page">
-        <div class="banner">
-            <div class="banner-content">
-                <div class="banner-text">
-                    <h3>Grupo 6</h3>
-                    <h2>Justiça Sanitária</h2>
-                    <p>A universalização do esgoto em Cuiabá: Avanços do Novo Marco Legal e desafios periféricos.</p>
-                    <p><strong>Membros:</strong> Celia, Izabela, Emanoeli, Robson</p>
-                </div>
-                <div class="banner-visual"><img src="assets/chart6_1.png"></div>
-            </div>
-        </div>
-        <div class="banner">
-            <div class="banner-content">
-                <div class="banner-text">
-                    <h3>Geoprocessamento</h3>
-                    <h2>Bacias de Contaminação</h2>
-                    <p>Mapeamento de descarte irregular e ausência de rede coletora nas margens do Rio Cuiabá.</p>
-                    <div class="data-source"><strong>Fonte:</strong> SNIS 2024 / Instituto Trata Brasil.</div>
-                </div>
-                <div class="banner-visual"><div id="map6" class="map-box"></div></div>
-            </div>
-        </div>
-        <div class="banner">
-            <div class="banner-content" style="grid-template-columns: 1fr;">
-                <div class="banner-text" style="max-width: 100%;">
-                    <h3>Base de Dados</h3>
-                    <h2>Ranking e Investimento (Trata Brasil)</h2>
-                    <table class="academic-table">
-                        <thead>
-                            <tr><th>Indicador</th><th>Valor Cuiabá 2024</th><th>Média Brasil</th><th>Fonte</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>Atendimento de Água</td><td>99,8%</td><td>84,9%</td><td>SNIS</td></tr>
-                            <tr><td>Coleta de Esgoto</td><td>82,1%</td><td>55,8%</td><td>Trata Brasil</td></tr>
-                            <tr><td>Tratamento de Esgoto</td><td>71,5%</td><td>51,2%</td><td>Ranking 2024</td></tr>
-                            <tr><td>Investimento/Habitante</td><td>R$ 164,20</td><td>R$ 112,00</td><td>ARSEC</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="banner"><div class="banner-text"><h2>Economia da Saúde</h2><p>Redução de custos no SUS através do saneamento básico.</p><img src="assets/chart6_4.png" style="width: 100%; margin-top: 2rem;"></div></div>
-    </section>
-
     <footer>
         <p>Projeto Synergia - UNIFACC Cuiabá | Gestão de Dados e Políticas Públicas</p>
-        <p style="margin-top: 1rem; opacity: 0.6; font-size: 0.8rem;">Fontes de Dados Reais: IBGE, SNIS, ARSEC, SEMOB, Trata Brasil (2022-2024)</p>
     </footer>
-
-    <script>
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            if (pageId === 'group2') initMap('map2', [-15.618, -56.046], 'Região Pedregal - Baixa Pavimentação');
-            if (pageId === 'group4') initMap('map4', [-15.584, -56.075], 'Ribeirão do Lipa - Expansão Informal');
-            if (pageId === 'group6') initMap('map6', [-15.655, -56.065], 'Parque Cuiabá - Gargalo de Rede');
-        }
-
-        function initMap(id, coords, label) {
-            const container = document.getElementById(id);
-            if (!container || container._leaflet_id) return;
-            const map = L.map(id).setView(coords, 14);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap'
-            }).addTo(map);
-            L.marker(coords).addTo(map).bindPopup(label).openPopup();
-        }
-    </script>
 </body>
 </html>
