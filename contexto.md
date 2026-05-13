@@ -56,6 +56,23 @@ Este documento resume as solicitações do Prof. Renato Rosa e as implementaçõ
     - Plotagem de dados GeoJSON embutidos representando rotas, redes de infraestrutura e áreas de déficit.
     - Conexão direta dos mapas com os slides da apresentação principal.
 
+### 11. Redesign Premium da Interface de Apresentação
+- **Pedido**: Melhorar significativamente o design dos slides de conteúdo (G2, G4, G6), trazendo imagens de contexto, ícones e fontes de dados.
+- **Ações**:
+    - Substituição completa da UI por um design *High-End* (semelhante a Pitch Decks profissionais) usando tipografia moderna (*Outfit* e *Playfair Display*).
+    - Integração de imagens fotográficas em alta resolução (via Unsplash) utilizando layouts em *Split-Screen*.
+    - Substituição de emojis básicos pelo pacote de ícones profissionais **Phosphor Icons**.
+    - Implementação de animações fluidas de entrada (`fadeUp` via IntersectionObserver) para revelação progressiva do conteúdo.
+    - Documentação explícita de fontes oficiais de dados (IBGE, SNIS, ARSEC, TCE-MT) na base dos slides analíticos.
+
+### 12. Otimização Total para Dispositivos Móveis (Responsividade)
+- **Pedido**: Criar a versão mobile perfeita para Android e iOS sem alterar a versão PC, otimizando botões e navegação.
+- **Ações**:
+    - Reestruturação CSS completa baseada em Media Queries (`@media max-width: 768px/900px`).
+    - Conversão de layouts de *Grid/Flexbox-Row* para empilhamento vertical (*Column*), garantindo que gráficos e textos sejam perfeitamente legíveis em telas pequenas.
+    - Adaptação dos Mapas QGIS-Web: Criação de um menu de gaveta (Sidebar) retrátil inferior com botão de ação flutuante (FAB ⚙️) para maximizar a visualização cartográfica no celular.
+    - Redimensionamento de tipografia e botões de navegação para alvos de toque amigáveis, melhorando a experiência do usuário (UX) em mobile.
+
 ---
 
 ## 🛠️ Tecnologias Utilizadas
