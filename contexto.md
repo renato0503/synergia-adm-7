@@ -41,12 +41,20 @@ Este documento resume as solicitações do Prof. Renato Rosa e as implementaçõ
     - Regeração de 15 gráficos via Python com foco em Dashboards operacionais.
     - Reformulação das páginas dos grupos com seções de "Dashboard de Gestão Financeira e BI" em destaque.
 
-### 9. Formato de Slides e Conteúdo Ostensivo (Último Pedido)
+### 9. Formato de Slides e Conteúdo Ostensivo
 - **Pedido**: Transformar as páginas dos grupos em formato de slides (15 banners de mesmo tamanho por grupo), adicionando conteúdo educacional completo sobre OGC, PP e BI, e uma proposta integrada de solução.
 - **Ações**: 
     - Implementação de `scroll-snap-type: y mandatory` para garantir o formato de slides verticais.
     - Distribuição de conteúdo acadêmico denso (Conceitos, Problemas, Soluções e Referências) em 15 telas por grupo.
     - Inclusão da **Proposta Integrada de Solução** no contexto do projeto.
+
+### 10. Módulos de Mapas Interativos "QGIS Web" (Último Pedido)
+- **Pedido**: Criar mapas profissionais independentes estilo QGIS para cada grupo, com controle de camadas, KPIs, ferramentas de medição e exportação.
+- **Ações**:
+    - Desenvolvimento de `mapa_grupo2.html`, `mapa_grupo4.html` e `mapa_grupo6.html`.
+    - Integração de ferramentas avançadas: Medição de área/distância, layer switcher (Satélite/OSM), legendas dinâmicas e painéis laterais de KPIs.
+    - Plotagem de dados GeoJSON embutidos representando rotas, redes de infraestrutura e áreas de déficit.
+    - Conexão direta dos mapas com os slides da apresentação principal.
 
 ---
 
