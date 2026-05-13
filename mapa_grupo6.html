@@ -19,96 +19,99 @@
     #app { display: flex; height: 100vh; width: 100vw; }
     #map-container { flex: 1; position: relative; }
     #map { height: 100%; width: 100%; }
+    
+    .return-btn { position: absolute; top: 1rem; left: 3.5rem; z-index: 1000; background: white; border: 2px solid var(--primary); color: var(--primary); padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 800; text-decoration: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    
     #sidebar { width: 350px; background: var(--sidebar-bg); border-left: 1px solid var(--border); display: flex; flex-direction: column; z-index: 1000; }
-    .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); }
+    .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); background: #f0fdf4; }
     .sidebar-header h1 { font-size: 1.25rem; font-weight: 800; color: var(--primary); }
-    .sidebar-content { flex: 1; overflow-y: auto; padding: 1.5rem; }
-    .kpi-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 2rem; }
-    .kpi-card { background: #f0fdf4; padding: 1rem; border-radius: 12px; border: 1px solid #bbf7d0; }
-    .kpi-value { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
-    .kpi-label { font-size: 0.75rem; color: #065f46; text-transform: uppercase; font-weight: 600; }
-    .layer-control { margin-bottom: 2rem; }
-    .layer-item { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; font-size: 0.9rem; }
-    .export-btn { background: var(--primary); color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; }
-    .legend { background: white; padding: 1rem; border-radius: 8px; border: 1px solid var(--border); font-size: 0.85rem; margin-top: 1rem; }
-    .legend-item { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
-    .color-box { width: 20px; height: 12px; border-radius: 2px; }
+    
+    .tool-section { padding: 1.5rem; border-top: 1px solid var(--border); }
+    .btn-tool { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 0.6rem; border-radius: 6px; cursor: pointer; width: 100%; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 600; text-align: left; color: #065f46; }
+    .btn-tool:hover { background: #dcfce7; }
+    
+    .calc-box { background: #f8fafc; border: 1px solid var(--border); padding: 1rem; border-radius: 8px; font-size: 0.85rem; }
+
+    @keyframes flow { to { stroke-dashoffset: -20; } }
+    .flow-line { stroke-dasharray: 10, 10; animation: flow 2s linear infinite; }
   </style>
 </head>
 <body>
   <div id="app">
     <div id="map-container">
+      <a href="grupo6.html" class="return-btn">← Voltar para Apresentação</a>
       <div id="map"></div>
     </div>
+    
     <aside id="sidebar">
       <div class="sidebar-header">
         <h1>QGIS Web | Saneamento</h1>
-        <p>Infraestrutura e Saúde Ambiental</p>
+        <p>Monitoramento de Redes</p>
       </div>
-      <div class="sidebar-content">
-        <div class="kpi-grid">
-          <div class="kpi-card">
-            <div class="kpi-value">98,1%</div>
-            <div class="kpi-label">Cobertura Água Potável</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-value">82,4%</div>
-            <div class="kpi-label">Esgotamento Sanitário</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-value">R$ 472,42</div>
-            <div class="kpi-label">Investimento per Capita</div>
-          </div>
-        </div>
-        <div class="layer-control">
-          <h3>Camadas de Infraestrutura</h3>
-          <div class="layer-item"><input type="checkbox" checked onchange="toggleLayer('water')"> Rede de Água (Azul)</div>
-          <div class="layer-item"><input type="checkbox" checked onchange="toggleLayer('sewer')"> Rede de Esgoto (Marrom)</div>
-          <div class="layer-item"><input type="checkbox" onchange="toggleLayer('stations')"> Estações de Tratamento</div>
-          <div class="layer-item"><input type="checkbox" onchange="toggleLayer('expansion')"> Plano de Expansão (Tracejado)</div>
-        </div>
-        <div class="legend">
-          <div class="legend-item"><div class="color-box" style="background: #3b82f6;"></div> Tubulações de Água</div>
-          <div class="legend-item"><div class="color-box" style="background: #78350f;"></div> Tubulações de Esgoto</div>
-          <div class="legend-item"><div class="color-box" style="background: #ef4444; opacity: 0.3;"></div> Áreas com Déficit</div>
-        </div>
-        <button class="export-btn" style="margin-top: 1rem;">Exportar Mapa de Rede</button>
+      
+      <div class="tool-section">
+        <h3>Calculadora de Cobertura</h3>
+        <p style="font-size: 0.8rem; margin-bottom: 10px;">Clique em um ponto do mapa para simular a cobertura sanitária local.</p>
+        <div class="calc-box" id="calc-result">Aguardando interação...</div>
+      </div>
+
+      <div class="tool-section">
+        <h3>Camadas de Infraestrutura</h3>
+        <button class="btn-tool" onclick="toggleFlow()">💧 Ativar Fluxo na Rede (Animação)</button>
+        <button class="btn-tool" onclick="toggleLayer('water')">🔵 Rede de Água</button>
+        <button class="btn-tool" onclick="toggleLayer('sewer')">🟤 Rede de Esgoto</button>
+      </div>
+
+      <div class="tool-section">
+        <button class="btn-tool" onclick="map.setView([-15.655, -56.065], 15)">🎯 Focar no Parque Cuiabá</button>
       </div>
     </aside>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+
   <script>
-    const map = L.map('map').setView([-15.6014, -56.0979], 12);
+    const map = L.map('map').setView([-15.655, -56.065], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
     const layers = {};
     
-    // Simulação de Rede
-    layers.water = L.geoJSON({
-      type: "FeatureCollection",
-      features: [
-        { type: "Feature", geometry: { type: "LineString", coordinates: [[-56.09, -15.60], [-56.08, -15.61], [-56.07, -15.62]] } }
-      ]
-    }, { style: { color: '#3b82f6', weight: 3 } }).addTo(map);
+    // Redes
+    const waterCoords = [[-15.65, -56.08], [-15.655, -56.065], [-15.66, -56.05]];
+    layers.water = L.polyline(waterCoords, { color: '#3b82f6', weight: 4 }).addTo(map);
+    
+    const sewerCoords = [[-15.652, -56.08], [-15.657, -56.065], [-15.662, -56.05]];
+    layers.sewer = L.polyline(sewerCoords, { color: '#78350f', weight: 4 }).addTo(map);
 
-    layers.sewer = L.geoJSON({
-      type: "FeatureCollection",
-      features: [
-        { type: "Feature", geometry: { type: "LineString", coordinates: [[-56.10, -15.61], [-56.09, -15.62], [-56.08, -15.63]] } }
-      ]
-    }, { style: { color: '#78350f', weight: 3 } }).addTo(map);
+    map.on('click', function(e) {
+      const dist = Math.random();
+      const coverage = (dist > 0.5) ? "98%" : "12%";
+      const status = (dist > 0.5) ? "REGULAR" : "DÉFICIT";
+      document.getElementById('calc-result').innerHTML = `
+        <b>Coord:</b> ${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}<br>
+        <b>Cobertura:</b> ${coverage}<br>
+        <b>Status:</b> <span style="color:${dist > 0.5 ? 'green' : 'red'}">${status}</span>
+      `;
+    });
 
-    layers.expansion = L.geoJSON({
-      type: "FeatureCollection",
-      features: [{ type: "Feature", geometry: { type: "Polygon", coordinates: [[[-56.06, -15.65], [-56.04, -15.65], [-56.04, -15.67], [-56.06, -15.67], [-56.06, -15.65]]] } }]
-    }, { style: { color: '#10b981', dashArray: '10, 10', fillOpacity: 0.1 } });
+    function toggleFlow() {
+      const path = layers.water.getElement();
+      if(path.classList.contains('flow-line')) {
+        path.classList.remove('flow-line');
+        layers.sewer.getElement().classList.remove('flow-line');
+      } else {
+        path.classList.add('flow-line');
+        layers.sewer.getElement().classList.add('flow-line');
+      }
+    }
 
     function toggleLayer(key) {
       if (map.hasLayer(layers[key])) map.removeLayer(layers[key]);
       else map.addLayer(layers[key]);
     }
+
+    new L.Control.Draw().addTo(map);
   </script>
 </body>
 </html>

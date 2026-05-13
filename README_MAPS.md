@@ -8,14 +8,16 @@ Este repositório contém três módulos de mapas interativos desenvolvidos para
 - `mapa_grupo4.html`: Focado em **Invisibilidade de Dados e Georreferenciamento**.
 - `mapa_grupo6.html`: Focado em **Saneamento Básico e Saúde Ambiental**.
 
-## 🚀 Funcionalidades Estilo QGIS
+## 🚀 Funcionalidades Avançadas e Simulação
 
 Todos os mapas incluem:
+- **Botão de Retorno**: Integração fluida com as páginas de slides.
+- **Simulação de Frota (Grupo 2)**: Visualização dinâmica de ônibus em movimento nas rotas.
+- **Medidor de Transparência (Grupo 4)**: Gauge dinâmico que reflete o nível de mapeamento por ano.
+- **Fluxo Hidráulico Animado (Grupo 6)**: Animação CSS nas linhas de rede para demonstrar fluxo de água/esgoto.
+- **Calculadora de Cobertura (Grupo 6)**: Clique em qualquer ponto para obter dados simulados de saneamento.
 - **Alternância de Camadas (Layers)**: Controle total sobre o que é exibido no mapa.
-- **Painel Lateral de KPIs**: Indicadores em tempo real baseados nos dados plotados.
 - **Ferramentas de Medição**: Meça distâncias e áreas diretamente no navegador (Leaflet.draw).
-- **Exportação**: Botão para facilitar a captura da vista atual.
-- **Base Cartográfica Dupla**: Opção entre mapa de ruas (OSM) e imagens de satélite (Esri).
 
 ## 🛠️ Personalização de Dados
 

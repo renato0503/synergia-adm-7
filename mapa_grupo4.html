@@ -19,87 +19,80 @@
     #app { display: flex; height: 100vh; width: 100vw; }
     #map-container { flex: 1; position: relative; }
     #map { height: 100%; width: 100%; }
-    #sidebar { width: 350px; background: var(--sidebar-bg); border-left: 1px solid var(--border); display: flex; flex-direction: column; z-index: 1000; transition: transform 0.3s ease; }
+    
+    .return-btn { position: absolute; top: 1rem; left: 3.5rem; z-index: 1000; background: white; border: 2px solid var(--primary); color: var(--primary); padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 800; text-decoration: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    
+    #sidebar { width: 350px; background: var(--sidebar-bg); border-left: 1px solid var(--border); display: flex; flex-direction: column; z-index: 1000; }
     .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); }
     .sidebar-header h1 { font-size: 1.25rem; font-weight: 800; color: var(--primary); }
-    .sidebar-content { flex: 1; overflow-y: auto; padding: 1.5rem; }
-    .kpi-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 2rem; }
-    .kpi-card { background: #fffbeb; padding: 1rem; border-radius: 12px; border: 1px solid #fde68a; }
-    .kpi-value { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
-    .kpi-label { font-size: 0.75rem; color: #92400e; text-transform: uppercase; font-weight: 600; }
-    .layer-control { margin-bottom: 2rem; }
-    .layer-item { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; font-size: 0.9rem; }
-    .slider-container { margin-top: 1rem; }
-    .slider-container input { width: 100%; margin-top: 0.5rem; }
-    .export-btn { background: var(--primary); color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; }
-    .legend { background: white; padding: 1rem; border-radius: 8px; border: 1px solid var(--border); font-size: 0.85rem; margin-top: 1rem; }
-    .legend-item { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
-    .color-box { width: 20px; height: 12px; border-radius: 2px; }
+    
+    .kpi-card { background: #fffbeb; padding: 1rem; border-radius: 12px; border: 1px solid #fde68a; margin: 1.5rem; }
+    .gauge-container { height: 10px; background: #e2e8f0; border-radius: 5px; margin-top: 10px; overflow: hidden; }
+    .gauge-fill { height: 100%; background: var(--primary); width: 68%; transition: 0.5s; }
+    
+    .tool-section { padding: 1.5rem; border-top: 1px solid var(--border); }
+    .btn-tool { background: #fffbeb; border: 1px solid #fde68a; padding: 0.6rem; border-radius: 6px; cursor: pointer; width: 100%; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 600; text-align: left; }
+    .btn-tool:hover { background: #fef3c7; }
   </style>
 </head>
 <body>
   <div id="app">
     <div id="map-container">
+      <a href="grupo4.html" class="return-btn">← Voltar para Apresentação</a>
       <div id="map"></div>
     </div>
+    
     <aside id="sidebar">
       <div class="sidebar-header">
         <h1>QGIS Web | Dados</h1>
-        <p>Invisibilidade Estatística em Cuiabá</p>
+        <p>Invisibilidade Territorial</p>
       </div>
-      <div class="sidebar-content">
-        <div class="kpi-grid">
-          <div class="kpi-card">
-            <div class="kpi-value">68%</div>
-            <div class="kpi-label">Território Mapeado</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-value">R$ 4,2M</div>
-            <div class="kpi-label">Verba Geoprocessamento</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-value">142</div>
-            <div class="kpi-label">Pedidos LAI Pendentes</div>
-          </div>
+      
+      <div class="kpi-card">
+        <div style="display: flex; justify-content: space-between;">
+          <span style="font-weight: 800; color: var(--primary);">Transparência</span>
+          <span id="perc-label">68%</span>
         </div>
-        <div class="layer-control">
-          <h3>Filtros e Camadas</h3>
-          <div class="layer-item"><input type="checkbox" checked onchange="toggleLayer('mapped')"> Áreas Mapeadas</div>
-          <div class="layer-item"><input type="checkbox" checked onchange="toggleLayer('missing')"> Gaps de Dados (Vermelho)</div>
-          <div class="layer-item"><input type="checkbox" onchange="toggleLayer('denuncias')"> Pontos de Denúncia</div>
-          
-          <div class="slider-container">
-            <p>Evolução Temporal: <span id="year-label">2026</span></p>
-            <input type="range" min="2020" max="2026" value="2026" oninput="updateTime(this.value)">
-          </div>
-        </div>
-        <div class="legend">
-          <div class="legend-item"><div class="color-box" style="background: #10b981;"></div> 100% Mapeado</div>
-          <div class="legend-item"><div class="color-box" style="background: #ef4444;"></div> Sem Dados Cadastrais</div>
-          <div class="legend-item"><div class="color-box" style="background: #f59e0b;"></div> Em Processo (Mapeamento)</div>
-        </div>
-        <button class="export-btn" style="margin-top: 1rem;">Exportar Relatório Geo</button>
+        <div class="gauge-container"><div class="gauge-fill" id="gauge"></div></div>
+        <p style="font-size: 0.7rem; margin-top: 5px; color: #92400e;">Território Mapeado oficialmente</p>
+      </div>
+
+      <div class="tool-section">
+        <h3>Modos de Visualização</h3>
+        <button class="btn-tool" onclick="setBase('osm')">🗺️ Mapa de Ruas (OSM)</button>
+        <button class="btn-tool" onclick="setBase('sat')">🛰️ Visão de Satélite (Esri)</button>
+        <button class="btn-tool" onclick="toggleLayer('missing')">🛑 Destacar Gaps (Vermelho)</button>
+      </div>
+
+      <div class="tool-section">
+        <h3>Histórico Cadastral</h3>
+        <input type="range" min="2020" max="2026" value="2026" style="width: 100%;" oninput="updateTime(this.value)">
+        <p style="text-align: center; font-weight: 800; margin-top: 10px;">Ano: <span id="year-label">2026</span></p>
+      </div>
+
+      <div class="tool-section">
+        <button class="btn-tool" onclick="resetMap()">🎯 Centralizar no Ribeirão</button>
       </div>
     </aside>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+
   <script>
-    const map = L.map('map').setView([-15.6014, -56.0979], 12);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    const map = L.map('map').setView([-15.584, -56.075], 13);
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
 
     const layers = {};
-    
-    layers.mapped = L.geoJSON({
-      type: "FeatureCollection",
-      features: [{ type: "Feature", geometry: { type: "Polygon", coordinates: [[[-56.12, -15.58], [-56.08, -15.58], [-56.08, -15.61], [-56.12, -15.61], [-56.12, -15.58]]] } }]
-    }, { style: { color: '#10b981', fillOpacity: 0.2 } }).addTo(map);
+    layers.missing = L.polygon([
+      [-15.58, -56.08], [-15.59, -56.08], [-15.59, -56.07], [-15.58, -56.07]
+    ], { color: '#ef4444', fillOpacity: 0.5 }).addTo(map).bindPopup("<b>Ribeirão do Lipa</b><br>Zona de Expansão sem Cadastro.");
 
-    layers.missing = L.geoJSON({
-      type: "FeatureCollection",
-      features: [{ type: "Feature", properties: { neighborhood: "Ribeirão do Lipa" }, geometry: { type: "Polygon", coordinates: [[[-56.15, -15.63], [-56.13, -15.63], [-56.13, -15.65], [-56.15, -15.65], [-56.15, -15.63]]] } }]
-    }, { style: { color: '#ef4444', fillOpacity: 0.5 } }).addTo(map);
+    function setBase(type) {
+      if(type === 'osm') { map.addLayer(osm); map.removeLayer(satellite); }
+      else { map.addLayer(satellite); map.removeLayer(osm); }
+    }
 
     function toggleLayer(key) {
       if (map.hasLayer(layers[key])) map.removeLayer(layers[key]);
@@ -108,9 +101,14 @@
 
     function updateTime(val) {
       document.getElementById('year-label').innerText = val;
-      const opacity = (val - 2020) / 6;
-      layers.mapped.setStyle({ fillOpacity: opacity * 0.4 });
+      const perc = 40 + ((val - 2020) * 5);
+      document.getElementById('perc-label').innerText = perc + "%";
+      document.getElementById('gauge').style.width = perc + "%";
     }
+
+    function resetMap() { map.setView([-15.584, -56.075], 15); }
+
+    new L.Control.Draw({ position: 'topleft' }).addTo(map);
   </script>
 </body>
 </html>
