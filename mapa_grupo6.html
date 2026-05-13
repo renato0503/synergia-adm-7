@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QGIS Web - Grupo 6 | Saneamento Básico</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+  
+  <style>
+    :root { --primary: #10b981; --sidebar-bg: #ffffff; --text: #1e293b; --border: #e2e8f0; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body, html { height: 100%; overflow: hidden; }
+    #app { display: flex; height: 100vh; width: 100vw; }
+    #map-container { flex: 1; position: relative; }
+    #map { height: 100%; width: 100%; }
+    #sidebar { width: 350px; background: var(--sidebar-bg); border-left: 1px solid var(--border); display: flex; flex-direction: column; z-index: 1000; }
+    .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); }
+    .sidebar-header h1 { font-size: 1.25rem; font-weight: 800; color: var(--primary); }
+    .sidebar-content { flex: 1; overflow-y: auto; padding: 1.5rem; }
+    .kpi-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 2rem; }
+    .kpi-card { background: #f0fdf4; padding: 1rem; border-radius: 12px; border: 1px solid #bbf7d0; }
+    .kpi-value { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+    .kpi-label { font-size: 0.75rem; color: #065f46; text-transform: uppercase; font-weight: 600; }
+    .layer-control { margin-bottom: 2rem; }
+    .layer-item { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; font-size: 0.9rem; }
+    .export-btn { background: var(--primary); color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; }
+    .legend { background: white; padding: 1rem; border-radius: 8px; border: 1px solid var(--border); font-size: 0.85rem; margin-top: 1rem; }
+    .legend-item { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+    .color-box { width: 20px; height: 12px; border-radius: 2px; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div id="map-container">
+      <div id="map"></div>
+    </div>
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <h1>QGIS Web | Saneamento</h1>
+        <p>Infraestrutura e Saúde Ambiental</p>
+      </div>
+      <div class="sidebar-content">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-value">98,1%</div>
+            <div class="kpi-label">Cobertura Água Potável</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-value">82,4%</div>
+            <div class="kpi-label">Esgotamento Sanitário</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-value">R$ 472,42</div>
+            <div class="kpi-label">Investimento per Capita</div>
+          </div>
+        </div>
+        <div class="layer-control">
+          <h3>Camadas de Infraestrutura</h3>
+          <div class="layer-item"><input type="checkbox" checked onchange="toggleLayer('water')"> Rede de Água (Azul)</div>
+          <div class="layer-item"><input type="checkbox" checked onchange="toggleLayer('sewer')"> Rede de Esgoto (Marrom)</div>
+          <div class="layer-item"><input type="checkbox" onchange="toggleLayer('stations')"> Estações de Tratamento</div>
+          <div class="layer-item"><input type="checkbox" onchange="toggleLayer('expansion')"> Plano de Expansão (Tracejado)</div>
+        </div>
+        <div class="legend">
+          <div class="legend-item"><div class="color-box" style="background: #3b82f6;"></div> Tubulações de Água</div>
+          <div class="legend-item"><div class="color-box" style="background: #78350f;"></div> Tubulações de Esgoto</div>
+          <div class="legend-item"><div class="color-box" style="background: #ef4444; opacity: 0.3;"></div> Áreas com Déficit</div>
+        </div>
+        <button class="export-btn" style="margin-top: 1rem;">Exportar Mapa de Rede</button>
+      </div>
+    </aside>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+  <script>
+    const map = L.map('map').setView([-15.6014, -56.0979], 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    const layers = {};
+    
+    // Simulação de Rede
+    layers.water = L.geoJSON({
+      type: "FeatureCollection",
+      features: [
+        { type: "Feature", geometry: { type: "LineString", coordinates: [[-56.09, -15.60], [-56.08, -15.61], [-56.07, -15.62]] } }
+      ]
+    }, { style: { color: '#3b82f6', weight: 3 } }).addTo(map);
+
+    layers.sewer = L.geoJSON({
+      type: "FeatureCollection",
+      features: [
+        { type: "Feature", geometry: { type: "LineString", coordinates: [[-56.10, -15.61], [-56.09, -15.62], [-56.08, -15.63]] } }
+      ]
+    }, { style: { color: '#78350f', weight: 3 } }).addTo(map);
+
+    layers.expansion = L.geoJSON({
+      type: "FeatureCollection",
+      features: [{ type: "Feature", geometry: { type: "Polygon", coordinates: [[[-56.06, -15.65], [-56.04, -15.65], [-56.04, -15.67], [-56.06, -15.67], [-56.06, -15.65]]] } }]
+    }, { style: { color: '#10b981', dashArray: '10, 10', fillOpacity: 0.1 } });
+
+    function toggleLayer(key) {
+      if (map.hasLayer(layers[key])) map.removeLayer(layers[key]);
+      else map.addLayer(layers[key]);
+    }
+  </script>
+</body>
+</html>

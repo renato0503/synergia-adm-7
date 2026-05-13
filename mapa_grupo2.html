@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QGIS Web - Grupo 2 | Transporte Público</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  
+  <!-- Leaflet & Plugins -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+  
+  <style>
+    :root {
+      --primary: #2563eb;
+      --sidebar-bg: #ffffff;
+      --text: #1e293b;
+      --border: #e2e8f0;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body, html { height: 100%; overflow: hidden; }
+    
+    #app { display: flex; height: 100vh; width: 100vw; }
+    
+    #map-container { flex: 1; position: relative; }
+    #map { height: 100%; width: 100%; }
+    
+    #sidebar {
+      width: 350px;
+      background: var(--sidebar-bg);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      box-shadow: -4px 0 15px rgba(0,0,0,0.05);
+      z-index: 1000;
+      transition: transform 0.3s ease;
+    }
+    
+    .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); }
+    .sidebar-header h1 { font-size: 1.25rem; font-weight: 800; color: var(--primary); }
+    .sidebar-header p { font-size: 0.85rem; color: #64748b; margin-top: 0.25rem; }
+    
+    .sidebar-content { flex: 1; overflow-y: auto; padding: 1.5rem; }
+    
+    .kpi-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 2rem; }
+    .kpi-card { background: #f8fafc; padding: 1rem; border-radius: 12px; border: 1px solid var(--border); }
+    .kpi-value { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+    .kpi-label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; font-weight: 600; }
+    
+    .layer-control { margin-bottom: 2rem; }
+    .layer-control h3 { font-size: 0.9rem; margin-bottom: 1rem; color: var(--text); }
+    .layer-item { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; font-size: 0.9rem; cursor: pointer; }
+    .layer-item input { width: 1.2rem; height: 1.2rem; cursor: pointer; }
+    
+    .legend { background: white; padding: 1rem; border-radius: 8px; border: 1px solid var(--border); font-size: 0.85rem; }
+    .legend-item { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+    .color-box { width: 20px; height: 12px; border-radius: 2px; }
+    
+    .export-btn { 
+      background: var(--primary); color: white; border: none; padding: 0.75rem; 
+      border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 1rem;
+    }
+    
+    .leaflet-popup-content-wrapper { border-radius: 12px; padding: 0.5rem; }
+    .popup-header { font-weight: 800; margin-bottom: 0.5rem; color: var(--primary); }
+    .popup-body { font-size: 0.85rem; line-height: 1.5; }
+    
+    @media (max-width: 768px) { #sidebar { position: fixed; right: 0; height: 100%; transform: translateX(100%); } .sidebar-open #sidebar { transform: translateX(0); } }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div id="map-container">
+      <div id="map"></div>
+    </div>
+    
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <h1>QGIS Web | Transporte</h1>
+        <p>Região Metropolitana de Cuiabá</p>
+      </div>
+      
+      <div class="sidebar-content">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-value">370</div>
+            <div class="kpi-label">Veículos em Circulação</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-value">210 mil</div>
+            <div class="kpi-label">Passageiros Diários</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-value">12</div>
+            <div class="kpi-label">Bairros s/ Cobertura</div>
+          </div>
+        </div>
+        
+        <div class="layer-control">
+          <h3>Camadas Geoespaciais</h3>
+          <div class="layer-item"><input type="checkbox" checked onchange="toggleLayer('routes')"> Rotas Atuais</div>
+          <div class="layer-item"><input type="checkbox" checked onchange="toggleLayer('stops')"> Pontos de Parada</div>
+          <div class="layer-item"><input type="checkbox" checked onchange="toggleLayer('deficit')"> Áreas sem Cobertura</div>
+          <div class="layer-item"><input type="checkbox" onchange="toggleLayer('proposal')"> Nova Rota Proposta</div>
+        </div>
+        
+        <div class="legend">
+          <h3>Legenda</h3>
+          <div class="legend-item"><div class="color-box" style="background: #2563eb;"></div> Rotas de Ônibus</div>
+          <div class="legend-item"><div class="color-box" style="background: #ef4444; opacity: 0.5;"></div> Bairros sem Cobertura</div>
+          <div class="legend-item"><div class="color-box" style="background: #10b981; border: 2px dashed #059669;"></div> Proposta de Extensão</div>
+        </div>
+        
+        <button class="export-btn" onclick="exportMap()">Exportar Vista (PNG)</button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+  <script src="https://unpkg.com/leaflet-simple-map-screenshoter"></script>
+
+  <script>
+    // --- DADOS GEOJSON EMBUTIDOS ---
+    const data = {
+      routes: {
+        type: "FeatureCollection",
+        features: [
+          { type: "Feature", properties: { name: "Linha 311" }, geometry: { type: "LineString", coordinates: [[-56.09, -15.60], [-56.07, -15.58], [-56.05, -15.57]] } },
+          { type: "Feature", properties: { name: "Linha 605" }, geometry: { type: "LineString", coordinates: [[-56.10, -15.61], [-56.12, -15.63], [-56.15, -15.65]] } }
+        ]
+      },
+      stops: [
+        { lat: -15.601, lng: -56.097, name: "Terminal Central" },
+        { lat: -15.58, lng: -56.07, name: "Parada Shopping" },
+        { lat: -15.63, lng: -56.12, name: "Parada CPA" }
+      ],
+      deficit: {
+        type: "FeatureCollection",
+        features: [
+          { type: "Feature", properties: { neighborhood: "Pedregal Sul" }, geometry: { type: "Polygon", coordinates: [[[-56.08, -15.62], [-56.07, -15.62], [-56.07, -15.63], [-56.08, -15.63], [-56.08, -15.62]]] } }
+        ]
+      },
+      proposal: {
+        type: "Feature",
+        properties: { name: "Nova Linha Periferia" },
+        geometry: { type: "LineString", coordinates: [[-56.07, -15.62], [-56.06, -15.63], [-56.05, -15.64]] }
+      }
+    };
+
+    // --- LÓGICA DO MAPA ---
+    const map = L.map('map', {
+      center: [-15.6014, -56.0979],
+      zoom: 12,
+      maxBounds: [[-15.75, -56.25], [-15.50, -55.95]]
+    });
+
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    });
+
+    const layers = {};
+
+    // 1. Rotas
+    layers.routes = L.geoJSON(data.routes, {
+      style: { color: '#2563eb', weight: 4, opacity: 0.8 }
+    }).addTo(map);
+
+    // 2. Pontos (Cluster)
+    layers.stops = L.markerClusterGroup();
+    data.stops.forEach(s => {
+      const marker = L.marker([s.lat, s.lng]).bindPopup(`<b>${s.name}</b><br>Frequência: 15min`);
+      layers.stops.addLayer(marker);
+    });
+    layers.stops.addTo(map);
+
+    // 3. Déficit
+    layers.deficit = L.geoJSON(data.deficit, {
+      style: { color: '#ef4444', fillColor: '#ef4444', fillOpacity: 0.3, weight: 1 }
+    }).addTo(map);
+
+    // 4. Proposta
+    layers.proposal = L.geoJSON(data.proposal, {
+      style: { color: '#10b981', weight: 4, opacity: 0.8, dashArray: '5, 10' }
+    });
+
+    // Layer Switcher
+    const baseMaps = { "OpenStreetMap": osm, "Satélite": satellite };
+    L.control.layers(baseMaps).addTo(map);
+    L.control.scale().addTo(map);
+
+    function toggleLayer(key) {
+      if (map.hasLayer(layers[key])) { map.removeLayer(layers[key]); }
+      else { map.addLayer(layers[key]); }
+    }
+
+    function exportMap() {
+      alert("Preparando exportação... Em um ambiente real, aqui geramos o canvas para PNG.");
+    }
+
+    // Ferramentas de Desenho (Medição)
+    const drawControl = new L.Control.Draw({
+      draw: { polygon: true, polyline: true, rectangle: false, circle: false, circlemarker: false, marker: false }
+    });
+    map.addControl(drawControl);
+
+  </script>
+</body>
+</html>
