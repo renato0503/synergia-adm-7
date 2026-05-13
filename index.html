@@ -11,17 +11,22 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <style>
         :root {
             --primary: #00d2ff;
             --secondary: #3a7bd5;
             --accent: #00f2fe;
             --bg-dark: #0f172a;
-            --glass: rgba(255, 255, 255, 0.05);
+            --glass: rgba(15, 23, 42, 0.8);
             --glass-border: rgba(255, 255, 255, 0.1);
             --text-main: #f8fafc;
             --text-dim: #94a3b8;
-            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -35,10 +40,9 @@
             background-color: var(--bg-dark);
             color: var(--text-main);
             overflow-x: hidden;
-            min-height: 100vh;
         }
 
-        /* Animated Background */
+        /* Background */
         .bg-container {
             position: fixed;
             top: 0;
@@ -47,7 +51,6 @@
             height: 100%;
             z-index: -1;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            overflow: hidden;
         }
 
         .bg-image {
@@ -59,81 +62,22 @@
             background-image: url('hero.png');
             background-size: cover;
             background-position: center;
-            opacity: 0.3;
-            filter: blur(5px);
-            transform: scale(1.1);
-            transition: var(--transition);
+            opacity: 0.2;
+            filter: grayscale(0.5);
         }
 
-        .blob {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(0, 210, 255, 0.15) 0%, transparent 70%);
-            filter: blur(80px);
-            border-radius: 50%;
-            animation: move 20s infinite alternate;
-        }
-
-        @keyframes move {
-            from { transform: translate(-10%, -10%); }
-            to { transform: translate(100%, 80%); }
-        }
-
-        /* Layout */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            padding: 2rem 0;
-            text-align: center;
-            border-bottom: 1px solid var(--glass-border);
-            margin-bottom: 3rem;
-            animation: fadeInDown 1s ease-out;
-        }
-
-        .university-info h1 {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-        }
-
-        .university-info h2 {
-            font-size: 1.5rem;
-            font-weight: 400;
-            color: var(--text-dim);
-        }
-
-        .main-title {
-            margin-top: 2rem;
-            font-size: 3.5rem;
-            font-weight: 800;
-            background: linear-gradient(to right, #fff, var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.1;
-        }
-
-        /* Navigation Buttons */
+        /* Navigation */
         .nav-controls {
             position: fixed;
-            bottom: 2rem;
+            top: 2rem;
             right: 2rem;
             display: flex;
             gap: 1rem;
-            z-index: 100;
+            z-index: 1000;
         }
 
-        .btn-home {
-            background: var(--glass);
+        .btn-nav {
+            background: rgba(255, 255, 255, 0.1);
             border: 1px solid var(--glass-border);
             color: white;
             padding: 0.8rem 1.5rem;
@@ -141,380 +85,568 @@
             cursor: pointer;
             backdrop-filter: blur(10px);
             transition: var(--transition);
-            display: none; /* Only show when not on home */
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
         }
 
-        .btn-home:hover {
+        .btn-nav:hover {
             background: var(--primary);
             box-shadow: 0 0 20px rgba(0, 210, 255, 0.4);
+            transform: scale(1.05);
         }
 
-        /* Pages */
+        /* Container & Pages */
         .page {
             display: none;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: var(--transition);
-            width: 100%;
+            min-height: 100vh;
+            padding: 2rem;
         }
 
         .page.active {
             display: block;
-            opacity: 1;
-            transform: translateY(0);
+            animation: fadeIn 0.8s ease-out;
         }
 
-        /* Home Page Content */
-        .home-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Banner Style (Slide) */
+        .banner {
+            min-height: 80vh;
+            margin-bottom: 5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            margin-top: 2rem;
-        }
-
-        .problem-context {
-            padding: 2rem;
+            padding: 4rem 2rem;
             background: var(--glass);
+            border-radius: 40px;
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            backdrop-filter: blur(12px);
-        }
-
-        .problem-context h3 {
-            color: var(--accent);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .problem-context p {
-            line-height: 1.7;
-            color: var(--text-dim);
-            margin-bottom: 1.5rem;
-        }
-
-        .advisor-badge {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: rgba(0, 210, 255, 0.1);
-            border: 1px dashed var(--primary);
-            border-radius: 8px;
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .group-cards {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        .group-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            padding: 2rem;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: var(--transition);
+            backdrop-filter: blur(20px);
             position: relative;
             overflow: hidden;
         }
 
-        .group-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--primary);
-            transform: translateX(10px);
+        .banner-content {
+            max-width: 1000px;
+            width: 100%;
+            z-index: 2;
         }
 
-        .group-card h4 {
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .group-card .members {
-            font-size: 0.9rem;
-            color: var(--text-dim);
-        }
-
-        .group-card::after {
-            content: '→';
-            position: absolute;
-            right: 2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.5rem;
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .group-card:hover::after {
-            opacity: 1;
-            right: 1.5rem;
-        }
-
-        /* Group Page Content */
-        .group-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .group-header h2 {
+        .banner h2 {
             font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .banner h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .banner p {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+        }
+
+        /* Dashboard & Charts */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        .chart-container {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            height: 300px;
+        }
+
+        /* Map */
+        .map-box {
+            width: 100%;
+            height: 500px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            margin-top: 2rem;
+            z-index: 1;
+        }
+
+        /* Home Style */
+        .hero-section {
+            text-align: center;
+            padding-top: 10vh;
+        }
+
+        .hero-section h1 {
+            font-size: 5rem;
+            font-weight: 800;
             margin-bottom: 1rem;
         }
 
-        .disciplines-grid {
+        .group-selector {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
-            margin-top: 3rem;
+            margin-top: 5rem;
         }
 
-        .discipline-card {
+        .group-btn {
             background: var(--glass);
-            padding: 2.5rem;
-            border-radius: 24px;
+            padding: 3rem 2rem;
+            border-radius: 30px;
             border: 1px solid var(--glass-border);
-            text-align: center;
+            cursor: pointer;
             transition: var(--transition);
-        }
-
-        .discipline-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--accent);
-        }
-
-        .discipline-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-
-        .discipline-card h3 {
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        .discipline-card p {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: var(--text-dim);
-        }
-
-        /* Footer */
-        footer {
-            margin-top: auto;
-            padding: 4rem 0 2rem;
             text-align: center;
+        }
+
+        .group-btn:hover {
+            transform: translateY(-15px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .group-btn h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Lists and Features */
+        ul.check-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        ul.check-list li {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .discipline-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
             font-size: 0.8rem;
-            color: var(--text-dim);
-            letter-spacing: 1px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
         }
 
-        /* Animations */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .badge-bi { background: #0ea5e9; color: white; }
+        .badge-ogc { background: #f59e0b; color: white; }
+        .badge-pp { background: #10b981; color: white; }
 
-        /* Responsive */
         @media (max-width: 968px) {
-            .home-grid { grid-template-columns: 1fr; gap: 2rem; }
-            .disciplines-grid { grid-template-columns: 1fr; }
-            .main-title { font-size: 2.5rem; }
+            .group-selector { grid-template-columns: 1fr; }
+            .hero-section h1 { font-size: 3rem; }
+            .banner h2 { font-size: 2rem; }
+            ul.check-list { grid-template-columns: 1fr; }
         }
     </style>
 </head>
-<body data-current-page="home">
+<body>
 
     <div class="bg-container">
-        <div class="bg-image" id="bgImage"></div>
-        <div class="blob" style="top: 10%; left: 10%;"></div>
-        <div class="blob" style="top: 60%; left: 80%; background: radial-gradient(circle, rgba(58, 123, 213, 0.15) 0%, transparent 70%);"></div>
+        <div class="bg-image"></div>
     </div>
 
-    <div class="container">
-        <header>
-            <div class="university-info">
-                <h1 id="univ-name">UNIFACC CUIABÁ</h1>
-                <h2>Curso de Administração e Gestão Pública</h2>
-                <p>2º/3º Módulo</p>
-            </div>
-            <h1 class="main-title" id="page-title">SYNERGIA</h1>
-        </header>
+    <div class="nav-controls">
+        <button class="btn-nav" onclick="showPage('home')">Home</button>
+    </div>
 
-        <!-- Home Page -->
-        <main id="home" class="page active">
-            <div class="home-grid">
-                <div class="problem-context">
-                    <h3>O Problema</h3>
-                    <h4 style="color: white; margin-bottom: 1rem;">“O ABISMO ENTRE O CEP E A CIDADANIA”</h4>
-                    <p>
-                        Em um bairro periférico de Cuiabá, as casas existem, mas a "moradia" é incompleta. 
-                        Saneamento inexistente, iluminação precária e falta de regularização fundiária tornam o bairro "invisível" para o planejamento tecnológico.
-                    </p>
-                    <p>
-                        A verba federal para "Modernização e Sustentabilidade Urbana" está travada por dados desatualizados e riscos de desvio para áreas nobres. 
-                        <strong>Como resolver este abismo?</strong>
-                    </p>
-                    <div class="advisor-badge">
-                        Orientador: Prof. Renato Rosa
-                    </div>
-                </div>
+    <!-- PAGE: HOME -->
+    <main id="home" class="page active">
+        <div class="hero-section">
+            <h3 style="color: var(--accent); letter-spacing: 5px;">UNIFACC CUIABÁ</h3>
+            <h1>SYNERGIA</h1>
+            <p style="font-size: 1.5rem; color: var(--text-dim); max-width: 800px; margin: 0 auto;">
+                O Abismo entre o CEP e a Cidadania: Gestão e Administração Pública em Cuiabá
+            </p>
+            <p style="margin-top: 1rem; font-weight: 600;">Orientador: Prof. Renato Rosa</p>
 
-                <div class="group-cards">
-                    <div class="group-card" onclick="navigateTo('group2')">
-                        <h4>Grupo 2 – Transporte Público</h4>
-                        <p class="members">Erilin Sabrina, Emilly Gabriely, Juarez, Flavia Arruda</p>
-                    </div>
-                    <div class="group-card" onclick="navigateTo('group4')">
-                        <h4>Grupo 4 – Falta de Dados</h4>
-                        <p class="members">Kemylly Monique, Steffany Natilin, Vitórya Ferreira</p>
-                    </div>
-                    <div class="group-card" onclick="navigateTo('group6')">
-                        <h4>Grupo 6 – Saneamento Básico</h4>
-                        <p class="members">Celia, Izabela, Emanoeli, Robson</p>
-                    </div>
+            <div class="group-selector">
+                <div class="group-btn" onclick="showPage('group2')">
+                    <h3>Grupo 2</h3>
+                    <p>Transporte Público</p>
+                </div>
+                <div class="group-btn" onclick="showPage('group4')">
+                    <h3>Grupo 4</h3>
+                    <p>Falta de Dados</p>
+                </div>
+                <div class="group-btn" onclick="showPage('group6')">
+                    <h3>Grupo 6</h3>
+                    <p>Saneamento Básico</p>
                 </div>
             </div>
-        </main>
+        </div>
+    </main>
 
-        <!-- Group 2 Page -->
-        <section id="group2" class="page">
-            <div class="group-header">
-                <span class="advisor-badge" style="margin-bottom: 1rem;">Grupo 2</span>
-                <h2>Transporte Público</h2>
-                <p class="members">Erilin Sabrina, Emilly Gabriely, Juarez, Flavia Arruda</p>
-            </div>
-            
-            <div class="disciplines-grid">
-                <div class="discipline-card">
-                    <span class="discipline-icon">📊</span>
-                    <h3>Adm Financeira e BI</h3>
-                    <p>Análise de custos de pavimentação vs. economia no transporte. Uso de BI para mapear rotas "fantasmas" e demanda reprimida em ruas sem acesso.</p>
-                </div>
-                <div class="discipline-card">
-                    <span class="discipline-icon">⚖️</span>
-                    <h3>Governança e Compliance</h3>
-                    <p>Fiscalização da verba federal carimbada. Implementação de portais de transparência específicos para o projeto de expansão do transporte periférico.</p>
-                </div>
-                <div class="discipline-card">
-                    <span class="discipline-icon">🏗️</span>
-                    <h3>Políticas Públicas</h3>
-                    <p>Integração modal e dignidade urbana. Criação de linhas alimentadoras que interligam o bairro ao centro, garantindo o direito constitucional à mobilidade.</p>
+    <!-- PAGE: GROUP 2 (Transporte) -->
+    <section id="group2" class="page">
+        <!-- Banner 1: Intro -->
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge" style="background: white; color: black;">Apresentação</span>
+                <h2>Transporte Público e Mobilidade</h2>
+                <p>Análise da precariedade no acesso ao transporte em bairros periféricos e soluções de gestão.</p>
+                <div style="color: var(--text-dim);">
+                    <strong>Membros:</strong> Erilin Sabrina, Emilly Gabriely, Juarez, Flavia Arruda
                 </div>
             </div>
-        </section>
-
-        <!-- Group 4 Page -->
-        <section id="group4" class="page">
-            <div class="group-header">
-                <span class="advisor-badge" style="margin-bottom: 1rem;">Grupo 4</span>
-                <h2>Falta de Dados em Cuiabá</h2>
-                <p class="members">Kemylly Monique, Steffany Natilin, Vitórya Ferreira</p>
-            </div>
-            
-            <div class="disciplines-grid">
-                <div class="discipline-card">
-                    <span class="discipline-icon">📊</span>
-                    <h3>Adm Financeira e BI</h3>
-                    <p>Criação de um Dashboard de visibilidade. Transformar os moradores "invisíveis" em dados estatísticos que justificam o investimento federal.</p>
-                </div>
-                <div class="discipline-card">
-                    <span class="discipline-icon">⚖️</span>
-                    <h3>Governança e Compliance</h3>
-                    <p>Atualização do sistema oficial da prefeitura. Auditoria de dados para evitar que recursos sejam desviados por falta de informações precisas.</p>
-                </div>
-                <div class="discipline-card">
-                    <span class="discipline-icon">🏗️</span>
-                    <h3>Políticas Públicas</h3>
-                    <p>Cidadania digital e regularização fundiária. O dado como ferramenta de inclusão: se o bairro não está no mapa, ele não recebe políticas públicas.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Group 6 Page -->
-        <section id="group6" class="page">
-            <div class="group-header">
-                <span class="advisor-badge" style="margin-bottom: 1rem;">Grupo 6</span>
-                <h2>Saneamento Básico</h2>
-                <p class="members">Celia, Izabela, Emanoeli, Robson</p>
-            </div>
-            
-            <div class="disciplines-grid">
-                <div class="discipline-card">
-                    <span class="discipline-icon">📊</span>
-                    <h3>Adm Financeira e BI</h3>
-                    <p>Estudo do impacto financeiro do saneamento na saúde pública. Redução de gastos hospitalares através do investimento preventivo em esgoto.</p>
-                </div>
-                <div class="discipline-card">
-                    <span class="discipline-icon">⚖️</span>
-                    <h3>Governança e Compliance</h3>
-                    <p>Compliance ambiental e contratos de concessão. Garantir que a verba federal de sustentabilidade seja aplicada integralmente no tratamento de efluentes.</p>
-                </div>
-                <div class="discipline-card">
-                    <span class="discipline-icon">🏗️</span>
-                    <h3>Políticas Públicas</h3>
-                    <p>A moradia como ecossistema de dignidade. Implementação de redes de esgoto e lazer como pilar fundamental da justiça social urbana.</p>
-                </div>
-            </div>
-        </section>
-
-        <div class="nav-controls">
-            <button class="btn-home" id="backBtn" onclick="navigateTo('home')">Voltar ao Início</button>
         </div>
 
-        <footer>
-            © 2026 UNIFACC Cuiabá - Administração e Gestão Pública | Synergia - GP
-        </footer>
-    </div>
+        <!-- Banner 2: BI Dashboard -->
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-bi">Adm Financeira e BI</span>
+                <h2>Dashboard de Eficiência</h2>
+                <div class="dashboard-grid">
+                    <div class="chart-container"><canvas id="chart2_1"></canvas></div>
+                    <div class="chart-container"><canvas id="chart2_2"></canvas></div>
+                    <div class="chart-container"><canvas id="chart2_3"></canvas></div>
+                    <div class="chart-container"><canvas id="chart2_4"></canvas></div>
+                    <div class="chart-container"><canvas id="chart2_5"></canvas></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Banner 3: Geolocation -->
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-bi">Adm Financeira e BI</span>
+                <h2>Mapeamento de Acessibilidade</h2>
+                <p>Identificação de pontos críticos onde o transporte público não chega por falta de infraestrutura.</p>
+                <div id="map2" class="map-box"></div>
+            </div>
+        </div>
+
+        <!-- Banner 4: Budget -->
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
+                <h2>Orçamento e Recursos</h2>
+                <h3>Aprovação do Orçamento Anual (LOA)</h3>
+                <p>Verba federal carimbada: R$ 15.400.000,00 destinados à expansão da malha viária e pavimentação sustentável.</p>
+                <ul class="check-list">
+                    <li>Dotação Orçamentária: Secretaria de Mobilidade Urbana</li>
+                    <li>Fonte de Recurso: Repasse Federal (Modernização Urbana)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Banner 5: Compliance -->
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
+                <h2>Transparência e Accountability</h2>
+                <p>Mecanismos de fiscalização para evitar desvios para áreas nobres e garantir a prestação de contas.</p>
+                <ul class="check-list">
+                    <li>Transparência Ativa: Portal de Obras em Tempo Real</li>
+                    <li>Políticas de Responsabilidade Fiscal</li>
+                    <li>Auditoria Externa de Compliance</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Banner 6: Committee -->
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
+                <h2>Comitê de Governança Local</h2>
+                <p>Criação do conselho deliberativo com participação da comunidade para mediação de conflitos territoriais.</p>
+            </div>
+        </div>
+
+        <!-- Banner 7: Policy Cycle -->
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-pp">Políticas Públicas</span>
+                <h2>Ciclo e Fluxos</h2>
+                <h3>Modelo de Múltiplos Fluxos (Kingdon)</h3>
+                <p>Abertura da Janela de Oportunidade: Convergência entre o problema (isolamento), política (verba federal) e pressão social.</p>
+            </div>
+        </div>
+
+        <!-- Banner 8: PPP and Control -->
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-pp">Políticas Públicas</span>
+                <h2>Execução e Controle</h2>
+                <ul class="check-list">
+                    <li>Parceria Público-Privada (PPP) para Manutenção de Abrigos</li>
+                    <li>Órgãos de Controle: TCE e Controladoria Municipal</li>
+                    <li>Aplicação da LAI para consulta de editais</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE: GROUP 4 (Dados) -->
+    <section id="group4" class="page">
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge" style="background: white; color: black;">Apresentação</span>
+                <h2>Falta de Dados em Cuiabá</h2>
+                <p>O desafio da invisibilidade estatística e a modernização digital dos bairros periféricos.</p>
+                <div style="color: var(--text-dim);">
+                    <strong>Membros:</strong> Kemylly Monique, Steffany Natilin, Vitórya Ferreira
+                </div>
+            </div>
+        </div>
+        
+        <!-- BI Dashboard -->
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-bi">Adm Financeira e BI</span>
+                <h2>Métricas da Invisibilidade</h2>
+                <div class="dashboard-grid">
+                    <div class="chart-container"><canvas id="chart4_1"></canvas></div>
+                    <div class="chart-container"><canvas id="chart4_2"></canvas></div>
+                    <div class="chart-container"><canvas id="chart4_3"></canvas></div>
+                    <div class="chart-container"><canvas id="chart4_4"></canvas></div>
+                    <div class="chart-container"><canvas id="chart4_5"></canvas></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-bi">Adm Financeira e BI</span>
+                <h2>Zoneamento Digital</h2>
+                <div id="map4" class="map-box"></div>
+            </div>
+        </div>
+
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
+                <h2>Gestão de Recursos de TI</h2>
+                <p>Verba destinada: R$ 4.200.000,00 para recadastramento imobiliário e BI Municipal.</p>
+                <ul class="check-list">
+                    <li>Aprovação na LOA: Modernização Administrativa</li>
+                    <li>Prestação de Contas Trimestral</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
+                <h2>Transparência Ativa</h2>
+                <p>Accountability através da disponibilização de dados abertos para a população.</p>
+            </div>
+        </div>
+
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
+                <h2>Mediação de Conflitos</h2>
+                <p>Comitê de Governança Local para validar a veracidade dos dados territoriais coletados.</p>
+            </div>
+        </div>
+
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-pp">Políticas Públicas</span>
+                <h2>Ciclo de Políticas</h2>
+                <p>Identificação do problema e formulação de alternativas baseadas em evidências digitais.</p>
+            </div>
+        </div>
+
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-pp">Políticas Públicas</span>
+                <h2>Transparência e LAI</h2>
+                <ul class="check-list">
+                    <li>Implementação do Portal da Transparência</li>
+                    <li>Parceria Público-Privada para Infraestrutura de Fibra</li>
+                    <li>Controle Social via LAI</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE: GROUP 6 (Saneamento) -->
+    <section id="group6" class="page">
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge" style="background: white; color: black;">Apresentação</span>
+                <h2>Saneamento Básico</h2>
+                <p>A dignidade humana através do tratamento de esgoto e acesso à água potável.</p>
+                <div style="color: var(--text-dim);">
+                    <strong>Membros:</strong> Celia, Izabela, Emanoeli, Robson
+                </div>
+            </div>
+        </div>
+
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-bi">Adm Financeira e BI</span>
+                <h2>Impacto Sanitário em Números</h2>
+                <div class="dashboard-grid">
+                    <div class="chart-container"><canvas id="chart6_1"></canvas></div>
+                    <div class="chart-container"><canvas id="chart6_2"></canvas></div>
+                    <div class="chart-container"><canvas id="chart6_3"></canvas></div>
+                    <div class="chart-container"><canvas id="chart6_4"></canvas></div>
+                    <div class="chart-container"><canvas id="chart6_5"></canvas></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-bi">Adm Financeira e BI</span>
+                <h2>Mapa de Risco Sanitário</h2>
+                <div id="map6" class="map-box"></div>
+            </div>
+        </div>
+
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
+                <h2>Investimento em Sustentabilidade</h2>
+                <p>Verba federal: R$ 28.900.000,00 para Estações de Tratamento e Rede Coletora.</p>
+                <ul class="check-list">
+                    <li>Lei de Responsabilidade Fiscal</li>
+                    <li>Accountability das concessionárias</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
+                <h2>Compliance Ambiental</h2>
+                <p>Garantia de que o recurso "carimbado" não seja utilizado em áreas de alto valor imobiliário.</p>
+            </div>
+        </div>
+
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-ogc">Orçamento e Governança</span>
+                <h2>Comitê de Bacia Local</h2>
+                <p>Governança participativa para fiscalizar a qualidade da água e serviços prestados.</p>
+            </div>
+        </div>
+
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-pp">Políticas Públicas</span>
+                <h2>Fluxos de Solução</h2>
+                <p>Agenda política: Transformar a crise sanitária em prioridade governamental através da PPP.</p>
+            </div>
+        </div>
+
+        <div class="banner">
+            <div class="banner-content">
+                <span class="discipline-badge badge-pp">Políticas Públicas</span>
+                <h2>Controle e LAI</h2>
+                <ul class="check-list">
+                    <li>Fiscalização pelo TCE e Ministério Público</li>
+                    <li>Aplicação da LAI para relatórios de balneabilidade</li>
+                    <li>Ciclo de monitoramento contínuo</li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
     <script>
-        function navigateTo(pageId) {
-            const pages = document.querySelectorAll('.page');
-            const backBtn = document.getElementById('backBtn');
-            const bgImage = document.getElementById('bgImage');
-            const univName = document.getElementById('univ-name');
-
-            // Hide all pages
-            pages.forEach(p => {
-                p.classList.remove('active');
-            });
-
-            // Show target page with small delay for animation feel
-            setTimeout(() => {
-                const targetPage = document.getElementById(pageId);
-                targetPage.classList.add('active');
-                
-                // Toggle back button
-                backBtn.style.display = pageId === 'home' ? 'none' : 'block';
-
-                // Subtle BG shift
-                if (pageId === 'home') {
-                    bgImage.style.transform = 'scale(1.1) translate(0, 0)';
-                    bgImage.style.opacity = '0.3';
-                } else {
-                    bgImage.style.transform = 'scale(1.2) translate(2%, 2%)';
-                    bgImage.style.opacity = '0.15';
-                }
-
-                // Scroll to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 50);
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Initialize charts and maps if not already done
+            if (pageId === 'group2') initGroup2();
+            if (pageId === 'group4') initGroup4();
+            if (pageId === 'group6') initGroup6();
         }
 
-        // Add some hover parallax effect to the background blobs
-        document.addEventListener('mousemove', (e) => {
-            const blobs = document.querySelectorAll('.blob');
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            blobs.forEach((blob, index) => {
-                const speed = (index + 1) * 20;
-                blob.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+        function createChart(id, label, data, type = 'bar') {
+            const ctx = document.getElementById(id);
+            if (!ctx) return;
+            new Chart(ctx, {
+                type: type,
+                data: {
+                    labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai'],
+                    datasets: [{
+                        label: label,
+                        data: data,
+                        backgroundColor: 'rgba(0, 210, 255, 0.5)',
+                        borderColor: '#00d2ff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#fff' } } },
+                    scales: {
+                        y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+                        x: { ticks: { color: '#94a3b8' }, grid: { display: false } }
+                    }
+                }
             });
-        });
+        }
+
+        function initMap(id, coords) {
+            const container = document.getElementById(id);
+            if (!container || container._leaflet_id) return;
+            const map = L.map(id).setView(coords, 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            L.marker(coords).addTo(map).bindPopup('Ponto Crítico de Cuiabá').openPopup();
+        }
+
+        // Initialize specific data for Group 2
+        function initGroup2() {
+            createChart('chart2_1', 'Cobertura de Ônibus (%)', [20, 22, 21, 25, 24]);
+            createChart('chart2_2', 'Tempo de Espera (min)', [45, 48, 50, 42, 40], 'line');
+            createChart('chart2_3', 'Passageiros/Dia', [1200, 1350, 1280, 1400, 1450]);
+            createChart('chart2_4', 'Pavimentação (km)', [2, 3, 5, 8, 12], 'line');
+            createChart('chart2_5', 'Satisfação Usuário', [2, 1, 2, 3, 4], 'radar');
+            initMap('map2', [-15.601, -56.097]); // Central Cuiabá example
+        }
+
+        function initGroup4() {
+            createChart('chart4_1', 'Dados Desatualizados (%)', [80, 75, 70, 65, 60]);
+            createChart('chart4_2', 'Casas Cadastradas', [200, 450, 800, 1200, 1500], 'line');
+            createChart('chart4_3', 'Divergência Fiscal', [30, 25, 20, 15, 10]);
+            createChart('chart4_4', 'Acessos TI Municipal', [10, 50, 120, 300, 450]);
+            createChart('chart4_5', 'Eficiência de Coleta', [15, 30, 45, 60, 75], 'pie');
+            initMap('map4', [-15.610, -56.080]);
+        }
+
+        function initGroup6() {
+            createChart('chart6_1', 'Acesso à Água (%)', [40, 42, 45, 50, 55]);
+            createChart('chart6_2', 'Tratamento Esgoto (%)', [5, 6, 8, 12, 18], 'line');
+            createChart('chart6_3', 'Casos de Diarreia', [150, 140, 120, 100, 80]);
+            createChart('chart6_4', 'Investimento/Habitante', [50, 80, 120, 200, 350]);
+            createChart('chart6_5', 'Qualidade do Solo', [3, 4, 5, 6, 8]);
+            initMap('map6', [-15.620, -56.100]);
+        }
     </script>
 </body>
 </html>
