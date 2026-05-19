@@ -533,7 +533,6 @@
                         <line x1="120" y1="60" x2="170" y2="60" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round"/>
                         <line x1="120" y1="80" x2="180" y2="80" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
                         <circle cx="150" cy="105" r="10" fill="none" stroke="url(#bookTeal)" stroke-width="2"/>
-                    </g>
                     <path d="M 150 250 L 150 280 L 160 272 L 170 280 L 170 250 Z" fill="url(#bookTeal)"/>
                     <circle cx="160" cy="245" r="14" fill="#fbbf24" stroke="#ffffff" stroke-width="2"/>
                 </svg>
@@ -554,6 +553,7 @@
             </div>
             <a href="index.html" class="btn-nav" style="margin-top: 3rem; background: var(--accent); color: white; border: none; padding: 1rem 2rem;"><i class="ph ph-house"></i> Voltar ao Menu</a>
         </div>
+        <span class="slide-number">09</span>
     </section>
 
     <!-- INTERACTIVE CHART MODAL -->
@@ -583,116 +583,85 @@
             modal.classList.add('active');
             
             if (chartId === 'c1') {
-                title.innerText = "Fontes de Captação e Fomento da OSC";
-                tooltip.innerText = "Passe o mouse sobre os anéis de financiamento para detalhar a origem dos recursos públicos e emendas da OSC.";
-                
+                title.innerText = "1. Fontes de Captação e Financiamento da OSC";
                 container.innerHTML = `
-                    <svg viewBox="0 0 300 300" width="100%" height="280px" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Segment 1: Public Grants 60% -->
-                        <circle cx="150" cy="150" r="80" fill="none" stroke="#0d9488" stroke-width="28" stroke-dasharray="301 502" style="cursor:pointer; transition: all 0.3s;" 
-                            onmouseover="updateTooltip('60% - Editais e Emendas Públicas: Termos de Fomento celebrados via MROSC sob a Lei 13.019/14.')" 
-                            onmouseout="resetTooltip()"/>
-                        <!-- Segment 2: Donations 25% -->
-                        <circle cx="150" cy="150" r="80" fill="none" stroke="#10b981" stroke-width="28" stroke-dasharray="125 502" stroke-dashoffset="-301" style="cursor:pointer; transition: all 0.3s;" 
-                            onmouseover="updateTooltip('25% - Doações Comunitárias e Cooperados: Recursos arrecadados com bazar comunitário, empresários locais e cotizações.')" 
-                            onmouseout="resetTooltip()"/>
-                        <!-- Segment 3: Private ESG Corporates 15% -->
-                        <circle cx="150" cy="150" r="80" fill="none" stroke="#fbbf24" stroke-width="28" stroke-dasharray="76 502" stroke-dashoffset="-426" style="cursor:pointer; transition: all 0.3s;" 
-                            onmouseover="updateTooltip('15% - Parcerias ESG Privadas: Investimentos institucionais de empresas em projetos urbanísticos e ecológicos.')" 
-                            onmouseout="resetTooltip()"/>
-                        
-                        <!-- Core text -->
-                        <circle cx="150" cy="150" r="55" fill="#1e293b"/>
-                        <text x="150" y="145" text-anchor="middle" fill="#99f6e4" font-size="11" font-weight="800" letter-spacing="1">RECURSOS</text>
-                        <text x="150" y="170" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="900">R$ 1.5M</text>
-                    </svg>
+                    <div style="display: flex; gap: 1.5rem; align-items: center; flex-direction: row; width: 100%;">
+                        <div style="flex: 1.1; display: flex; justify-content: center;">
+                            <img src="assets/g_osc_c1.png" alt="Fontes de Captação" style="width: 100%; max-height: 280px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1.5px solid #e2e8f0;"/>
+                        </div>
+                        <div style="flex: 0.9; text-align: left; background: #f8fafc; padding: 1.2rem; border-radius: 16px; border: 1.5px solid #e2e8f0;">
+                            <h4 style="color:#0d9488; margin-bottom: 0.5rem; font-weight: 700; font-size: 0.95rem;"><i class="ph ph-info"></i> Detalhamento do Financiamento:</h4>
+                            <p style="font-size: 0.85rem; line-height: 1.5; color:#475569; margin-bottom: 0.8rem;">Financiamento cooperativo estruturado via MROSC (Lei Federal 13.019/14). A captação consagra 60% de repasses municipais e estaduais por Termo de Fomento, 25% de doações com isenção fiscal (ESG) e 15% em emendas parlamentares direcionadas.</p>
+                            <h5 style="color:#64748b; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.2rem;"><i class="ph ph-database"></i> Fonte de Dados:</h5>
+                            <span style="font-size: 0.8rem; font-weight: 600; color:#0f172a;">Relatório Orçamentário e Parcerias Públicas da OSC (Lei 13.019/14).</span>
+                        </div>
+                    </div>
                 `;
+                tooltip.innerText = "Este gráfico demonstra a conformidade orçamentária dos repasses recebidos pela Associação Civil sem fins lucrativos.";
             } else if (chartId === 'c2') {
-                title.innerText = "Cronograma Físico-Financeiro - Ciclo de Vida";
-                tooltip.innerText = "Passe o mouse sobre as barras de progresso de cada etapa no ciclo de regularização e obras.";
-                
+                title.innerText = "2. Cronograma Físico-Financeiro (Alocação por Fases)";
                 container.innerHTML = `
-                    <svg viewBox="0 0 300 200" width="100%" height="280px" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Etapa 1 -->
-                        <text x="20" y="30" fill="#1e293b" font-size="10" font-weight="bold">Mapeamento Socioeconômico</text>
-                        <rect x="20" y="38" width="260" height="12" rx="6" fill="#cbd5e1"/>
-                        <rect x="20" y="38" width="247" height="12" rx="6" fill="#10b981" style="cursor:pointer; transition: 0.3s;"
-                            onmouseover="updateTooltip('Mapeamento e Topografia: 95% Concluído. 450 famílias cadastradas e lotes georreferenciados no Dr. Fábio.')" 
-                            onmouseout="resetTooltip()"/>
-                        
-                        <!-- Etapa 2 -->
-                        <text x="20" y="75" fill="#1e293b" font-size="10" font-weight="bold">Obras de Infraestrutura Social</text>
-                        <rect x="20" y="83" width="260" height="12" rx="6" fill="#cbd5e1"/>
-                        <rect x="20" y="83" width="104" height="12" rx="6" fill="#0d9488" style="cursor:pointer; transition: 0.3s;"
-                            onmouseover="updateTooltip('Infraestrutura Comunitária: 40% Concluído. Alvenaria modular ecológica e esgotamento sanitário descentralizado em andamento.')" 
-                            onmouseout="resetTooltip()"/>
-
-                        <!-- Etapa 3 -->
-                        <text x="20" y="120" fill="#1e293b" font-size="10" font-weight="bold">Regularização Fundiária (REURB-S)</text>
-                        <rect x="20" y="128" width="260" height="12" rx="6" fill="#cbd5e1"/>
-                        <rect x="20" y="128" width="91" height="12" rx="6" fill="#fbbf24" style="cursor:pointer; transition: 0.3s;"
-                            onmouseover="updateTooltip('Homologação da REURB-S: 35% Concluído. Protocolos urbanísticos sob análise final da Secretaria de Desenvolvimento Urbano.')" 
-                            onmouseout="resetTooltip()"/>
-                    </svg>
+                    <div style="display: flex; gap: 1.5rem; align-items: center; flex-direction: row; width: 100%;">
+                        <div style="flex: 1.1; display: flex; justify-content: center;">
+                            <img src="assets/g_osc_c2.png" alt="Distribuição de Recursos" style="width: 100%; max-height: 280px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1.5px solid #e2e8f0;"/>
+                        </div>
+                        <div style="flex: 0.9; text-align: left; background: #f8fafc; padding: 1.2rem; border-radius: 16px; border: 1.5px solid #e2e8f0;">
+                            <h4 style="color:#0d9488; margin-bottom: 0.5rem; font-weight: 700; font-size: 0.95rem;"><i class="ph ph-info"></i> Detalhamento das Despesas:</h4>
+                            <p style="font-size: 0.85rem; line-height: 1.5; color:#475569; margin-bottom: 0.8rem;">Distribuição proporcional dos recursos aplicados nas frentes técnicas da REURB-S. As fases de levantamento topográfico, cadastramento socioeconômico e infraestrutura consorciada de base abarcam os maiores aportes.</p>
+                            <h5 style="color:#64748b; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.2rem;"><i class="ph ph-database"></i> Fonte de Dados:</h5>
+                            <span style="font-size: 0.8rem; font-weight: 600; color:#0f172a;">Plano Plurianual de Regularização Urbana e Custeio Notarial (SMHARF Cuiabá).</span>
+                        </div>
+                    </div>
                 `;
+                tooltip.innerText = "Representação das prioridades de gastos no ciclo de regularização habitacional integrada.";
             } else if (chartId === 'c3') {
-                title.innerText = "Matriz de Riscos da Regularização Fundiária";
-                tooltip.innerText = "Passe o mouse sobre os blocos térmicos para inspecionar os riscos de compliance regulatório cartorial.";
-                
+                title.innerText = "3. Matriz de Riscos Regulatórios e de Compliance";
                 container.innerHTML = `
-                    <svg viewBox="0 0 300 200" width="100%" height="280px" xmlns="http://www.w3.org/2000/svg">
-                        <!-- High Risk (Red) -->
-                        <rect x="30" y="20" width="70" height="45" fill="#f43f5e" rx="6" style="cursor:pointer; transition:0.3s;" 
-                            onmouseover="updateTooltip('Risco Crítico (Cartorial): Impugnações limítrofes por proprietários registrais confrontantes. Ação: Notificação prévia e acordos extrajudiciais.')" 
-                            onmouseout="resetTooltip()"/>
-                        <text x="65" y="48" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="bold">Impugnação</text>
-                        
-                        <!-- Medium Risk (Orange) -->
-                        <rect x="115" y="20" width="70" height="45" fill="#fbbf24" rx="6" style="cursor:pointer; transition:0.3s;" 
-                            onmouseover="updateTooltip('Risco Moderado (Administrativo): Morosidade burocrática municipal de homologação da REURB. Ação: Acordo de cooperação técnica ativo.')" 
-                            onmouseout="resetTooltip()"/>
-                        <text x="150" y="48" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="bold">Burocracia</text>
-
-                        <!-- Low Risk (Green) -->
-                        <rect x="200" y="20" width="70" height="45" fill="#10b981" rx="6" style="cursor:pointer; transition:0.3s;" 
-                            onmouseover="updateTooltip('Risco Baixo (Fical): Rejeição de contas de prestação fiscal do Termo de Fomento. Ação: Compliance estrito com auditoria social.')" 
-                            onmouseout="resetTooltip()"/>
-                        <text x="235" y="48" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="bold">Contas</text>
-
-                        <!-- Matrix Indicator grid line -->
-                        <line x1="20" y1="85" x2="280" y2="85" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="6 4"/>
-                        <text x="150" y="125" text-anchor="middle" fill="#64748b" font-size="11" font-weight="800">COMPLIANCE REGULATÓRIO - ISO 37301</text>
-                        <text x="150" y="150" text-anchor="middle" fill="#1e293b" font-size="10" font-weight="500">Mapeamento em conformidade estrita com o MROSC.</text>
-                    </svg>
+                    <div style="display: flex; gap: 1.5rem; align-items: center; flex-direction: row; width: 100%;">
+                        <div style="flex: 1.1; display: flex; justify-content: center;">
+                            <img src="assets/g_osc_c3.png" alt="Matriz de Riscos" style="width: 100%; max-height: 280px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1.5px solid #e2e8f0;"/>
+                        </div>
+                        <div style="flex: 0.9; text-align: left; background: #f8fafc; padding: 1.2rem; border-radius: 16px; border: 1.5px solid #e2e8f0;">
+                            <h4 style="color:#0d9488; margin-bottom: 0.5rem; font-weight: 700; font-size: 0.95rem;"><i class="ph ph-info"></i> Detalhamento Preventivo:</h4>
+                            <p style="font-size: 0.85rem; line-height: 1.5; color:#475569; margin-bottom: 0.8rem;">Mapeamento de gargalos regulatórios cartoriais e administrativos na regularização do Dr. Fábio. Sobressai a sobreposição de matrículas como risco primário, dirimido preventivamente por conciliações judiciais tripartite.</p>
+                            <h5 style="color:#64748b; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.2rem;"><i class="ph ph-database"></i> Fonte de Dados:</h5>
+                            <span style="font-size: 0.8rem; font-weight: 600; color:#0f172a;">Matriz de Compliance Regulatório Habitacional e Lei Federal 13.465 (REURB).</span>
+                        </div>
+                    </div>
                 `;
+                tooltip.innerText = "O mapa de dispersão ajuda na antecipação e no planejamento de defesas jurídicas preventivas.";
             } else if (chartId === 'c4') {
-                title.innerText = "KPI Ambiental (E) - Redução de Emissões e Água Pluvial";
-                tooltip.innerText = "Passe o mouse sobre o medidor radial ecológico.";
-                
+                title.innerText = "4. Sustentabilidade ODS 6 & 12: Preservação Ambiental";
                 container.innerHTML = `
-                    <svg viewBox="0 0 200 200" width="100%" height="280px" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="100" cy="100" r="70" fill="none" stroke="#e2e8f0" stroke-width="16"/>
-                        <circle cx="100" cy="100" r="70" fill="none" stroke="#10b981" stroke-width="16" stroke-dasharray="352 440" style="cursor:pointer; transition:0.3s;" 
-                            onmouseover="updateTooltip('80% de Eficiência Sustentável e Redução de Insumos: Conquistado pela captação descentralizada de águas pluviais e utilização de solo-cimento modular nas obras do Dr. Fábio.')" 
-                            onmouseout="resetTooltip()"/>
-                        <text x="100" y="105" text-anchor="middle" fill="#1e293b" font-size="22" font-weight="900">80%</text>
-                        <text x="100" y="125" text-anchor="middle" fill="#64748b" font-size="9" font-weight="700">META ODS 6 & 12</text>
-                    </svg>
+                    <div style="display: flex; gap: 1.5rem; align-items: center; flex-direction: row; width: 100%;">
+                        <div style="flex: 1.1; display: flex; justify-content: center;">
+                            <img src="assets/g_osc_c4.png" alt="ODS Sustentáveis" style="width: 100%; max-height: 280px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1.5px solid #e2e8f0;"/>
+                        </div>
+                        <div style="flex: 0.9; text-align: left; background: #f8fafc; padding: 1.2rem; border-radius: 16px; border: 1.5px solid #e2e8f0;">
+                            <h4 style="color:#0d9488; margin-bottom: 0.5rem; font-weight: 700; font-size: 0.95rem;"><i class="ph ph-info"></i> Detalhamento Ecológico:</h4>
+                            <p style="font-size: 0.85rem; line-height: 1.5; color:#475569; margin-bottom: 0.8rem;">Metas cumpridas de infraestrutura verde localizadas no bairro Doutor Fábio. Garante o esgotamento descentralizado ecológico, captação pluvial domiciliar e pavimentação com blocos intertravados permeáveis.</p>
+                            <h5 style="color:#64748b; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.2rem;"><i class="ph ph-database"></i> Fonte de Dados:</h5>
+                            <span style="font-size: 0.8rem; font-weight: 600; color:#0f172a;">Metas de Infraestrutura e Diretrizes de Saneamento Descentralizado do Doutor Fábio.</span>
+                        </div>
+                    </div>
                 `;
+                tooltip.innerText = "Os indicadores comprovam a conformidade das obras com os Objetivos de Desenvolvimento Sustentável (ODS) da Agenda 2030.";
             } else if (chartId === 'c5') {
-                title.innerText = "KPI Social (S) - Títulos de Propriedade REURB-S Emitidos";
-                tooltip.innerText = "Passe o mouse sobre o indicador radial fundiário.";
-                
+                title.innerText = "5. Impacto Social: Emissão de Títulos Definitivos de REURB-S";
                 container.innerHTML = `
-                    <svg viewBox="0 0 200 200" width="100%" height="280px" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="100" cy="100" r="70" fill="none" stroke="#e2e8f0" stroke-width="16"/>
-                        <circle cx="100" cy="100" r="70" fill="none" stroke="#0d9488" stroke-width="16" stroke-dasharray="308 440" style="cursor:pointer; transition:0.3s;" 
-                            onmouseover="updateTooltip('70% de Emissão de Títulos REURB-S Definitivos: 315 títulos de propriedade já emitidos e devidamente averbados no Cartório do 1º Ofício de Cuiabá.')" 
-                            onmouseout="resetTooltip()"/>
-                        <text x="100" y="105" text-anchor="middle" fill="#1e293b" font-size="22" font-weight="900">70%</text>
-                        <text x="100" y="125" text-anchor="middle" fill="#64748b" font-size="9" font-weight="700">META ODS 10 & 11</text>
-                    </svg>
+                    <div style="display: flex; gap: 1.5rem; align-items: center; flex-direction: row; width: 100%;">
+                        <div style="flex: 1.1; display: flex; justify-content: center;">
+                            <img src="assets/g_osc_c5.png" alt="KPIs Sociais REURB" style="width: 100%; max-height: 280px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1.5px solid #e2e8f0;"/>
+                        </div>
+                        <div style="flex: 0.9; text-align: left; background: #f8fafc; padding: 1.2rem; border-radius: 16px; border: 1.5px solid #e2e8f0;">
+                            <h4 style="color:#0d9488; margin-bottom: 0.5rem; font-weight: 700; font-size: 0.95rem;"><i class="ph ph-info"></i> Detalhamento Fundiário:</h4>
+                            <p style="font-size: 0.85rem; line-height: 1.5; color:#475569; margin-bottom: 0.8rem;">Evolução real da emissão de escrituras definitivas (REURB-S) registradas em cartório. O projeto partiu de um cadastro inicial de 305 lotes, com meta final plurianual de atendimento de 3.200 famílias no Doutor Fábio.</p>
+                            <h5 style="color:#64748b; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.2rem;"><i class="ph ph-database"></i> Fonte de Dados:</h5>
+                            <span style="font-size: 0.8rem; font-weight: 600; color:#0f172a;">Secretaria Municipal de Habitação e Regularização Fundiária de Cuiabá (SMHARF) / Atas Notariais.</span>
+                        </div>
+                    </div>
                 `;
+                tooltip.innerText = "A curva projeta a pacificação territorial e a garantia do direito de moradia por meio da titulação definitiva.";
             }
         }
 
@@ -708,6 +677,19 @@
         // Intersection Observer for Slide Animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.animate-content > *').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>ml>entry => {
                 if (entry.isIntersecting) {
                     entry.target.style.animationPlayState = 'running';
                 }
