@@ -3,106 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Synergia GP - UNIFACC Cuiabá</title>
+    <title>Synergia - Habitação, Governança e Sustentabilidade</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>">
     
     <style>
         :root {
-            --primary: #1e293b;
-            --accent: #2563eb;
-            --bg-light: #ffffff;
-            --text-muted: #64748b;
+            --primary: #0f172a;
+            --bg-light: #f8fafc;
             --border: #e2e8f0;
-            --transition: all 0.4s ease;
+            --text-muted: #64748b;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
-        body { background-color: var(--bg-light); color: var(--primary); overflow-x: hidden; }
+        body { background-color: var(--bg-light); color: var(--primary); min-height: 100vh; display: flex; flex-direction: column; }
 
         .bg-dots {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background-image: radial-gradient(#cbd5e1 0.5px, transparent 0.5px);
-            background-size: 30px 30px; opacity: 0.2;
+            background-size: 30px 30px; opacity: 0.3;
         }
 
-        #home {
-            height: 100vh; display: flex; flex-direction: column; justify-content: center;
-            align-items: center; text-align: center;
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5rem 2rem;
+            text-align: center;
         }
-        .home-title { font-family: 'Playfair Display', serif; font-size: 5.5rem; font-weight: 900; color: var(--primary); line-height: 1; }
-        .home-subtitle { font-size: 1.1rem; color: var(--text-muted); letter-spacing: 5px; text-transform: uppercase; margin-bottom: 2rem; }
 
-        .group-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1200px; width: 90%; margin-top: 3rem; }
+        .home-title { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 7vw, 6rem); font-weight: 900; color: var(--primary); line-height: 1.1; margin-bottom: 0.5rem; }
+        .home-subtitle { font-size: 0.95rem; color: #4f46e5; letter-spacing: 5px; font-weight: 800; text-transform: uppercase; margin-bottom: 1.5rem; }
+        .tagline { color: var(--text-muted); font-size: clamp(1.1rem, 2vw, 1.4rem); max-width: 800px; margin-bottom: 4rem; line-height: 1.6; }
+
+        .group-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem; max-width: 1100px; width: 100%; margin: 0 auto; }
+        
         .group-card {
-            background: white; padding: 3rem 2rem; border-radius: 20px; border: 1px solid var(--border);
-            cursor: pointer; transition: var(--transition); box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
-            text-decoration: none; color: inherit;
+            background: white; 
+            padding: 3.5rem 2.5rem; 
+            border-radius: 24px; 
+            border: 1px solid var(--border);
+            text-decoration: none; 
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            transition: var(--transition);
         }
-        .group-card:hover { transform: translateY(-12px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); border-color: var(--accent); }
-        .group-card h3 { font-size: 1.6rem; margin-bottom: 1rem; color: var(--primary); }
 
-        footer { padding: 5rem; text-align: center; background: #0f172a; color: white; margin-top: 2rem; }
+        .group-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 6px;
+            background: var(--card-accent);
+        }
 
-        @media (max-width: 1100px) { .home-title { font-size: 3.5rem; } .group-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) {
-            .groups-grid { grid-template-columns: 1fr !important; }
-            section { padding: 4rem 5% !important; }
-            .home-title { font-size: 3rem !important; }
-            .home-subtitle { font-size: 0.9rem !important; }
-            .group-grid { grid-template-columns: 1fr !important; }
+        .group-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            border-color: var(--card-accent);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--card-accent);
+            background: var(--card-accent-bg);
+            padding: 1rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .group-card h3 { 
+            font-size: clamp(1.5rem, 2vw, 2rem); 
+            font-weight: 800; 
+            color: var(--primary); 
+            margin-bottom: 0.75rem; 
+        }
+
+        .group-card .model-type {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            color: var(--card-accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .group-card p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .team-box {
+            width: 100%;
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+            font-size: 0.95rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .team-box i { color: var(--card-accent); font-size: 1.2rem; }
+
+        .btn-view {
+            margin-top: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            color: var(--card-accent);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+        .group-card:hover .btn-view {
+            gap: 0.75rem;
+        }
+
+        footer { 
+            padding: 4rem 2rem; 
+            text-align: center; 
+            background: #0f172a; 
+            color: #94a3b8; 
+            font-size: 0.95rem;
+            border-top: 1px solid #1e293b;
+        }
+        footer strong { color: white; }
+
+        @media (max-width: 868px) {
+            .group-grid { grid-template-columns: 1fr; gap: 2rem; }
+            main { padding: 4rem 1.5rem; }
+            .home-title { font-size: 2.8rem; }
+            .tagline { margin-bottom: 3rem; }
         }
     </style>
 </head>
 <body>
     <div class="bg-dots"></div>
-    <main id="home">
-        <h3 class="home-subtitle">UNIFACC CUIABÁ - ADMINISTRAÇÃO E GESTÃO PÚBLICA</h3>
-        <h1 class="home-title">SYNERGIA</h1>
-        <p style="margin-top: 1rem; color: var(--text-muted); font-size: 1.3rem; max-width: 700px;">
-            "O Abismo entre o CEP e a Cidadania": Diagnóstico Real da Infraestrutura em Cuiabá
+    <main>
+        <h3 class="home-subtitle">UNIFACC Cuiabá • Administração 7ª Turma</h3>
+        <h1 class="home-title">Synergia</h1>
+        <p class="tagline">
+            Uma abordagem sistêmica integrada sob a ótica de Governança, Solvência Financeira, Compliance e Desenvolvimento Sustentável para habitação de interesse social.
         </p>
         
         <div class="group-grid">
-            <a href="grupo2.html" class="group-card">
-                <h3>Grupo 2</h3>
-                <p>Transporte Público e Mobilidade</p>
+            <!-- GRUPO 1: STARTUP DE IMPACTO SOCIAL -->
+            <a href="grupo1.html" class="group-card" style="--card-accent: #6366f1; --card-accent-bg: #e0e7ff;">
+                <div class="card-icon"><i class="ph ph-buildings"></i></div>
+                <div class="model-type">Startup de Impacto Social</div>
+                <h3>Grupo 1 - EcoLar Social</h3>
+                <p>Startup voltada ao desenvolvimento de moradias sustentáveis e acessíveis para famílias de baixa renda, utilizando materiais ecológicos, energia solar e reaproveitamento de água no Pedregal.</p>
+                <div class="team-box">
+                    <i class="ph ph-users"></i>
+                    <span><strong>Membros:</strong> Joanna, Cinthia, Leandro e Guilherme</span>
+                </div>
+                <div class="btn-view">Acessar Projeto <i class="ph ph-arrow-right"></i></div>
             </a>
-            <a href="grupo4.html" class="group-card">
-                <h3>Grupo 4</h3>
-                <p>Invisibilidade de Dados Territoriais</p>
-            </a>
-            <a href="grupo6.html" class="group-card">
-                <h3>Grupo 6</h3>
-                <p>Saneamento e Justiça Ambiental</p>
+
+            <!-- GRUPO 2: OSC -->
+            <a href="grupo2.html" class="group-card" style="--card-accent: #0d9488; --card-accent-bg: #f0fdfa;">
+                <div class="card-icon"><i class="ph ph-handshake"></i></div>
+                <div class="model-type">Organização da Sociedade Civil</div>
+                <h3>Grupo 2 - Associação Civil MROSC</h3>
+                <p>Modelo cooperativo enquadrado na Lei de Fomento MROSC, sustentado por parcerias públicas, imunidade tributária e mutirões sociais no bairro Dr. Fábio.</p>
+                <div class="team-box">
+                    <i class="ph ph-users"></i>
+                    <span><strong>Membros:</strong> André, Aliny, Michely e Everson</span>
+                </div>
+                <div class="btn-view">Acessar Projeto <i class="ph ph-arrow-right"></i></div>
             </a>
         </div>
-        <p style="margin-top: 5rem; font-weight: 700; color: var(--primary); border-top: 1px solid var(--border); padding-top: 2rem;">
-            Orientação: Prof. Renato Rosa
-        </p>
     </main>
-    <section style="padding: 4rem 10%; background: #f8fafc; text-align: center;">
-        <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 2rem;">Centro Geoespacial (QGIS Web)</h2>
-        <div class="group-grid">
-            <a href="mapa_grupo2.html" class="group-card" style="border-color: #2563eb;">
-                <h3>Mapa G2</h3>
-                <p>Transporte e Simulação</p>
-            </a>
-            <a href="mapa_grupo4.html" class="group-card" style="border-color: #f59e0b;">
-                <h3>Mapa G4</h3>
-                <p>Gaps e Georreferenciamento</p>
-            </a>
-            <a href="mapa_grupo6.html" class="group-card" style="border-color: #10b981;">
-                <h3>Mapa G6</h3>
-                <p>Redes e Cobertura</p>
-            </a>
-        </div>
-    </section>
 
     <footer>
-        <p>Projeto Synergia - UNIFACC Cuiabá | Gestão de Dados e Políticas Públicas</p>
+        <p>Projeto Synergia - UNIFACC Cuiabá • Orientação: <strong>Prof. Renato Rosa</strong></p>
     </footer>
 </body>
 </html>
