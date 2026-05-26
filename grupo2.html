@@ -225,106 +225,172 @@
         <span class="slide-number">04</span>
     </section>
 
-    <!-- SLIDE 5: DESENVOLVIMENTO SUSTENTÁVEL (Gráficos, ESG, ODS e KPIs) -->
+    <!-- SLIDE 5A: IMPACTO AMBIENTAL (ESG) -->
     <section class="slide">
-        <div class="slide-content animate-content">
-            <div class="discipline-tag"><i class="ph ph-leaf"></i> 2. Dev Sustentável</div>
-            <h2>Metas de Impacto Sustentável e Certificação ESG</h2>
-            <p style="margin-bottom: 1rem; font-size: 1.25rem;">Acompanhamos a evolução das obras e o cumprimento do plano de fomento por meio de indicadores técnicos de impacto social e ecológico (ESG):</p>
-            
-            <div class="dashboard-grid">
-                <!-- CHART 1 -->
-                <div class="chart-item" onclick="openChart('c1')">
-                    <svg class="svg-preview" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#f8fafc" rx="12"/>
-                        <circle cx="100" cy="75" r="45" fill="none" stroke="#e2e8f0" stroke-width="12"/>
-                        <!-- Donut segments visual preview (Teal themed) -->
-                        <circle cx="100" cy="75" r="45" fill="none" stroke="#0d9488" stroke-width="12" stroke-dasharray="169 282" stroke-dashoffset="0"/>
-                        <circle cx="100" cy="75" r="45" fill="none" stroke="#10b981" stroke-width="12" stroke-dasharray="71 282" stroke-dashoffset="-169"/>
-                        <circle cx="100" cy="75" r="45" fill="none" stroke="#ea580c" stroke-width="12" stroke-dasharray="42 282" stroke-dashoffset="-240"/>
-                        <text x="100" y="81" text-anchor="middle" fill="#0f172a" font-size="16" font-weight="900">60%</text>
-                    </svg>
-                    <div class="chart-title">Fontes de Captação</div>
+        <div class="split-layout">
+            <div class="split-text animate-content">
+                <div class="discipline-tag"><i class="ph ph-leaf"></i> 2.1 Impacto Ambiental</div>
+                <h2>Saneamento Ecológico e Infraestrutura Verde</h2>
+                <p>As obras comunitárias adotam pavimentação permeável com blocos intertravados e saneamento descentralizado para proteger os recursos hídricos.</p>
+                <div class="concept-box">
+                    <i class="ph ph-drop"></i>
+                    <p>Reduzimos o consumo de água tratada instalando captação de água da chuva nas moradias.</p>
                 </div>
-
-                <!-- CHART 2 -->
-                <div class="chart-item" onclick="openChart('c2')">
-                    <svg class="svg-preview" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#f8fafc" rx="12"/>
-                        <!-- Horizontal Bar Progress Timeline visual -->
-                        <rect x="20" y="30" width="160" height="15" rx="7.5" fill="#e2e8f0"/>
-                        <rect x="20" y="30" width="150" height="15" rx="7.5" fill="#10b981"/>
-                        <rect x="20" y="65" width="160" height="15" rx="7.5" fill="#e2e8f0"/>
-                        <rect x="20" y="65" width="120" height="15" rx="7.5" fill="#0d9488"/>
-                        <rect x="20" y="100" width="160" height="15" rx="7.5" fill="#e2e8f0"/>
-                        <rect x="20" y="100" width="60" height="15" rx="7.5" fill="#ea580c"/>
-                        <text x="100" y="20" text-anchor="middle" fill="#0f172a" font-size="10" font-weight="800">Progresso de Etapas</text>
-                    </svg>
-                    <div class="chart-title">Cronograma Físico</div>
-                </div>
-
-                <!-- CHART 3 -->
-                <div class="chart-item" onclick="openChart('c3')">
-                    <svg class="svg-preview" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#f8fafc" rx="12"/>
-                        <!-- Heatmap preview with high-contrast borders -->
-                        <rect x="25" y="25" width="45" height="35" fill="#ef4444" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                        <rect x="75" y="25" width="45" height="35" fill="#ea580c" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                        <rect x="125" y="25" width="45" height="35" fill="#10b981" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                        
-                        <rect x="25" y="65" width="45" height="35" fill="#ea580c" opacity="0.8" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                        <rect x="75" y="65" width="45" height="35" fill="#10b981" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                        <rect x="125" y="65" width="45" height="35" fill="#10b981" opacity="0.6" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                        
-                        <rect x="25" y="105" width="45" height="20" fill="#10b981" opacity="0.4" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                        <rect x="75" y="105" width="45" height="20" fill="#10b981" opacity="0.2" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                        <rect x="125" y="105" width="45" height="20" fill="#10b981" opacity="0.1" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                    </svg>
-                    <div class="chart-title">Matriz de Risco</div>
-                </div>
-
-                <!-- CHART 4 -->
-                <div class="chart-item" onclick="openChart('c4')">
-                    <svg class="svg-preview" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#f8fafc" rx="12"/>
-                        <circle cx="100" cy="70" r="35" fill="none" stroke="#e2e8f0" stroke-width="8"/>
-                        <circle cx="100" cy="70" r="35" fill="none" stroke="#10b981" stroke-width="8" stroke-dasharray="176 220"/>
-                        <text x="100" y="76" text-anchor="middle" fill="#0f172a" font-size="15" font-weight="900">80%</text>
-                        <text x="100" y="125" text-anchor="middle" fill="#047857" font-size="10" font-weight="800">Redução Consumo Água</text>
-                    </svg>
-                    <div class="chart-title">KPIs Ambientais</div>
-                </div>
-
-                <!-- CHART 5 -->
-                <div class="chart-item" onclick="openChart('c5')">
-                    <svg class="svg-preview" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#f8fafc" rx="12"/>
-                        <circle cx="100" cy="70" r="35" fill="none" stroke="#e2e8f0" stroke-width="8"/>
-                        <circle cx="100" cy="70" r="35" fill="none" stroke="#0d9488" stroke-width="8" stroke-dasharray="154 220"/>
-                        <text x="100" y="76" text-anchor="middle" fill="#0f172a" font-size="15" font-weight="900">70%</text>
-                        <text x="100" y="125" text-anchor="middle" fill="#0f766e" font-size="9" font-weight="800">Títulos Emitidos (REURB)</text>
-                    </svg>
-                    <div class="chart-title">KPIs Sociais</div>
-                </div>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem;">
+                    <li style="display: flex; gap: 0.8rem;"><i class="ph ph-check-circle" style="color: var(--accent); font-size: 1.3rem;"></i> <span><strong>Sustentabilidade Hídrica:</strong> Captação pluvial obrigatória para fins não potáveis.</span></li>
+                    <li style="display: flex; gap: 0.8rem;"><i class="ph ph-check-circle" style="color: var(--accent); font-size: 1.3rem;"></i> <span><strong>Materiais Ecológicos:</strong> Blocos modulares prensados no local de construção.</span></li>
+                </ul>
             </div>
-
-            <!-- ESG, ODS and KPIs descriptions -->
-            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; text-align: left;">
-                <div>
-                    <h4 style="color:#10b981; font-weight:700; margin-bottom:0.4rem;"><i class="ph ph-leaf"></i> Ambiental (E) & ODS 6, 12</h4>
-                    <p style="font-size: 0.88rem; margin:0; line-height: 1.5;">Obras comunitárias utilizando blocos modulares de terra comprimida. De forma complementar, implanta-se a captação descentralizada de águas pluviais.</p>
-                </div>
-                <div>
-                    <h4 style="color:#0d9488; font-weight:700; margin-bottom:0.4rem;"><i class="ph ph-users-three"></i> Social (S) & ODS 10, 11</h4>
-                    <p style="font-size: 0.88rem; margin:0; line-height: 1.5;">Regularização fundiária estrita (REURB-S), garantindo o direito constitucional à propriedade das famílias ocupantes do bairro Dr. Fábio.</p>
-                </div>
-                <div>
-                    <h4 style="color:#818cf8; font-weight:700; margin-bottom:0.4rem;"><i class="ph ph-shield-check"></i> Governança (G) & MROSC</h4>
-                    <p style="font-size: 0.88rem; margin:0; line-height: 1.5;">Assembleias comunitárias mensais para prestação de contas, assegurando governança pública transparente nos repasses de emendas parlamentares.</p>
-                </div>
+            <div class="split-image" style="background: #f8fafc; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+                <svg viewBox="0 0 400 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="max-height: 480px;">
+                    <defs>
+                        <linearGradient id="gradEco" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#0d9488" stop-opacity="0.8" />
+                            <stop offset="100%" stop-color="#0f766e" />
+                        </linearGradient>
+                        <linearGradient id="gradWater" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#38bdf8" />
+                            <stop offset="100%" stop-color="#0284c7" />
+                        </linearGradient>
+                        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#0284c7" flood-opacity="0.25"/>
+                        </filter>
+                    </defs>
+                    <rect width="100%" height="100%" fill="#ffffff" rx="24" stroke="#e2e8f0" stroke-width="1"/>
+                    
+                    <!-- Circular Progress Ring (80%) -->
+                    <circle cx="200" cy="180" r="85" fill="none" stroke="#e2e8f0" stroke-width="18"/>
+                    <circle cx="200" cy="180" r="85" fill="none" stroke="url(#gradWater)" stroke-width="18" stroke-dasharray="534" stroke-dashoffset="107" stroke-linecap="round" filter="url(#glow)"/>
+                    
+                    <text x="200" y="170" text-anchor="middle" fill="#0f172a" font-size="44" font-weight="900" font-family="'Outfit', sans-serif">80%</text>
+                    <text x="200" y="205" text-anchor="middle" fill="#0284c7" font-size="14" font-weight="700" font-family="'Outfit', sans-serif" letter-spacing="1">EFICIÊNCIA HÍDRICA</text>
+                    <text x="200" y="225" text-anchor="middle" fill="#64748b" font-size="12" font-family="'Outfit', sans-serif">Redução de Água Potável Padrão</text>
+                    
+                    <!-- Comparison Bars at the Bottom -->
+                    <g transform="translate(60, 310)">
+                        <text x="0" y="15" fill="#64748b" font-size="11" font-weight="600">Consumo Sem Captação</text>
+                        <rect x="130" y="3" width="150" height="14" rx="7" fill="#e2e8f0"/>
+                        <rect x="130" y="3" width="150" height="14" rx="7" fill="#f87171"/>
+                        <text x="245" y="14" fill="#ffffff" font-size="9" font-weight="800">100%</text>
+                        
+                        <text x="0" y="38" fill="#64748b" font-size="11" font-weight="600">Com Captação Pluvial</text>
+                        <rect x="130" y="26" width="150" height="14" rx="7" fill="#e2e8f0"/>
+                        <rect x="130" y="26" width="30" height="14" rx="7" fill="url(#gradWater)"/>
+                        <text x="145" y="37" fill="#ffffff" font-size="9" font-weight="800">20%</text>
+                    </g>
+                    
+                    <text x="200" y="45" text-anchor="middle" fill="#0f172a" font-size="16" font-weight="800">Meta ODS 6: Água Potável e Saneamento</text>
+                </svg>
             </div>
         </div>
         <span class="slide-number">05</span>
+    </section>
+
+    <!-- SLIDE 5B: IMPACTO SOCIAL (ESG) -->
+    <section class="slide">
+        <div class="split-layout">
+            <div class="split-text animate-content">
+                <div class="discipline-tag"><i class="ph ph-users-three"></i> 2.2 Impacto Social</div>
+                <h2>Regularização Fundiária e Títulos de Posse</h2>
+                <p>Nossa atuação regulariza juridicamente a posse de terras ocupadas (REURB-S) no bairro Doutor Fábio, garantindo o direito constitucional à moradia digna.</p>
+                <div class="concept-box">
+                    <i class="ph ph-house"></i>
+                    <p>A parceria com a Defensoria e Prefeitura agiliza o processo de titulação das famílias.</p>
+                </div>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem;">
+                    <li style="display: flex; gap: 0.8rem;"><i class="ph ph-check-circle" style="color: var(--accent); font-size: 1.3rem;"></i> <span><strong>Segurança Jurídica:</strong> Famílias protegidas contra despejos e litígios.</span></li>
+                    <li style="display: flex; gap: 0.8rem;"><i class="ph ph-check-circle" style="color: var(--accent); font-size: 1.3rem;"></i> <span><strong>Valorização Social:</strong> Integração definitiva do bairro à malha urbana.</span></li>
+                </ul>
+            </div>
+            <div class="split-image" style="background: #f8fafc; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+                <svg viewBox="0 0 400 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="max-height: 480px;">
+                    <defs>
+                        <linearGradient id="gradTeal" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#0d9488" />
+                            <stop offset="100%" stop-color="#0f766e" />
+                        </linearGradient>
+                        <filter id="glowSocial" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#0d9488" flood-opacity="0.25"/>
+                        </filter>
+                    </defs>
+                    <rect width="100%" height="100%" fill="#ffffff" rx="24" stroke="#e2e8f0" stroke-width="1"/>
+                    
+                    <!-- Circular Progress Ring (70%) -->
+                    <circle cx="200" cy="180" r="85" fill="none" stroke="#e2e8f0" stroke-width="18"/>
+                    <circle cx="200" cy="180" r="85" fill="none" stroke="url(#gradTeal)" stroke-width="18" stroke-dasharray="534" stroke-dashoffset="160" stroke-linecap="round" filter="url(#glowSocial)"/>
+                    
+                    <text x="200" y="170" text-anchor="middle" fill="#0f172a" font-size="44" font-weight="900" font-family="'Outfit', sans-serif">70%</text>
+                    <text x="200" y="205" text-anchor="middle" fill="#0d9488" font-size="14" font-weight="700" font-family="'Outfit', sans-serif" letter-spacing="1">TÍTULOS EMITIDOS</text>
+                    <text x="200" y="225" text-anchor="middle" fill="#64748b" font-size="12" font-family="'Outfit', sans-serif">Mapeamento e Regularização das Famílias</text>
+                    
+                    <!-- Growth indicators -->
+                    <g transform="translate(80, 290)">
+                        <path d="M0,40 L60,30 L120,25 L180,12 L240,5" fill="none" stroke="#e2e8f0" stroke-width="3"/>
+                        <path d="M0,40 L60,30 L120,25 L180,12 L240,5" fill="none" stroke="url(#gradTeal)" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="240" cy="5" r="5" fill="#0d9488" />
+                        <text x="240" y="-8" fill="#0d9488" font-size="10" font-weight="bold" text-anchor="middle">Metas 2026</text>
+                    </g>
+                    
+                    <text x="200" y="45" text-anchor="middle" fill="#0f172a" font-size="16" font-weight="800">Meta ODS 10: Redução das Desigualdades</text>
+                </svg>
+            </div>
+        </div>
+        <span class="slide-number">06</span>
+    </section>
+
+    <!-- SLIDE 5C: GOVERNANÇA E TRANSPARÊNCIA (ESG) -->
+    <section class="slide">
+        <div class="split-layout">
+            <div class="split-text animate-content">
+                <div class="discipline-tag"><i class="ph ph-shield-check"></i> 2.3 Governança & MROSC</div>
+                <h2>Transparência e Prestação de Contas Ativa</h2>
+                <p>Nossa Associação segue estritamente a Lei Federal nº 13.019/14 (MROSC). Realizamos assembleias comunitárias periódicas e garantimos que todo recurso seja rastreável.</p>
+                <div class="concept-box">
+                    <i class="ph ph-scales"></i>
+                    <p>Prestação de contas simplificada e de fácil acesso para toda a população do bairro.</p>
+                </div>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem;">
+                    <li style="display: flex; gap: 0.8rem;"><i class="ph ph-check-circle" style="color: var(--accent); font-size: 1.3rem;"></i> <span><strong>Controle Social:</strong> A comunidade decide as prioridades do fomento público.</span></li>
+                    <li style="display: flex; gap: 0.8rem;"><i class="ph ph-check-circle" style="color: var(--accent); font-size: 1.3rem;"></i> <span><strong>Conformidade Total:</strong> Repasses e emendas 100% auditados pelo município.</span></li>
+                </ul>
+            </div>
+            <div class="split-image" style="background: #f8fafc; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+                <svg viewBox="0 0 400 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="max-height: 480px;">
+                    <defs>
+                        <linearGradient id="gradOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#fb923c" />
+                            <stop offset="100%" stop-color="#ea580c" />
+                        </linearGradient>
+                        <filter id="glowGov" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#ea580c" flood-opacity="0.25"/>
+                        </filter>
+                    </defs>
+                    <rect width="100%" height="100%" fill="#ffffff" rx="24" stroke="#e2e8f0" stroke-width="1"/>
+                    
+                    <!-- Circular Progress Ring (100%) -->
+                    <circle cx="200" cy="180" r="85" fill="none" stroke="#e2e8f0" stroke-width="18"/>
+                    <circle cx="200" cy="180" r="85" fill="none" stroke="url(#gradOrange)" stroke-width="18" stroke-dasharray="534" stroke-dashoffset="0" stroke-linecap="round" filter="url(#glowGov)"/>
+                    
+                    <text x="200" y="170" text-anchor="middle" fill="#0f172a" font-size="44" font-weight="900" font-family="'Outfit', sans-serif">100%</text>
+                    <text x="200" y="205" text-anchor="middle" fill="#ea580c" font-size="14" font-weight="700" font-family="'Outfit', sans-serif" letter-spacing="1">PRESTAÇÃO APROVADA</text>
+                    <text x="200" y="225" text-anchor="middle" fill="#64748b" font-size="12" font-family="'Outfit', sans-serif">Transparência de Repasses Municipais</text>
+                    
+                    <!-- Details -->
+                    <g transform="translate(60, 295)">
+                        <circle cx="30" cy="20" r="16" fill="#fff7ed" />
+                        <path d="M 25 20 L 29 24 L 37 16" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round"/>
+                        <text x="60" y="24" fill="#0f172a" font-size="12" font-weight="700">Contas Aprovadas</text>
+                        
+                        <circle cx="180" cy="20" r="16" fill="#fff7ed" />
+                        <path d="M 175 20 L 179 24 L 187 16" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round"/>
+                        <text x="210" y="24" fill="#0f172a" font-size="12" font-weight="700">Rastreabilidade Total</text>
+                    </g>
+                    
+                    <text x="200" y="45" text-anchor="middle" fill="#0f172a" font-size="16" font-weight="800">Conformidade e Governança do MROSC</text>
+                </svg>
+            </div>
+        </div>
+        <span class="slide-number">07</span>
     </section>
 
     <!-- SLIDE 6: ESTRATÉGIA FINANCEIRA (Cronograma Físico-Financeiro no Ciclo de Vida do Projeto) -->
@@ -353,7 +419,7 @@
                 <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80" alt="Gestão e Planejamento de Cronograma" />
             </div>
         </div>
-        <span class="slide-number">06</span>
+        <span class="slide-number">08</span>
     </section>
 
     <!-- SLIDE 7: GESTÃO POSITIVA DE RISCO (Stakeholders e Protocolo de Negociação) -->
@@ -386,7 +452,7 @@
                 </div>
             </div>
         </div>
-        <span class="slide-number">07</span>
+        <span class="slide-number">09</span>
     </section>
 
     <!-- SLIDE 8: REFERÊNCIAS BIBLIOGRÁFICAS (ABNT) -->
@@ -410,7 +476,7 @@
                 <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80" alt="Referências Acadêmicas e Pesquisa" />
             </div>
         </div>
-        <span class="slide-number">08</span>
+        <span class="slide-number">10</span>
     </section>
 
     <!-- SLIDE 9: FECHAMENTO -->
@@ -425,7 +491,7 @@
             </div>
             <a href="index.html" class="btn-nav" style="margin-top: 3rem; background: var(--accent); color: white; border: none; padding: 1rem 2rem;"><i class="ph ph-house"></i> Voltar ao Menu</a>
         </div>
-        <span class="slide-number">09</span>
+        <span class="slide-number">11</span>
     </section>
 
     <!-- INTERACTIVE CHART MODAL -->

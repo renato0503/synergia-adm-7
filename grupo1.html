@@ -224,109 +224,174 @@
         <span class="slide-number">04</span>
     </section>
 
-    <!-- SLIDE 5: DESENVOLVIMENTO SUSTENTÁVEL (Gráficos, ESG, ODS e KPIs) -->
+    <!-- SLIDE 5A: IMPACTO AMBIENTAL (ESG) -->
     <section class="slide">
-        <div class="slide-content animate-content">
-            <div class="discipline-tag"><i class="ph ph-leaf"></i> 2. Dev Sustentável</div>
-            <h2>Indicadores Socioambientais e Governança (ESG)</h2>
-            <p style="margin-bottom: 1rem; font-size: 1.25rem;">Acompanhamos os resultados do projeto por meio de indicadores de impacto social e ambiental (ESG), alinhados às metas dos Objetivos de Desenvolvimento Sustentável (ODS) da ONU:</p>
-            
-            <div class="dashboard-grid">
-                <!-- CHART 1 -->
-                <div class="chart-item" onclick="openChart('c1')">
-                    <svg class="svg-preview" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#f8fafc" rx="12"/>
-                        <circle cx="100" cy="75" r="45" fill="none" stroke="#e2e8f0" stroke-width="12"/>
-                        <!-- Donut segments visual preview -->
-                        <circle cx="100" cy="75" r="45" fill="none" stroke="#4f46e5" stroke-width="12" stroke-dasharray="155 282" stroke-dashoffset="0"/>
-                        <circle cx="100" cy="75" r="45" fill="none" stroke="#10b981" stroke-width="12" stroke-dasharray="84 282" stroke-dashoffset="-155"/>
-                        <circle cx="100" cy="75" r="45" fill="none" stroke="#ea580c" stroke-width="12" stroke-dasharray="43 282" stroke-dashoffset="-239"/>
-                        <text x="100" y="81" text-anchor="middle" fill="#0f172a" font-size="16" font-weight="900">55%</text>
-                    </svg>
-                    <div class="chart-title">Estrutura de Capital</div>
+        <div class="split-layout">
+            <div class="split-text animate-content">
+                <div class="discipline-tag"><i class="ph ph-leaf"></i> 2.1 Impacto Ambiental</div>
+                <h2>Redução de CO2 e Construção Seca</h2>
+                <p>Nosso modelo substitui tijolos tradicionais por blocos modulares de solo-cimento. Isso reduz drasticamente a queima de combustíveis fósseis e o consumo de água na obra.</p>
+                <div class="concept-box">
+                    <i class="ph ph-wind"></i>
+                    <p>Evitamos toneladas de gases estufa integrando energia solar e captação pluvial desde o primeiro dia de obra.</p>
                 </div>
-
-                <!-- CHART 2 -->
-                <div class="chart-item" onclick="openChart('c2')">
-                    <svg class="svg-preview" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#f8fafc" rx="12"/>
-                        <!-- Grid lines -->
-                        <line x1="25" y1="35" x2="175" y2="35" stroke="#e2e8f0" stroke-width="1"/>
-                        <line x1="25" y1="75" x2="175" y2="75" stroke="#e2e8f0" stroke-width="1"/>
-                        <line x1="25" y1="115" x2="175" y2="115" stroke="#e2e8f0" stroke-width="1"/>
-                        <path d="M 25 120 Q 60 70 100 80 T 175 35" fill="none" stroke="#4f46e5" stroke-width="4.5" stroke-linecap="round"/>
-                        <circle cx="25" cy="120" r="5.5" fill="#ef4444" stroke="#ffffff" stroke-width="1"/>
-                        <circle cx="62" cy="92" r="5.5" fill="#ea580c" stroke="#ffffff" stroke-width="1"/>
-                        <circle cx="100" cy="80" r="5.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1"/>
-                        <circle cx="138" cy="58" r="5.5" fill="#10b981" stroke="#ffffff" stroke-width="1"/>
-                        <circle cx="175" cy="35" r="5.5" fill="#10b981" stroke="#ffffff" stroke-width="1"/>
-                        <text x="100" y="22" text-anchor="middle" fill="#0f172a" font-size="10" font-weight="800">R$ 1.2M (Ano 5)</text>
-                    </svg>
-                    <div class="chart-title">Fluxo de Caixa</div>
-                </div>
-
-                <!-- CHART 3 -->
-                <div class="chart-item" onclick="openChart('c3')">
-                    <svg class="svg-preview" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#f8fafc" rx="12"/>
-                        <!-- Heatmap cells with high contrast borders -->
-                        <rect x="25" y="25" width="45" height="35" fill="#ef4444" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                        <rect x="75" y="25" width="45" height="35" fill="#ef4444" opacity="0.8" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                        <rect x="125" y="25" width="45" height="35" fill="#ea580c" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                        
-                        <rect x="25" y="65" width="45" height="35" fill="#ea580c" opacity="0.8" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                        <rect x="75" y="65" width="45" height="35" fill="#10b981" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                        <rect x="125" y="65" width="45" height="35" fill="#10b981" opacity="0.7" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                        
-                        <rect x="25" y="105" width="45" height="20" fill="#10b981" opacity="0.5" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                        <rect x="75" y="105" width="45" height="20" fill="#10b981" opacity="0.3" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                        <rect x="125" y="105" width="45" height="20" fill="#10b981" opacity="0.15" rx="4" stroke="#ffffff" stroke-width="1.5"/>
-                    </svg>
-                    <div class="chart-title">Matriz de Risco</div>
-                </div>
-
-                <!-- CHART 4 -->
-                <div class="chart-item" onclick="openChart('c4')">
-                    <svg class="svg-preview" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#f8fafc" rx="12"/>
-                        <circle cx="100" cy="70" r="35" fill="none" stroke="#e2e8f0" stroke-width="8"/>
-                        <circle cx="100" cy="70" r="35" fill="none" stroke="#10b981" stroke-width="8" stroke-dasharray="165 220"/>
-                        <text x="100" y="76" text-anchor="middle" fill="#0f172a" font-size="15" font-weight="900">75%</text>
-                        <text x="100" y="125" text-anchor="middle" fill="#047857" font-size="10" font-weight="800">Redução de CO2</text>
-                    </svg>
-                    <div class="chart-title">KPIs Ambientais</div>
-                </div>
-
-                <!-- CHART 5 -->
-                <div class="chart-item" onclick="openChart('c5')">
-                    <svg class="svg-preview" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#f8fafc" rx="12"/>
-                        <circle cx="100" cy="70" r="35" fill="none" stroke="#e2e8f0" stroke-width="8"/>
-                        <circle cx="100" cy="70" r="35" fill="none" stroke="#4f46e5" stroke-width="8" stroke-dasharray="198 220"/>
-                        <text x="100" y="76" text-anchor="middle" fill="#0f172a" font-size="15" font-weight="900">90%</text>
-                        <text x="100" y="125" text-anchor="middle" fill="#4338ca" font-size="10" font-weight="800">Satisfação Comunitária</text>
-                    </svg>
-                    <div class="chart-title">KPIs Sociais</div>
-                </div>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem;">
+                    <li style="display: flex; gap: 0.8rem;"><i class="ph ph-check-circle" style="color: var(--accent); font-size: 1.3rem;"></i> <span><strong>Tijolos Ecológicos:</strong> Blocos prensados e curados sem queima em fornos.</span></li>
+                    <li style="display: flex; gap: 0.8rem;"><i class="ph ph-check-circle" style="color: var(--accent); font-size: 1.3rem;"></i> <span><strong>Energia Solar:</strong> Painéis fotovoltaicos integrados às residências.</span></li>
+                </ul>
             </div>
-
-            <!-- ESG, ODS and KPIs descriptions -->
-            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; text-align: left;">
-                <div>
-                    <h4 style="color:#10b981; font-weight:700; margin-bottom:0.4rem;"><i class="ph ph-leaf"></i> Ambiental (E) & ODS 7, 12, 13</h4>
-                    <p style="font-size: 0.88rem; margin:0; line-height: 1.5;">Utilização de energia solar fotovoltaica e tijolos ecológicos modulares. Ademais, monitora-se a redução na emissão de carbono por bloco produzido.</p>
-                </div>
-                <div>
-                    <h4 style="color:#6366f1; font-weight:700; margin-bottom:0.4rem;"><i class="ph ph-users-three"></i> Social (S) & ODS 11</h4>
-                    <p style="font-size: 0.88rem; margin:0; line-height: 1.5;">Redução da vulnerabilidade habitacional por meio da entrega de moradias seguras no bairro Pedregal. Adicionalmente, estimula-se a geração de empregos na construção civil local.</p>
-                </div>
-                <div>
-                    <h4 style="color:#818cf8; font-weight:700; margin-bottom:0.4rem;"><i class="ph ph-shield-check"></i> Governança (G) & KPIs</h4>
-                    <p style="font-size: 0.88rem; margin:0; line-height: 1.5;">Transparência corporativa, com medição da satisfação dos moradores via net promoter score. Paralelamente, adota-se a auditoria de contratos em tempo real.</p>
-                </div>
+            <div class="split-image" style="background: #f8fafc; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+                <svg viewBox="0 0 400 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="max-height: 480px;">
+                    <defs>
+                        <linearGradient id="gradEco" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#818cf8" />
+                            <stop offset="100%" stop-color="#4f46e5" />
+                        </linearGradient>
+                        <linearGradient id="gradGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#34d399" />
+                            <stop offset="100%" stop-color="#059669" />
+                        </linearGradient>
+                        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#4f46e5" flood-opacity="0.25"/>
+                        </filter>
+                    </defs>
+                    <rect width="100%" height="100%" fill="#ffffff" rx="24" stroke="#e2e8f0" stroke-width="1"/>
+                    
+                    <!-- Circular Progress Ring (75%) -->
+                    <circle cx="200" cy="180" r="85" fill="none" stroke="#e2e8f0" stroke-width="18"/>
+                    <circle cx="200" cy="180" r="85" fill="none" stroke="url(#gradGreen)" stroke-width="18" stroke-dasharray="534" stroke-dashoffset="133" stroke-linecap="round" filter="url(#glow)"/>
+                    
+                    <text x="200" y="170" text-anchor="middle" fill="#0f172a" font-size="44" font-weight="900" font-family="'Outfit', sans-serif">75%</text>
+                    <text x="200" y="205" text-anchor="middle" fill="#059669" font-size="14" font-weight="700" font-family="'Outfit', sans-serif" letter-spacing="1">MENOS EMISSÕES</text>
+                    <text x="200" y="225" text-anchor="middle" fill="#64748b" font-size="12" font-family="'Outfit', sans-serif">Pegada de Carbono de Obras</text>
+                    
+                    <!-- Comparison Bars at the Bottom -->
+                    <g transform="translate(60, 310)">
+                        <!-- Label 1 -->
+                        <text x="0" y="15" fill="#64748b" font-size="11" font-weight="600">Alvenaria Comum</text>
+                        <rect x="120" y="3" width="160" height="14" rx="7" fill="#e2e8f0"/>
+                        <rect x="120" y="3" width="160" height="14" rx="7" fill="#f87171"/>
+                        <text x="250" y="14" fill="#ffffff" font-size="9" font-weight="800">100%</text>
+                        
+                        <!-- Label 2 -->
+                        <text x="0" y="38" fill="#64748b" font-size="11" font-weight="600">EcoLar Modular</text>
+                        <rect x="120" y="26" width="160" height="14" rx="7" fill="#e2e8f0"/>
+                        <rect x="120" y="26" width="40" height="14" rx="7" fill="url(#gradGreen)"/>
+                        <text x="135" y="37" fill="#ffffff" font-size="9" font-weight="800">25%</text>
+                    </g>
+                    
+                    <text x="200" y="45" text-anchor="middle" fill="#0f172a" font-size="16" font-weight="800">Meta ODS 13: Ação Contra Mudança do Clima</text>
+                </svg>
             </div>
         </div>
         <span class="slide-number">05</span>
+    </section>
+
+    <!-- SLIDE 5B: IMPACTO SOCIAL (ESG) -->
+    <section class="slide">
+        <div class="split-layout">
+            <div class="split-text animate-content">
+                <div class="discipline-tag"><i class="ph ph-users-three"></i> 2.2 Impacto Social</div>
+                <h2>Satisfação e Integração Comunitária</h2>
+                <p>Nossas moradias são entregues a famílias de baixa renda sob regime de mutirão autogerido, promovendo inclusão e desenvolvimento humano local.</p>
+                <div class="concept-box">
+                    <i class="ph ph-heart"></i>
+                    <p>O foco vai além do teto: capacitamos moradores na fabricação de materiais e oferecemos apoio socioeconômico.</p>
+                </div>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem;">
+                    <li style="display: flex; gap: 0.8rem;"><i class="ph ph-check-circle" style="color: var(--accent); font-size: 1.3rem;"></i> <span><strong>Qualidade de Vida:</strong> Redução drástica do déficit habitacional no Pedregal.</span></li>
+                    <li style="display: flex; gap: 0.8rem;"><i class="ph ph-check-circle" style="color: var(--accent); font-size: 1.3rem;"></i> <span><strong>Geração de Renda:</strong> Capacitação prática de moradores em construção sustentável.</span></li>
+                </ul>
+            </div>
+            <div class="split-image" style="background: #f8fafc; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+                <svg viewBox="0 0 400 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="max-height: 480px;">
+                    <defs>
+                        <linearGradient id="gradIndigo" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#818cf8" />
+                            <stop offset="100%" stop-color="#4f46e5" />
+                        </linearGradient>
+                        <filter id="glowSocial" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#4f46e5" flood-opacity="0.25"/>
+                        </filter>
+                    </defs>
+                    <rect width="100%" height="100%" fill="#ffffff" rx="24" stroke="#e2e8f0" stroke-width="1"/>
+                    
+                    <!-- Circular Progress Ring (90%) -->
+                    <circle cx="200" cy="180" r="85" fill="none" stroke="#e2e8f0" stroke-width="18"/>
+                    <circle cx="200" cy="180" r="85" fill="none" stroke="url(#gradEco)" stroke-width="18" stroke-dasharray="534" stroke-dashoffset="53" stroke-linecap="round" filter="url(#glowSocial)"/>
+                    
+                    <text x="200" y="170" text-anchor="middle" fill="#0f172a" font-size="44" font-weight="900" font-family="'Outfit', sans-serif">90%</text>
+                    <text x="200" y="205" text-anchor="middle" fill="#4f46e5" font-size="14" font-weight="700" font-family="'Outfit', sans-serif" letter-spacing="1">SATISFAÇÃO SOCIAL</text>
+                    <text x="200" y="225" text-anchor="middle" fill="#64748b" font-size="12" font-family="'Outfit', sans-serif">Índice NPS de Acolhimento Comunitário</text>
+                    
+                    <!-- Growth indicators -->
+                    <g transform="translate(80, 290)">
+                        <path d="M0,40 L60,25 L120,30 L180,5 L240,10" fill="none" stroke="#e2e8f0" stroke-width="3"/>
+                        <path d="M0,40 L60,25 L120,30 L180,5 L240,10" fill="none" stroke="url(#gradEco)" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="240" cy="10" r="5" fill="#4f46e5" />
+                        <text x="240" y="-3" fill="#4f46e5" font-size="10" font-weight="bold" text-anchor="middle">Ano 5</text>
+                    </g>
+                    
+                    <text x="200" y="45" text-anchor="middle" fill="#0f172a" font-size="16" font-weight="800">Meta ODS 11: Cidades e Comunidades Sustentáveis</text>
+                </svg>
+            </div>
+        </div>
+        <span class="slide-number">06</span>
+    </section>
+
+    <!-- SLIDE 5C: GOVERNANÇA E COMPLIANCE (ESG) -->
+    <section class="slide">
+        <div class="split-layout">
+            <div class="split-text animate-content">
+                <div class="discipline-tag"><i class="ph ph-shield-check"></i> 2.3 Governança Corporativa</div>
+                <h2>Transparência e Controle de Recursos</h2>
+                <p>Mantemos um controle rigoroso em todas as etapas da cadeia de suprimentos habitacionais. Asseguramos a integridade com regras severas de compliance.</p>
+                <div class="concept-box">
+                    <i class="ph ph-lock"></i>
+                    <p>Nosso portal de transparência permite auditar gastos e monitorar compras em tempo real.</p>
+                </div>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem;">
+                    <li style="display: flex; gap: 0.8rem;"><i class="ph ph-check-circle" style="color: var(--accent); font-size: 1.3rem;"></i> <span><strong>Rastreabilidade Total:</strong> Orçamento aberto e detalhado.</span></li>
+                    <li style="display: flex; gap: 0.8rem;"><i class="ph ph-check-circle" style="color: var(--accent); font-size: 1.3rem;"></i> <span><strong>Auditoria Contínua:</strong> Verificação rigorosa contra superfaturamento.</span></li>
+                </ul>
+            </div>
+            <div class="split-image" style="background: #f8fafc; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+                <svg viewBox="0 0 400 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="max-height: 480px;">
+                    <defs>
+                        <linearGradient id="gradBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#60a5fa" />
+                            <stop offset="100%" stop-color="#2563eb" />
+                        </linearGradient>
+                        <filter id="glowGov" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#2563eb" flood-opacity="0.25"/>
+                        </filter>
+                    </defs>
+                    <rect width="100%" height="100%" fill="#ffffff" rx="24" stroke="#e2e8f0" stroke-width="1"/>
+                    
+                    <!-- Circular Progress Ring (100%) -->
+                    <circle cx="200" cy="180" r="85" fill="none" stroke="#e2e8f0" stroke-width="18"/>
+                    <circle cx="200" cy="180" r="85" fill="none" stroke="url(#gradBlue)" stroke-width="18" stroke-dasharray="534" stroke-dashoffset="0" stroke-linecap="round" filter="url(#glowGov)"/>
+                    
+                    <text x="200" y="170" text-anchor="middle" fill="#0f172a" font-size="44" font-weight="900" font-family="'Outfit', sans-serif">100%</text>
+                    <text x="200" y="205" text-anchor="middle" fill="#2563eb" font-size="14" font-weight="700" font-family="'Outfit', sans-serif" letter-spacing="1">RASTRÁVEL E AUDITADO</text>
+                    <text x="200" y="225" text-anchor="middle" fill="#64748b" font-size="12" font-family="'Outfit', sans-serif">Conformidade e Governança ISO 37001</text>
+                    
+                    <!-- Security Badges or Details -->
+                    <g transform="translate(60, 295)">
+                        <circle cx="30" cy="20" r="16" fill="#eff6ff" />
+                        <path d="M 25 20 L 29 24 L 37 16" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+                        <text x="60" y="24" fill="#0f172a" font-size="12" font-weight="700">Controle Anti-Fraude</text>
+                        
+                        <circle cx="180" cy="20" r="16" fill="#eff6ff" />
+                        <path d="M 175 20 L 179 24 L 187 16" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+                        <text x="210" y="24" fill="#0f172a" font-size="12" font-weight="700">Auditoria Externa</text>
+                    </g>
+                    
+                    <text x="200" y="45" text-anchor="middle" fill="#0f172a" font-size="16" font-weight="800">Práticas de Governança Híbrida de Impacto</text>
+                </svg>
+            </div>
+        </div>
+        <span class="slide-number">07</span>
     </section>
 
     <!-- SLIDE 6: ESTRATÉGIA FINANCEIRA (Estrutura de Capital no Contexto) -->
@@ -355,7 +420,7 @@
                 <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=80" alt="Investimento Financeiro Sustentável" />
             </div>
         </div>
-        <span class="slide-number">06</span>
+        <span class="slide-number">08</span>
     </section>
 
     <!-- SLIDE 7: GESTÃO POSITIVA DE RISCO (Stakeholders e Protocolo de Negociação) -->
@@ -388,7 +453,7 @@
                 </div>
             </div>
         </div>
-        <span class="slide-number">07</span>
+        <span class="slide-number">09</span>
     </section>
 
     <!-- SLIDE 8: REFERÊNCIAS BIBLIOGRÁFICAS (ABNT) -->
@@ -412,7 +477,7 @@
                 <img src="https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=800&q=80" alt="Referências Acadêmicas e Pesquisa" />
             </div>
         </div>
-        <span class="slide-number">08</span>
+        <span class="slide-number">10</span>
     </section>
 
     <!-- SLIDE 9: FECHAMENTO -->
@@ -427,7 +492,7 @@
             </div>
             <a href="index.html" class="btn-nav" style="margin-top: 3rem; background: var(--accent); color: white; border: none; padding: 1rem 2rem;"><i class="ph ph-house"></i> Voltar ao Menu</a>
         </div>
-        <span class="slide-number">09</span>
+        <span class="slide-number">11</span>
     </section>
 
     <!-- INTERACTIVE CHART MODAL -->
