@@ -35,18 +35,20 @@
         .slide-content { padding: 4rem 6%; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 10; }
         
         .split-layout { display: flex; width: 100%; height: 100%; }
-        .split-text { flex: 1.2; padding: 4rem 5%; display: flex; flex-direction: column; justify-content: center; background: white; }
-        .split-image { flex: 0.8; background: #f8fafc; display: flex; align-items: center; justify-content: center; padding: 3rem; position: relative; }
-        .split-image::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 20%); pointer-events: none; }
+        .split-text { flex: 1.0; padding: 4.5rem 6%; display: flex; flex-direction: column; justify-content: center; background: white; }
+        .split-image { flex: 1.0; background: #e2e8f0; position: relative; overflow: hidden; }
+        .split-image img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); display: block; }
+        .split-image:hover img { transform: scale(1.05); }
+        .split-image::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 25%); pointer-events: none; }
 
         /* Typography & tags */
-        .discipline-tag { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent-light); color: #0f766e; padding: 0.6rem 1.5rem; border-radius: 50px; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; font-size: 0.75rem; margin-bottom: 1.5rem; align-self: flex-start; border: 1px solid rgba(13, 148, 136, 0.2); }
-        h2 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 3.5vw, 4rem); color: var(--primary); margin-bottom: 1.2rem; line-height: 1.15; font-weight: 900; }
-        h3 { color: #0f766e; font-size: clamp(1.1rem, 1.8vw, 1.5rem); margin-bottom: 1rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
-        p { font-size: 1.1rem; line-height: 1.7; color: var(--text-muted); max-width: 850px; margin-bottom: 1.2rem; }
+        .discipline-tag { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent-light); color: #0f766e; padding: 0.6rem 1.5rem; border-radius: 50px; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; font-size: 0.8rem; margin-bottom: 1.5rem; align-self: flex-start; border: 1px solid rgba(13, 148, 136, 0.2); }
+        h2 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 4.2vw, 4.2rem); color: var(--primary); margin-bottom: 1.4rem; line-height: 1.15; font-weight: 900; }
+        h3 { color: #0f766e; font-size: clamp(1.3rem, 2.2vw, 1.8rem); margin-bottom: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+        p { font-size: 1.25rem; line-height: 1.7; color: var(--text-muted); max-width: 850px; margin-bottom: 1.4rem; }
         
         .concept-box { background: var(--accent-light); border-left: 4px solid var(--accent); padding: 2rem; border-radius: 0 16px 16px 0; margin: 1.5rem 0; position: relative; }
-        .concept-box p { color: var(--primary); font-size: 1.15rem; font-weight: 500; margin: 0; }
+        .concept-box p { color: var(--primary); font-size: 1.3rem; font-weight: 500; margin: 0; }
         .concept-box i { position: absolute; top: 0.8rem; right: 1.2rem; font-size: 2.5rem; color: rgba(13, 148, 136, 0.15); }
 
         /* Interactive Dashboard */
@@ -70,19 +72,19 @@
         .team-box p { font-size: 1.1rem; margin: 0; color: white; display: flex; align-items: center; gap: 0.8rem; }
 
         /* References styling */
-        .reference-list { display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem; text-align: left; max-width: 900px; margin: 0 auto; color: var(--text-dark); }
+        .reference-list { display: flex; flex-direction: column; gap: 0.75rem; font-size: 1.1rem; text-align: left; max-width: 900px; margin: 0 auto; color: var(--text-dark); }
         .reference-list li { padding: 0.8rem 1.2rem; border-radius: 8px; border: 1px solid var(--border); background: #f8fafc; list-style-type: none; line-height: 1.5; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
 
         /* Interactive Modal system */
         .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px); display: flex; align-items: center; justify-content: center; z-index: 2000; opacity: 0; pointer-events: none; transition: var(--transition); }
         .modal-backdrop.active { opacity: 1; pointer-events: all; }
-        .modal-content { background: white; width: 90%; max-width: 750px; border-radius: 24px; padding: 2.5rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); position: relative; transform: scale(0.9); transition: var(--transition); border: 1px solid rgba(13, 148, 136, 0.1); }
+        .modal-content { background: white; width: 90%; max-width: 1100px; border-radius: 24px; padding: 2.5rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); position: relative; transform: scale(0.9); transition: var(--transition); border: 1px solid rgba(13, 148, 136, 0.1); }
         .modal-backdrop.active .modal-content { transform: scale(1); }
         .modal-close { position: absolute; top: 1.5rem; right: 1.5rem; background: #f1f5f9; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
         .modal-close:hover { background: var(--accent); color: white; transform: rotate(90deg) scale(1.1); }
         .modal-close:active { transform: scale(0.9); }
         .modal-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--primary); margin-bottom: 1.5rem; font-weight: 900; }
-        .modal-body { display: flex; align-items: center; justify-content: center; min-height: 320px; background: #f8fafc; border-radius: 16px; padding: 1.5rem; }
+        .modal-body { display: flex; align-items: center; justify-content: center; min-height: 520px; background: #f8fafc; border-radius: 16px; padding: 1.5rem; }
         .modal-tooltip { margin-top: 1.5rem; background: var(--accent-light); border-left: 4px solid var(--accent); padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; font-size: 0.95rem; color: var(--primary); font-weight: 500; min-height: 60px; display: flex; align-items: center; }
 
         /* Animation System */
@@ -139,53 +141,15 @@
             <div class="split-text animate-content">
                 <div class="discipline-tag"><i class="ph ph-compass"></i> Diagnóstico Habitacional</div>
                 <h2>O Problema e o Vetor de Solução</h2>
-                <p>O déficit habitacional crônico e a precariedade urbana na periferia de Cuiabá, especificamente no bairro Doutor Fábio, impõem severos óbices ao desenvolvimento social sustentável local. Nesse sentido, as intervenções tradicionais enfrentam gargalos de agilidade operacional e regularização técnica. Com o propósito de dirimir esse cenário, a estruturação de uma **Organização da Sociedade Civil (OSC)** surge como o vetor de transformação ideal.</p>
+                <p>A falta de moradias adequadas e a precariedade no bairro Doutor Fábio, em Cuiabá, dificultam o desenvolvimento social. As soluções tradicionais enfrentam burocracia e demora. Para mudar essa realidade de forma ágil, a criação de uma **Organização da Sociedade Civil (OSC)** é o caminho ideal.</p>
                 <div class="concept-box">
                     <i class="ph ph-lightbulb"></i>
-                    <p>Ao alinhar a cooperação comunitária com a administração pública via MROSC, a OSC viabiliza mutirões autogeridos e a regularização jurídica fundiária (REURB-S) das famílias ocupantes.</p>
+                    <p>Unindo a comunidade e o poder público, a OSC organiza mutirões de construção e realiza a regularização de terras (REURB-S) para garantir a propriedade das famílias.</p>
                 </div>
-                <p>Desse modo, a cooperação formalizada garante a canalização de emendas parlamentares e termos de fomento público diretamente para a melhoria urbana das habitações populares.</p>
+                <p>Essa união oficial facilita o recebimento de emendas parlamentares e verbas públicas diretas para a melhoria do bairro.</p>
             </div>
             <div class="split-image">
-                <!-- HIGHLY ELABORATE PROBLEM-TO-SOLUTION TRANSITION ART (OSC STYLE) -->
-                <svg viewBox="0 0 400 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="max-height: 350px;">
-                    <defs>
-                        <linearGradient id="glowGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#2dd4bf;stop-opacity:0.3" />
-                            <stop offset="100%" style="stop-color:#0d9488;stop-opacity:0" />
-                        </linearGradient>
-                        <linearGradient id="lineG2" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" style="stop-color:#f43f5e;stop-opacity:1" />
-                            <stop offset="50%" style="stop-color:#e11d48;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <rect width="400" height="400" fill="#f8fafc" rx="32"/>
-                    <circle cx="200" cy="200" r="130" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="10 6"/>
-                    <circle cx="200" cy="200" r="100" fill="url(#glowGrad2)"/>
-                    
-                    <!-- Left: Irregular informal cluster (The Problem) -->
-                    <g transform="translate(60, 160)">
-                        <rect x="0" y="0" width="30" height="20" rx="2" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5" transform="rotate(-15)"/>
-                        <rect x="40" y="-15" width="25" height="25" rx="2" fill="#f43f5e" stroke="#be123c" stroke-width="1.5" transform="rotate(10)"/>
-                        <rect x="15" y="30" width="35" height="15" rx="2" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5" transform="rotate(-5)"/>
-                        <text x="15" y="70" text-anchor="middle" fill="#be123c" font-size="9" font-weight="900" letter-spacing="1">SEM REGULARIZAÇÃO</text>
-                    </g>
-                    
-                    <path d="M 120 200 L 260 200" stroke="url(#lineG2)" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 6"/>
-                    <path d="M 255 195 L 265 200 L 255 205 Z" fill="#10b981"/>
-                    
-                    <!-- Right: Styled organized community building (The OSC Solution) -->
-                    <g transform="translate(280, 160)">
-                        <polygon points="0,-25 35,-5 35,45 -35,45 -35,-5" fill="#ffffff" stroke="#0d9488" stroke-width="3"/>
-                        <polygon points="0,-35 45,-10 -45,-10" fill="#0d9488"/>
-                        <rect x="-25" y="-5" width="20" height="10" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.5"/>
-                        <line x1="-15" y1="-5" x2="-15" y2="5" stroke="#0d9488" stroke-width="1"/>
-                        <rect x="-10" y="20" width="20" height="25" fill="#1e293b"/>
-                        <circle cx="20" cy="15" r="8" fill="#10b981"/>
-                        <text x="0" y="65" text-anchor="middle" fill="#10b981" font-size="9" font-weight="900" letter-spacing="1">OSC / REURB-S</text>
-                    </g>
-                </svg>
+                <img src="https://images.unsplash.com/photo-1541976844346-f18aeac57b06?auto=format&fit=crop&w=800&q=80" alt="Planejamento e Obras Sociais" />
             </div>
         </div>
         <span class="slide-number">02</span>
@@ -197,52 +161,18 @@
             <div class="split-text animate-content">
                 <div class="discipline-tag"><i class="ph ph-bank"></i> Modelo Jurídico-Organizacional</div>
                 <h2>OSC sob a Lei Federal nº 13.019/2014 (MROSC)</h2>
-                <p>A viabilização do empreendimento habitacional e de regularização fundiária no bairro Dr. Fábio ocorrerá por meio da constituição de uma Associação Civil Sem Fins Lucrativos. Sob essa ótica, este modelo jurídico adere estritamente ao Marco Regulatório das Organizações da Sociedade Civil (MROSC):</p>
+                <p>Como a regularização fundiária exige parcerias com o governo, nosso projeto será gerido por uma **Associação Civil sem fins lucrativos**. Esse modelo jurídico segue as regras do Marco Regulatório das OSCs (MROSC):</p>
                 <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin: 1rem 0;">
-                    <li style="display: flex; gap: 0.8rem;"><i class="ph ph-check-square" style="color: var(--accent); font-size: 1.3rem;"></i> <span><strong>Parcerias com a Administração Pública:</strong> Permite a celebração de Termos de Fomento e Termos de Colaboração para execução de políticas públicas habitacionais locais.</span></li>
-                    <li style="display: flex; gap: 0.8rem;"><i class="ph ph-check-square" style="color: var(--accent); font-size: 1.3rem;"></i> <span><strong>Recebimento de Emendas:</strong> Habilita formalmente a entidade a receber emendas parlamentares federais e estaduais destinadas a obras de infraestrutura social.</span></li>
+                    <li style="display: flex; gap: 0.8rem;"><i class="ph ph-check-square" style="color: var(--accent); font-size: 1.3rem;"></i> <span><strong>Parcerias Públicas:</strong> Permite assinar Termos de Fomento com a Prefeitura de Cuiabá para receber recursos e executar as obras.</span></li>
+                    <li style="display: flex; gap: 0.8rem;"><i class="ph ph-check-square" style="color: var(--accent); font-size: 1.3rem;"></i> <span><strong>Emendas Parlamentares:</strong> Habilita a entidade a receber verbas indicadas por deputados para infraestrutura e urbanismo.</span></li>
                 </ul>
                 <div class="concept-box">
                     <i class="ph ph-info"></i>
-                    <p>Portanto, ao alinhar a governança social com o repasse orçamentário público sob a égide da Lei 13.019/14, a OSC consolida o ambiente de transparência e atração de fomento.</p>
+                    <p>Ao alinhar a cooperação comunitária com as regras da Lei 13.019/14, garantimos total transparência para atrair investimentos públicos e doações.</p>
                 </div>
             </div>
             <div class="split-image">
-                <svg viewBox="0 0 400 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="max-height: 350px;">
-                    <defs>
-                        <linearGradient id="gradTeal" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#2dd4bf;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#0d9488;stop-opacity:1" />
-                        </linearGradient>
-                        <filter id="shadowTeal" x="-10%" y="-10%" width="120%" height="120%">
-                            <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#0d9488" flood-opacity="0.12"/>
-                        </filter>
-                    </defs>
-                    <rect width="400" height="400" fill="#f8fafc" rx="32"/>
-                    <g stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="6 6">
-                        <line x1="80" y1="0" x2="80" y2="400"/>
-                        <line x1="200" y1="0" x2="200" y2="400"/>
-                        <line x1="320" y1="0" x2="320" y2="400"/>
-                        <line x1="0" y1="80" x2="400" y2="80"/>
-                        <line x1="0" y1="200" x2="400" y2="200"/>
-                    </g>
-                    <circle cx="200" cy="200" r="110" fill="none" stroke="url(#gradTeal)" stroke-width="3" stroke-dasharray="8 6" opacity="0.3"/>
-                    
-                    <g filter="url(#shadowTeal)">
-                        <path d="M 120 100 L 280 100 C 290 100, 290 100, 290 110 L 290 310 C 290 320, 280 320, 270 320 L 130 320 C 120 320, 110 310, 110 300 L 110 110 C 110 100, 110 100, 120 100 Z" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
-                        <path d="M 110 110 L 290 110 L 290 150 L 110 150 Z" fill="url(#gradTeal)"/>
-                        
-                        <rect x="145" y="125" width="110" height="12" rx="6" fill="#ffffff"/>
-                        <text x="200" y="134" text-anchor="middle" fill="#0f766e" font-size="8" font-weight="900" letter-spacing="0.5">LEI 13.019/2014</text>
-                        
-                        <rect x="140" y="180" width="120" height="8" rx="4" fill="#f1f5f9"/>
-                        <rect x="140" y="200" width="100" height="8" rx="4" fill="#f1f5f9"/>
-                        <rect x="140" y="220" width="110" height="8" rx="4" fill="#f1f5f9"/>
-                        
-                        <circle cx="200" cy="265" r="20" fill="#cbd5e1" opacity="0.4"/>
-                        <path d="M 190 275 L 210 275 L 200 255 Z" fill="#0d9488"/>
-                    </g>
-                </svg>
+                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80" alt="Parceria Comunitária e Social" />
             </div>
         </div>
         <span class="slide-number">03</span>
@@ -253,7 +183,7 @@
         <div class="slide-content animate-content" style="max-width: 1100px; margin: 0 auto;">
             <div class="discipline-tag"><i class="ph ph-shield-check"></i> 1. Adm Compliance</div>
             <h2>Matriz de Risco de Regularização Fundiária (REURB-S)</h2>
-            <p style="margin-bottom: 2rem;">A regularização jurídica de terras ocupadas de interesse social envolve trâmites cartoriais e municipais complexos. Nesse sentido, a estruturação de uma matriz de severidade permite antecipar gargalos regulatórios de compliance:</p>
+            <p style="margin-bottom: 2rem; font-size: 1.25rem;">A regularização jurídica de moradias envolve processos cartoriais e municipais complexos. Nossa matriz de riscos ajuda a identificar e evitar atrasos e falhas no processo:</p>
             
             <table style="width: 100%; border-collapse: collapse; text-align: left; background: white; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
                 <thead>
@@ -300,19 +230,19 @@
         <div class="slide-content animate-content">
             <div class="discipline-tag"><i class="ph ph-leaf"></i> 2. Dev Sustentável</div>
             <h2>Metas de Impacto Sustentável e Certificação ESG</h2>
-            <p style="margin-bottom: 1rem;">O progresso sustentável e o cumprimento dos termos de fomento são acompanhados por indicadores técnicos. Nesse sentido, o acompanhamento dos ODS territoriais baliza as ações comunitárias:</p>
+            <p style="margin-bottom: 1rem; font-size: 1.25rem;">Acompanhamos a evolução das obras e o cumprimento do plano de fomento por meio de indicadores técnicos de impacto social e ecológico (ESG):</p>
             
             <div class="dashboard-grid">
                 <!-- CHART 1 -->
                 <div class="chart-item" onclick="openChart('c1')">
                     <svg class="svg-preview" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#1e293b" rx="12"/>
-                        <circle cx="100" cy="75" r="45" fill="none" stroke="#222f3e" stroke-width="12"/>
+                        <rect width="100%" height="100%" fill="#f8fafc" rx="12"/>
+                        <circle cx="100" cy="75" r="45" fill="none" stroke="#e2e8f0" stroke-width="12"/>
                         <!-- Donut segments visual preview (Teal themed) -->
                         <circle cx="100" cy="75" r="45" fill="none" stroke="#0d9488" stroke-width="12" stroke-dasharray="169 282" stroke-dashoffset="0"/>
                         <circle cx="100" cy="75" r="45" fill="none" stroke="#10b981" stroke-width="12" stroke-dasharray="71 282" stroke-dashoffset="-169"/>
-                        <circle cx="100" cy="75" r="45" fill="none" stroke="#fbbf24" stroke-width="12" stroke-dasharray="42 282" stroke-dashoffset="-240"/>
-                        <text x="100" y="80" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="800">60%</text>
+                        <circle cx="100" cy="75" r="45" fill="none" stroke="#ea580c" stroke-width="12" stroke-dasharray="42 282" stroke-dashoffset="-240"/>
+                        <text x="100" y="81" text-anchor="middle" fill="#0f172a" font-size="16" font-weight="900">60%</text>
                     </svg>
                     <div class="chart-title">Fontes de Captação</div>
                 </div>
@@ -320,15 +250,15 @@
                 <!-- CHART 2 -->
                 <div class="chart-item" onclick="openChart('c2')">
                     <svg class="svg-preview" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#1e293b" rx="12"/>
+                        <rect width="100%" height="100%" fill="#f8fafc" rx="12"/>
                         <!-- Horizontal Bar Progress Timeline visual -->
-                        <rect x="20" y="30" width="160" height="15" rx="7.5" fill="#222f3e"/>
+                        <rect x="20" y="30" width="160" height="15" rx="7.5" fill="#e2e8f0"/>
                         <rect x="20" y="30" width="150" height="15" rx="7.5" fill="#10b981"/>
-                        <rect x="20" y="65" width="160" height="15" rx="7.5" fill="#222f3e"/>
+                        <rect x="20" y="65" width="160" height="15" rx="7.5" fill="#e2e8f0"/>
                         <rect x="20" y="65" width="120" height="15" rx="7.5" fill="#0d9488"/>
-                        <rect x="20" y="100" width="160" height="15" rx="7.5" fill="#222f3e"/>
-                        <rect x="20" y="100" width="60" height="15" rx="7.5" fill="#fbbf24"/>
-                        <text x="100" y="20" text-anchor="middle" fill="#94a3b8" font-size="8" font-weight="700">Progresso de Etapas</text>
+                        <rect x="20" y="100" width="160" height="15" rx="7.5" fill="#e2e8f0"/>
+                        <rect x="20" y="100" width="60" height="15" rx="7.5" fill="#ea580c"/>
+                        <text x="100" y="20" text-anchor="middle" fill="#0f172a" font-size="10" font-weight="800">Progresso de Etapas</text>
                     </svg>
                     <div class="chart-title">Cronograma Físico</div>
                 </div>
@@ -336,17 +266,19 @@
                 <!-- CHART 3 -->
                 <div class="chart-item" onclick="openChart('c3')">
                     <svg class="svg-preview" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#1e293b" rx="12"/>
-                        <!-- Heatmap preview (Teal themed) -->
-                        <rect x="25" y="25" width="45" height="35" fill="#f43f5e" rx="4"/>
-                        <rect x="75" y="25" width="45" height="35" fill="#fbbf24" rx="4"/>
-                        <rect x="125" y="25" width="45" height="35" fill="#10b981" rx="4"/>
-                        <rect x="25" y="65" width="45" height="35" fill="#fbbf24" opacity="0.8" rx="4"/>
-                        <rect x="75" y="65" width="45" height="35" fill="#10b981" rx="4"/>
-                        <rect x="125" y="65" width="45" height="35" fill="#10b981" opacity="0.6" rx="4"/>
-                        <rect x="25" y="105" width="45" height="20" fill="#10b981" opacity="0.4" rx="4"/>
-                        <rect x="75" y="105" width="45" height="20" fill="#10b981" opacity="0.2" rx="4"/>
-                        <rect x="125" y="105" width="45" height="20" fill="#10b981" opacity="0.1" rx="4"/>
+                        <rect width="100%" height="100%" fill="#f8fafc" rx="12"/>
+                        <!-- Heatmap preview with high-contrast borders -->
+                        <rect x="25" y="25" width="45" height="35" fill="#ef4444" rx="4" stroke="#ffffff" stroke-width="1.5"/>
+                        <rect x="75" y="25" width="45" height="35" fill="#ea580c" rx="4" stroke="#ffffff" stroke-width="1.5"/>
+                        <rect x="125" y="25" width="45" height="35" fill="#10b981" rx="4" stroke="#ffffff" stroke-width="1.5"/>
+                        
+                        <rect x="25" y="65" width="45" height="35" fill="#ea580c" opacity="0.8" rx="4" stroke="#ffffff" stroke-width="1.5"/>
+                        <rect x="75" y="65" width="45" height="35" fill="#10b981" rx="4" stroke="#ffffff" stroke-width="1.5"/>
+                        <rect x="125" y="65" width="45" height="35" fill="#10b981" opacity="0.6" rx="4" stroke="#ffffff" stroke-width="1.5"/>
+                        
+                        <rect x="25" y="105" width="45" height="20" fill="#10b981" opacity="0.4" rx="4" stroke="#ffffff" stroke-width="1.5"/>
+                        <rect x="75" y="105" width="45" height="20" fill="#10b981" opacity="0.2" rx="4" stroke="#ffffff" stroke-width="1.5"/>
+                        <rect x="125" y="105" width="45" height="20" fill="#10b981" opacity="0.1" rx="4" stroke="#ffffff" stroke-width="1.5"/>
                     </svg>
                     <div class="chart-title">Matriz de Risco</div>
                 </div>
@@ -354,11 +286,11 @@
                 <!-- CHART 4 -->
                 <div class="chart-item" onclick="openChart('c4')">
                     <svg class="svg-preview" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#1e293b" rx="12"/>
-                        <circle cx="100" cy="75" r="35" fill="none" stroke="#222f3e" stroke-width="8"/>
-                        <circle cx="100" cy="75" r="35" fill="none" stroke="#10b981" stroke-width="8" stroke-dasharray="176 220"/>
-                        <text x="100" y="80" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="800">80%</text>
-                        <text x="100" y="125" text-anchor="middle" fill="#10b981" font-size="8" font-weight="700">Redução Consumo Água</text>
+                        <rect width="100%" height="100%" fill="#f8fafc" rx="12"/>
+                        <circle cx="100" cy="70" r="35" fill="none" stroke="#e2e8f0" stroke-width="8"/>
+                        <circle cx="100" cy="70" r="35" fill="none" stroke="#10b981" stroke-width="8" stroke-dasharray="176 220"/>
+                        <text x="100" y="76" text-anchor="middle" fill="#0f172a" font-size="15" font-weight="900">80%</text>
+                        <text x="100" y="125" text-anchor="middle" fill="#047857" font-size="10" font-weight="800">Redução Consumo Água</text>
                     </svg>
                     <div class="chart-title">KPIs Ambientais</div>
                 </div>
@@ -366,11 +298,11 @@
                 <!-- CHART 5 -->
                 <div class="chart-item" onclick="openChart('c5')">
                     <svg class="svg-preview" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#1e293b" rx="12"/>
-                        <circle cx="100" cy="75" r="35" fill="none" stroke="#222f3e" stroke-width="8"/>
-                        <circle cx="100" cy="75" r="35" fill="none" stroke="#0d9488" stroke-width="8" stroke-dasharray="154 220"/>
-                        <text x="100" y="80" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="800">70%</text>
-                        <text x="100" y="125" text-anchor="middle" fill="#0d9488" font-size="8" font-weight="700">Títulos Emitidos (REURB)</text>
+                        <rect width="100%" height="100%" fill="#f8fafc" rx="12"/>
+                        <circle cx="100" cy="70" r="35" fill="none" stroke="#e2e8f0" stroke-width="8"/>
+                        <circle cx="100" cy="70" r="35" fill="none" stroke="#0d9488" stroke-width="8" stroke-dasharray="154 220"/>
+                        <text x="100" y="76" text-anchor="middle" fill="#0f172a" font-size="15" font-weight="900">70%</text>
+                        <text x="100" y="125" text-anchor="middle" fill="#0f766e" font-size="9" font-weight="800">Títulos Emitidos (REURB)</text>
                     </svg>
                     <div class="chart-title">KPIs Sociais</div>
                 </div>
@@ -401,57 +333,24 @@
             <div class="split-text animate-content">
                 <div class="discipline-tag"><i class="ph ph-calendar"></i> 3. Estratégia Financeira</div>
                 <h2>Cronograma Físico-Financeiro no Ciclo de Vida</h2>
-                <p>A gestão orçamentária da OSC está atrelada ao ciclo de vida do projeto habitacional, segregada em quatro etapas sequenciais. Desse modo, o cronograma físico-financeiro garante que os repasses governamentais sejam executados na conformidade do objeto do Termo de Fomento:</p>
+                <p>O cronograma físico-financeiro de nossa OSC organiza a liberação e uso das verbas públicas em quatro etapas. Isso garante que cada repasse seja aplicado de forma correta e transparente nas obras:</p>
                 <div class="concept-box">
                     <i class="ph ph-steps"></i>
-                    <p>O ciclo operacional foi mapeado e detalhado em quatro etapas estratégicas de desembolso e fiscalização comunitária:</p>
+                    <p>Mapeamos o ciclo operacional do projeto em quatro fases para facilitar o controle e a fiscalização:</p>
                 </div>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; text-align: left; font-size: 0.9rem;">
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; text-align: left; font-size: 1.1rem; line-height: 1.6;">
                     <div>
-                        <strong style="color:var(--primary);">Etapa I: Mapeamento e Topografia (20%):</strong>
-                        <p style="font-size:0.85rem; margin-top:0.25rem;">Levantamento planialtimétrico e cadastramento socioeconômico das famílias ocupantes do bairro Dr. Fábio, em parceria com a Defensoria Pública estadual.</p>
+                        <strong style="color:var(--primary); font-size: 1.2rem;">Etapa I: Mapeamento e Topografia (20%):</strong>
+                        <p style="font-size:1.1rem; margin-top:0.25rem; color: var(--text-muted);">Levantamento do terreno e cadastramento social das famílias do bairro Dr. Fábio com a Defensoria.</p>
                     </div>
                     <div>
-                        <strong style="color:var(--primary);">Etapa II: Edital e Infraestrutura (50%):</strong>
-                        <p style="font-size:0.85rem; margin-top:0.25rem;">Execução das obras de pavimentação, ligações de água tratada e mutirões de construção de blocos ecológicos modulares.</p>
+                        <strong style="color:var(--primary); font-size: 1.2rem;">Etapa II: Obras e Infraestrutura (50%):</strong>
+                        <p style="font-size:1.1rem; margin-top:0.25rem; color: var(--text-muted);">Pavimentação, rede de água tratada e mutirões de construção de moradias ecológicas.</p>
                     </div>
                 </div>
             </div>
             <div class="split-image">
-                <svg viewBox="0 0 400 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="max-height: 350px;">
-                    <defs>
-                        <linearGradient id="gTeal" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#2dd4bf;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#0d9488;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <rect width="400" height="400" fill="#f8fafc" rx="32"/>
-                    <path d="M 60 200 L 340 200" stroke="#cbd5e1" stroke-width="3" stroke-dasharray="6 4"/>
-                    
-                    <g transform="translate(60, 200)">
-                        <circle cx="0" cy="0" r="22" fill="url(#gTeal)"/>
-                        <text x="0" y="5" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="900">01</text>
-                        <text x="0" y="38" text-anchor="middle" fill="#0f766e" font-size="8" font-weight="800">CADASTRO</text>
-                    </g>
-                    
-                    <g transform="translate(153, 200)">
-                        <circle cx="0" cy="0" r="22" fill="url(#gTeal)"/>
-                        <text x="0" y="5" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="900">02</text>
-                        <text x="0" y="38" text-anchor="middle" fill="#0f766e" font-size="8" font-weight="800">OBRAS</text>
-                    </g>
-                    
-                    <g transform="translate(246, 200)">
-                        <circle cx="0" cy="0" r="22" fill="#cbd5e1"/>
-                        <text x="0" y="5" text-anchor="middle" fill="#1e293b" font-size="12" font-weight="900">03</text>
-                        <text x="0" y="38" text-anchor="middle" fill="#64748b" font-size="8" font-weight="800">REURB</text>
-                    </g>
-                    
-                    <g transform="translate(340, 200)">
-                        <circle cx="0" cy="0" r="22" fill="#cbd5e1"/>
-                        <text x="0" y="5" text-anchor="middle" fill="#1e293b" font-size="12" font-weight="900">04</text>
-                        <text x="0" y="38" text-anchor="middle" fill="#64748b" font-size="8" font-weight="800">CONTAS</text>
-                    </g>
-                </svg>
+                <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80" alt="Gestão e Planejamento de Cronograma" />
             </div>
         </div>
         <span class="slide-number">06</span>
@@ -466,23 +365,23 @@
             <div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 2.5rem; text-align: left; margin-top: 1rem;">
                 <div>
                     <h3><i class="ph ph-users-three"></i> Análise de Stakeholders</h3>
-                    <p style="font-size:0.92rem; line-height: 1.6; margin-bottom:1rem;">O alinhamento dos interesses locais é essencial para a legitimidade jurídica da regularização fundiária no bairro Dr. Fábio:</p>
-                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.9rem;">
-                        <li><i class="ph ph-building" style="color:var(--accent);"></i> <strong>Prefeitura:</strong> Homologadora legal do processo de REURB-S e responsável por infraestruturas básicas.</li>
-                        <li><i class="ph ph-house-line" style="color:var(--accent);"></i> <strong>Vizinhança:</strong> População confrontante que aguarda a regularização urbanística e ambiental.</li>
-                        <li><i class="ph ph-truck" style="color:var(--accent);"></i> <strong>Fornecedores:</strong> Parceiros no fornecimento de insumos modulares sustentáveis e serviços de topografia.</li>
-                        <li><i class="ph ph-user-check" style="color:var(--accent);"></i> <strong>Futuros proprietários:</strong> Moradores beneficiários diretos que buscam a emissão dos títulos.</li>
-                        <li><i class="ph ph-gavel" style="color:var(--accent);"></i> <strong>Ministério Público:</strong> Mediador e auditor do cumprimento estrito das garantias legais fundamentais.</li>
+                    <p style="font-size: 1.25rem; line-height: 1.6; margin-bottom: 1rem;">Alinhar os interesses de todos os envolvidos é o segredo para garantir que a regularização das moradias no bairro Dr. Fábio aconteça sem conflitos:</p>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; font-size: 1.15rem; line-height: 1.5; color: var(--text-muted);">
+                        <li><i class="ph ph-building" style="color:var(--accent);"></i> <strong style="color: var(--primary);">Prefeitura:</strong> Homologadora legal do processo de REURB-S e responsável por infraestruturas básicas.</li>
+                        <li><i class="ph ph-house-line" style="color:var(--accent);"></i> <strong style="color: var(--primary);">Vizinhança:</strong> População confrontante que aguarda a regularização urbanística e ambiental.</li>
+                        <li><i class="ph ph-truck" style="color:var(--accent);"></i> <strong style="color: var(--primary);">Fornecedores:</strong> Parceiros no fornecimento de insumos modulares sustentáveis e serviços de topografia.</li>
+                        <li><i class="ph ph-user-check" style="color:var(--accent);"></i> <strong style="color: var(--primary);">Futuros proprietários:</strong> Moradores beneficiários diretos que buscam a emissão dos títulos.</li>
+                        <li><i class="ph ph-gavel" style="color:var(--accent);"></i> <strong style="color: var(--primary);">Ministério Público:</strong> Mediador e auditor do cumprimento estrito das garantias legais fundamentais.</li>
                     </ul>
                 </div>
                 <div>
                     <h3><i class="ph ph-handshake"></i> Protocolo de Mediação comunitária</h3>
-                    <p style="font-size:0.92rem; line-height: 1.6; margin-bottom:1rem;">O protocolo extrajudicial de negociação com posseiros e proprietários lindeiros visa dirimir conflitos de demarcação territorial:</p>
-                    <ol style="display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.88rem; list-style-position: inside; color: var(--text-dark); font-weight: 500;">
-                        <li><strong>1. Assembleia informativa inicial</strong> com cartógrafos, Defensoria e comunidade local.</li>
-                        <li><strong>2. Conciliação individual</strong> de confrontantes na sede da Associação da OSC.</li>
-                        <li><strong>3. Assinatura de Termo de Ajustamento</strong> de Conduta (TAC) com chancela do MP.</li>
-                        <li><strong>4. Vistoria pericial final</strong> com demarcação urbanística consensual homologada.</li>
+                    <p style="font-size: 1.25rem; line-height: 1.6; margin-bottom: 1rem;">Nosso protocolo de negociação organiza as etapas de conversa com os vizinhos e a prefeitura em quatro passos simples:</p>
+                    <ol style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 1.15rem; line-height: 1.5; list-style-position: inside; color: var(--text-muted); font-weight: 500;">
+                        <li><strong style="color: var(--primary);">1. Assembleia informativa inicial</strong> com cartógrafos, Defensoria e comunidade local.</li>
+                        <li><strong style="color: var(--primary);">2. Conciliação individual</strong> de confrontantes na sede da Associação da OSC.</li>
+                        <li><strong style="color: var(--primary);">3. Assinatura de Termo de Ajustamento</strong> de Conduta (TAC) com chancela do MP.</li>
+                        <li><strong style="color: var(--primary);">4. Vistoria pericial final</strong> com demarcação urbanística consensual homologada.</li>
                     </ol>
                 </div>
             </div>
@@ -496,46 +395,19 @@
             <div class="split-text animate-content">
                 <div class="discipline-tag"><i class="ph ph-book-open"></i> Referências Acadêmicas</div>
                 <h2>Referências Bibliográficas</h2>
-                <p>Legitimidade teórica, jurisprudencial e legal que respalda a governança e o fomento público à moradia popular sustentável sob o regime do MROSC (ABNT NBR 6023):</p>
+                <p>Esta base bibliográfica garante o respaldo científico, jurídico e regulatório essencial para as soluções habitacionais da OSC (ABNT NBR 6023):</p>
                 
                 <ul class="reference-list">
-                    <li><strong>ALMEIDA, M. C.</strong> *Compliance* e Gestão de Riscos Regulatórios em Projetos Urbanísticos. Belo Horizonte: Fórum, 2023.</li>
+                    <li><strong>ALMEIDA, M. C.</strong> <em>Compliance</em> e Gestão de Riscos Regulatórios em Projetos Urbanísticos. Belo Horizonte: Fórum, 2023.</li>
                     <li><strong>BARBOSA, G. P.; SOUZA, V. R.</strong> ESG e Indicadores de Sustentabilidade na Habitação Popular. Porto Alegre: Bookman, 2022.</li>
-                    <li><strong>COUTO, E. F. et al.</strong> Gestão de *Stakeholders* em Conflitos Territoriais Urbanos. São Paulo: Pearson, 2021.</li>
+                    <li><strong>COUTO, E. F. et al.</strong> Gestão de <em>Stakeholders</em> em Conflitos Territoriais Urbanos. São Paulo: Pearson, 2021.</li>
                     <li><strong>DIAS, R. A.</strong> Mediação Comunitária de Conflitos e Acesso à Justiça. São Paulo: Saraiva, 2022.</li>
                     <li><strong>FERREIRA, L. H.</strong> Estrutura de Capital e Viabilidade Financeira de Empreendimentos Sociais. Curitiba: Juruá, 2023.</li>
                     <li><strong>SILVA, A. M.</strong> Modelagem Societária e Negócios de Impacto Social. São Paulo: Atlas, 2023.</li>
                 </ul>
             </div>
             <div class="split-image">
-                <svg viewBox="0 0 400 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="max-height: 350px;">
-                    <defs>
-                        <linearGradient id="bookTeal" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#2dd4bf;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#0d9488;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <rect width="400" height="400" fill="#f8fafc" rx="32"/>
-                    <g stroke="#cbd5e1" stroke-width="0.75" stroke-dasharray="10 5" opacity="0.3">
-                        <circle cx="200" cy="200" r="140" fill="none"/>
-                        <circle cx="200" cy="200" r="90" fill="none"/>
-                    </g>
-                    <g transform="translate(100, 120)">
-                        <path d="M 100 20 Q 130 5, 200 20 L 200 130 Q 130 115, 100 130 Z" fill="#e2e8f0"/>
-                        <path d="M 100 20 Q 70 5, 0 20 L 0 130 Q 70 115, 100 130 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
-                        <path d="M 100 20 Q 130 5, 200 20 L 200 130 Q 130 115, 100 130 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
-                        <path d="M 100 20 L 100 130" stroke="url(#bookTeal)" stroke-width="3"/>
-                        <line x1="20" y1="40" x2="80" y2="40" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
-                        <line x1="20" y1="60" x2="70" y2="60" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round"/>
-                        <line x1="20" y1="80" x2="80" y2="80" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
-                        <line x1="20" y1="100" x2="60" y2="100" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round"/>
-                        <line x1="120" y1="40" x2="180" y2="40" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
-                        <line x1="120" y1="60" x2="170" y2="60" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round"/>
-                        <line x1="120" y1="80" x2="180" y2="80" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
-                        <circle cx="150" cy="105" r="10" fill="none" stroke="url(#bookTeal)" stroke-width="2"/>
-                    <path d="M 150 250 L 150 280 L 160 272 L 170 280 L 170 250 Z" fill="url(#bookTeal)"/>
-                    <circle cx="160" cy="245" r="14" fill="#fbbf24" stroke="#ffffff" stroke-width="2"/>
-                </svg>
+                <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80" alt="Referências Acadêmicas e Pesquisa" />
             </div>
         </div>
         <span class="slide-number">08</span>
@@ -547,9 +419,9 @@
             <i class="ph ph-hands-clapping" style="font-size: 5rem; color: var(--accent); margin-bottom: 1.5rem;"></i>
             <h2 style="color: white; font-size: clamp(3rem, 6vw, 6rem); margin-bottom: 0.5rem;">Considerações Finais</h2>
             <h3 style="color: var(--accent); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 2rem;">Grupo 2 - Associação Civil OSC</h3>
-            <p style="color: #94a3b8; max-width: 750px; margin-bottom: 3rem;">Diante do exposto, a atuação integrada da OSC via MROSC viabiliza o desenvolvimento sustentável e a regularização jurídica fundiária do bairro Doutor Fábio. Portanto, a conjugação de termos de fomento público, transparência contábil ativa, governança participativa de mutirões e proteção de stakeholders territoriais consolida um modelo escalável de inclusão social e moradia.</p>
+            <p style="color: #94a3b8; max-width: 750px; margin-bottom: 3rem; font-size: 1.35rem; line-height: 1.7;">A atuação coordenada de uma OSC via MROSC é a chave para viabilizar a moradia popular digna. Unir a participação comunitária com transparência orçamentária e segurança jurídica transforma a regularização fundiária em realidade para milhares de famílias.</p>
             <div class="team-box" style="margin-top: 1rem; border-color: rgba(13, 148, 136, 0.3);">
-                <p><i class="ph ph-users"></i> <strong>Integrantes:</strong> André, Aliny, Michely e Everson</p>
+                <p style="font-size: 1.25rem;"><i class="ph ph-users"></i> <strong>Integrantes:</strong> André, Aliny, Michely e Everson</p>
             </div>
             <a href="index.html" class="btn-nav" style="margin-top: 3rem; background: var(--accent); color: white; border: none; padding: 1rem 2rem;"><i class="ph ph-house"></i> Voltar ao Menu</a>
         </div>
@@ -586,10 +458,10 @@
                 title.innerText = "1. Fontes de Captação e Financiamento da OSC";
                 container.innerHTML = `
                     <div style="display: flex; gap: 1.5rem; align-items: center; flex-direction: row; width: 100%;">
-                        <div style="flex: 1.1; display: flex; justify-content: center;">
-                            <img src="assets/g_osc_c1.png" alt="Fontes de Captação" style="width: 100%; max-height: 280px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1.5px solid #e2e8f0;"/>
+                        <div style="flex: 1.3; display: flex; justify-content: center;">
+                            <img src="assets/g_osc_c1.png" alt="Fontes de Captação" style="width: 100%; max-height: 480px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1.5px solid #e2e8f0;"/>
                         </div>
-                        <div style="flex: 0.9; text-align: left; background: #f8fafc; padding: 1.2rem; border-radius: 16px; border: 1.5px solid #e2e8f0;">
+                        <div style="flex: 0.7; text-align: left; background: #f8fafc; padding: 1.2rem; border-radius: 16px; border: 1.5px solid #e2e8f0;">
                             <h4 style="color:#0d9488; margin-bottom: 0.5rem; font-weight: 700; font-size: 0.95rem;"><i class="ph ph-info"></i> Detalhamento do Financiamento:</h4>
                             <p style="font-size: 0.85rem; line-height: 1.5; color:#475569; margin-bottom: 0.8rem;">Financiamento cooperativo estruturado via MROSC (Lei Federal 13.019/14). A captação consagra 60% de repasses municipais e estaduais por Termo de Fomento, 25% de doações com isenção fiscal (ESG) e 15% em emendas parlamentares direcionadas.</p>
                             <h5 style="color:#64748b; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.2rem;"><i class="ph ph-database"></i> Fonte de Dados:</h5>
@@ -602,10 +474,10 @@
                 title.innerText = "2. Cronograma Físico-Financeiro (Alocação por Fases)";
                 container.innerHTML = `
                     <div style="display: flex; gap: 1.5rem; align-items: center; flex-direction: row; width: 100%;">
-                        <div style="flex: 1.1; display: flex; justify-content: center;">
-                            <img src="assets/g_osc_c2.png" alt="Distribuição de Recursos" style="width: 100%; max-height: 280px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1.5px solid #e2e8f0;"/>
+                        <div style="flex: 1.3; display: flex; justify-content: center;">
+                            <img src="assets/g_osc_c2.png" alt="Distribuição de Recursos" style="width: 100%; max-height: 480px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1.5px solid #e2e8f0;"/>
                         </div>
-                        <div style="flex: 0.9; text-align: left; background: #f8fafc; padding: 1.2rem; border-radius: 16px; border: 1.5px solid #e2e8f0;">
+                        <div style="flex: 0.7; text-align: left; background: #f8fafc; padding: 1.2rem; border-radius: 16px; border: 1.5px solid #e2e8f0;">
                             <h4 style="color:#0d9488; margin-bottom: 0.5rem; font-weight: 700; font-size: 0.95rem;"><i class="ph ph-info"></i> Detalhamento das Despesas:</h4>
                             <p style="font-size: 0.85rem; line-height: 1.5; color:#475569; margin-bottom: 0.8rem;">Distribuição proporcional dos recursos aplicados nas frentes técnicas da REURB-S. As fases de levantamento topográfico, cadastramento socioeconômico e infraestrutura consorciada de base abarcam os maiores aportes.</p>
                             <h5 style="color:#64748b; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.2rem;"><i class="ph ph-database"></i> Fonte de Dados:</h5>
@@ -618,10 +490,10 @@
                 title.innerText = "3. Matriz de Riscos Regulatórios e de Compliance";
                 container.innerHTML = `
                     <div style="display: flex; gap: 1.5rem; align-items: center; flex-direction: row; width: 100%;">
-                        <div style="flex: 1.1; display: flex; justify-content: center;">
-                            <img src="assets/g_osc_c3.png" alt="Matriz de Riscos" style="width: 100%; max-height: 280px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1.5px solid #e2e8f0;"/>
+                        <div style="flex: 1.3; display: flex; justify-content: center;">
+                            <img src="assets/g_osc_c3.png" alt="Matriz de Riscos" style="width: 100%; max-height: 480px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1.5px solid #e2e8f0;"/>
                         </div>
-                        <div style="flex: 0.9; text-align: left; background: #f8fafc; padding: 1.2rem; border-radius: 16px; border: 1.5px solid #e2e8f0;">
+                        <div style="flex: 0.7; text-align: left; background: #f8fafc; padding: 1.2rem; border-radius: 16px; border: 1.5px solid #e2e8f0;">
                             <h4 style="color:#0d9488; margin-bottom: 0.5rem; font-weight: 700; font-size: 0.95rem;"><i class="ph ph-info"></i> Detalhamento Preventivo:</h4>
                             <p style="font-size: 0.85rem; line-height: 1.5; color:#475569; margin-bottom: 0.8rem;">Mapeamento de gargalos regulatórios cartoriais e administrativos na regularização do Dr. Fábio. Sobressai a sobreposição de matrículas como risco primário, dirimido preventivamente por conciliações judiciais tripartite.</p>
                             <h5 style="color:#64748b; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.2rem;"><i class="ph ph-database"></i> Fonte de Dados:</h5>
@@ -634,10 +506,10 @@
                 title.innerText = "4. Sustentabilidade ODS 6 & 12: Preservação Ambiental";
                 container.innerHTML = `
                     <div style="display: flex; gap: 1.5rem; align-items: center; flex-direction: row; width: 100%;">
-                        <div style="flex: 1.1; display: flex; justify-content: center;">
-                            <img src="assets/g_osc_c4.png" alt="ODS Sustentáveis" style="width: 100%; max-height: 280px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1.5px solid #e2e8f0;"/>
+                        <div style="flex: 1.3; display: flex; justify-content: center;">
+                            <img src="assets/g_osc_c4.png" alt="ODS Sustentáveis" style="width: 100%; max-height: 480px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1.5px solid #e2e8f0;"/>
                         </div>
-                        <div style="flex: 0.9; text-align: left; background: #f8fafc; padding: 1.2rem; border-radius: 16px; border: 1.5px solid #e2e8f0;">
+                        <div style="flex: 0.7; text-align: left; background: #f8fafc; padding: 1.2rem; border-radius: 16px; border: 1.5px solid #e2e8f0;">
                             <h4 style="color:#0d9488; margin-bottom: 0.5rem; font-weight: 700; font-size: 0.95rem;"><i class="ph ph-info"></i> Detalhamento Ecológico:</h4>
                             <p style="font-size: 0.85rem; line-height: 1.5; color:#475569; margin-bottom: 0.8rem;">Metas cumpridas de infraestrutura verde localizadas no bairro Doutor Fábio. Garante o esgotamento descentralizado ecológico, captação pluvial domiciliar e pavimentação com blocos intertravados permeáveis.</p>
                             <h5 style="color:#64748b; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.2rem;"><i class="ph ph-database"></i> Fonte de Dados:</h5>
@@ -650,10 +522,10 @@
                 title.innerText = "5. Impacto Social: Emissão de Títulos Definitivos de REURB-S";
                 container.innerHTML = `
                     <div style="display: flex; gap: 1.5rem; align-items: center; flex-direction: row; width: 100%;">
-                        <div style="flex: 1.1; display: flex; justify-content: center;">
-                            <img src="assets/g_osc_c5.png" alt="KPIs Sociais REURB" style="width: 100%; max-height: 280px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1.5px solid #e2e8f0;"/>
+                        <div style="flex: 1.3; display: flex; justify-content: center;">
+                            <img src="assets/g_osc_c5.png" alt="KPIs Sociais REURB" style="width: 100%; max-height: 480px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1.5px solid #e2e8f0;"/>
                         </div>
-                        <div style="flex: 0.9; text-align: left; background: #f8fafc; padding: 1.2rem; border-radius: 16px; border: 1.5px solid #e2e8f0;">
+                        <div style="flex: 0.7; text-align: left; background: #f8fafc; padding: 1.2rem; border-radius: 16px; border: 1.5px solid #e2e8f0;">
                             <h4 style="color:#0d9488; margin-bottom: 0.5rem; font-weight: 700; font-size: 0.95rem;"><i class="ph ph-info"></i> Detalhamento Fundiário:</h4>
                             <p style="font-size: 0.85rem; line-height: 1.5; color:#475569; margin-bottom: 0.8rem;">Evolução real da emissão de escrituras definitivas (REURB-S) registradas em cartório. O projeto partiu de um cadastro inicial de 305 lotes, com meta final plurianual de atendimento de 3.200 famílias no Doutor Fábio.</p>
                             <h5 style="color:#64748b; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.2rem;"><i class="ph ph-database"></i> Fonte de Dados:</h5>
@@ -677,19 +549,6 @@
         // Intersection Observer for Slide Animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationPlayState = 'running';
-                }
-            });
-        }, { threshold: 0.2 });
-
-        document.querySelectorAll('.animate-content > *').forEach(el => {
-            el.style.animationPlayState = 'paused';
-            observer.observe(el);
-        });
-    </script>
-</body>
-</html>ml>entry => {
                 if (entry.isIntersecting) {
                     entry.target.style.animationPlayState = 'running';
                 }
